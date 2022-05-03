@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/vctrblck/whispers/issues"
   },
-  "homepage": "https://github.com/vctrblck/whispers#readme"
+  "homepage": "https://github.com/vctrblck/whispers#readme",
+  "dependencies": {
+    "three": "^0.140.0"
+  }
 }
