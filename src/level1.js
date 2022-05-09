@@ -24,12 +24,12 @@ level1.add(light3);
 
 const loader1 = new THREE.CubeTextureLoader();
 const texture1 = loader1.load([
-    '../images/lvl2Skybox/1.png',
-    '../images/lvl2Skybox/2.png',
-    '../images/lvl2Skybox/3.png',
-    '../images/lvl2Skybox/4.png',
-    '../images/lvl2Skybox/5.png',
-    '../images/lvl2Skybox/6.png' 
+    '../images/level2/lvl2Skybox/1.png',
+    '../images/level2/lvl2Skybox/2.png',
+    '../images/level2/lvl2Skybox/3.png',
+    '../images/level2/lvl2Skybox/4.png',
+    '../images/level2/lvl2Skybox/5.png',
+    '../images/level2/lvl2Skybox/6.png' 
 ]);
 level1.background = texture1;
 
@@ -49,7 +49,7 @@ level1.add(plane);
 
 //doge
 const gltfLoader11 = new THREE.GLTFLoader();
-gltfLoader11.load('../models/dog/scene.gltf', (gltfScene) => {
+gltfLoader11.load('../models/level1/dog/scene.gltf', (gltfScene) => {
     gltfScene.scene.position.y = 20;
     gltfScene.scene.scale.set(20,20,20);
     level1.add(gltfScene.scene);
@@ -57,7 +57,7 @@ gltfLoader11.load('../models/dog/scene.gltf', (gltfScene) => {
 
 //helmet
 const gltfLoader12 = new THREE.GLTFLoader();
-gltfLoader12.load('../models/DamagedHelmet/glTF/DamagedHelmet.gltf', (gltfScene) => {
+gltfLoader12.load('../models/level1/DamagedHelmet/glTF/DamagedHelmet.gltf', (gltfScene) => {
     gltfScene.scene.position.y = 20;
     gltfScene.scene.scale.set(12,12,12);
     level1.add(gltfScene.scene);
@@ -66,7 +66,7 @@ gltfLoader12.load('../models/DamagedHelmet/glTF/DamagedHelmet.gltf', (gltfScene)
 //horse
 
 const gltfLoader13 = new THREE.GLTFLoader();
-gltfLoader13.load('../models/horse.glb', (gltf) => {
+gltfLoader13.load('../models/level1/horse.glb', (gltf) => {
     var horse = gltf.scene.children[0];
     horse.scale.set( 0.2, 0.2, 0.2);
     horse.position.set(50, 0, 0);
