@@ -17,8 +17,8 @@ light1.shadow.camera.top = 100;
 light1.shadow.camera.bottom = -100;
 level1.add(light1);
 
-let light3 = new THREE.AmbientLight(0x101010);
-level1.add(light3);
+let light12 = new THREE.AmbientLight(0x101010);
+level1.add(light12);
 
 //creating the skybox
 

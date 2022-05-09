@@ -53,15 +53,19 @@ controls2.update();
 
 //level 3 Camera + controls [orbit controls ect are declared here]
 var camera3 = new THREE.PerspectiveCamera(
-  45,
+  60,
   window.innerWidth / window.innerHeight,
-  0.1,
-  1000
+  1,
+  100000
 );
 
-camera3.position.x = -30;
-camera3.position.y = 40;
-camera3.position.z = 30;
+camera3.position.x = 100;
+camera3.position.y = 10;
+camera3.position.z = 100;
+
+const controls3 = new THREE.OrbitControls(camera3, renderer.domElement);
+controls3.target.set(0, 20, 0);
+controls3.update();
 
 
 //=========================================================================//
