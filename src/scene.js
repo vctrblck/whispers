@@ -5,15 +5,22 @@ var level2 = new THREE.Scene();
 var level3 = new THREE.Scene();
 
 var mixer = new THREE.AnimationMixer();
+var mixer2 = new THREE.AnimationMixer();
+
 let prevTime = Date.now();
+let prevTime2 = Date.now();
 var currentLevel = 2;
 
 // Instantiate `three.js' scene axes [this code is just example used on scene]
-var axes = new THREE.AxesHelper(100);
+var axes = new THREE.AxesHelper(1000);
 scene.add(axes);
 level1.add(axes);
+level2.add(axes); 
 
 camera.lookAt(scene.position);
+camera2.lookAt(0,0,0)
+
+var test;
 
 // Render  animation
 function animateScene() {
@@ -40,6 +47,11 @@ function animateScene() {
     //Level 2
 
     document.title = "Whispers - Level 2";
+
+    const time2 = Date.now();
+    mixer2.update( ( time2 - prevTime2 ) * 0.001 );
+    prevTime2 = time2;
+    animateAgents();
 
     renderer.render(level2, camera2);
 
