@@ -22,8 +22,8 @@ level2.add(light2);
 
 //creating the skybox
 
-const loader = new THREE.CubeTextureLoader();
-const texture = loader.load([
+const loader2 = new THREE.CubeTextureLoader();
+const texture2 = loader2.load([
     '../images/lvl2Skybox/1.png',
     '../images/lvl2Skybox/2.png',
     '../images/lvl2Skybox/3.png',
@@ -31,19 +31,19 @@ const texture = loader.load([
     '../images/lvl2Skybox/5.png',
     '../images/lvl2Skybox/6.png' 
 ]);
-level2.background = texture;
+level2.background = texture2;
 
 //add texture to plane and place it in world
 
-const plane = new THREE.Mesh(
+const plane2 = new THREE.Mesh(
     new THREE.PlaneGeometry(1000, 1000, 10, 10),
     new THREE.MeshStandardMaterial({
         color : 0xFFFFFF, side : THREE.DoubleSide
       }));
-plane.castShadow = false;
-plane.receiveShadow = true;
-plane.rotation.x = -Math.PI / 2;
-level2.add(plane);
+plane2.castShadow = false;
+plane2.receiveShadow = true;
+plane2.rotation.x = -Math.PI / 2;
+level2.add(plane2);
 
 //load model of dog into scene
 
