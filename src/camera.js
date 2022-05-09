@@ -23,9 +23,10 @@ var camera1 = new THREE.PerspectiveCamera(
   100000
 );
 
-camera1.position.x = 100;
-camera1.position.y = 10;
-camera1.position.z = 100;
+camera1.position.x = 0;
+camera1.position.y = 50;
+camera1.position.z = 150;
+camera1.lookAt(0,0,0)
 
 const controls1 = new THREE.OrbitControls(camera1, renderer.domElement);
 controls1.target.set(0, 20, 0);
