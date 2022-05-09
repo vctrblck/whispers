@@ -17,19 +17,19 @@ light3.shadow.camera.top = 100;
 light3.shadow.camera.bottom = -100;
 level3.add(light3);
 
-light3 = new THREE.AmbientLight(0x101010);
-level3.add(light3);
+light32 = new THREE.AmbientLight(0x101010);
+level3.add(light32);
 
 //creating the skybox
 
 const loader3 = new THREE.CubeTextureLoader();
 const texture3 = loader3.load([
-    '../images/lvl2Skybox/1.png',
-    '../images/lvl2Skybox/2.png',
-    '../images/lvl2Skybox/3.png',
-    '../images/lvl2Skybox/4.png',
-    '../images/lvl2Skybox/5.png',
-    '../images/lvl2Skybox/6.png' 
+    '../images/level2/lvl2Skybox/1.png',
+    '../images/level2/lvl2Skybox/2.png',
+    '../images/level2/lvl2Skybox/3.png',
+    '../images/level2/lvl2Skybox/4.png',
+    '../images/level2/lvl2Skybox/5.png',
+    '../images/level2/lvl2Skybox/6.png' 
 ]);
 level3.background = texture3;
 
@@ -48,7 +48,7 @@ level3.add(plane3);
 //load model of dog into scene
 
 const gltfLoader3 = new THREE.GLTFLoader();
-gltfLoader3.load('../models/dog/scene.gltf', (gltfScene) => {
+gltfLoader3.load('../models/level1/dog/scene.gltf', (gltfScene) => {
     gltfScene.scene.position.y = 10;
     gltfScene.scene.scale.set(10,10,10);
     level3.add(gltfScene.scene);

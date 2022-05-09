@@ -6,7 +6,7 @@ var level3 = new THREE.Scene();
 
 var mixer = new THREE.AnimationMixer();
 let prevTime = Date.now();
-var currentLevel = 2;
+var currentLevel = 3;
 
 // Instantiate `three.js' scene axes [this code is just example used on scene]
 var axes = new THREE.AxesHelper(100);
