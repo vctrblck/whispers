@@ -6,6 +6,8 @@ var level3 = new THREE.Scene();
 
 var mixer = new THREE.AnimationMixer();
 let prevTime = Date.now();
+var currentLevel = 2;
+
 // Instantiate `three.js' scene axes [this code is just example used on scene]
 var axes = new THREE.AxesHelper(100);
 scene.add(axes);
@@ -21,19 +23,37 @@ function animateScene() {
   //what we dont want rendered out
 
   //renderer.render(scene, camera);
+  if(currentLevel==1){
+    //=========================================================================================== Level 1 Start
+    //Level 1
+    
+    document.title = "Whispers - Level 1";
 
-  //===========================================================================================
-  //Level 1
-  
-  const time = Date.now();
-  mixer.update( ( time - prevTime ) * 0.001 );
-  prevTime = time;
-  renderer.render(level1, camera1);
-   
-  //===========================================================================================
-  //renderer.render(level2, camera2);
-  // renderer.render(level3, camera3);
+    const time = Date.now();
+    mixer.update( ( time - prevTime ) * 0.001 );
+    prevTime = time;
+    renderer.render(level1, camera1);
+    
+    //=========================================================================================== Level 1 End
+  }else if(currentLevel==2){
+    //=========================================================================================== Level 2 Start 
+    //Level 2
 
+    document.title = "Whispers - Level 2";
+
+    renderer.render(level2, camera2);
+
+    //=========================================================================================== Level 2 End
+  }else{
+    //=========================================================================================== Level 3 Start 
+    //Level 3
+
+    document.title = "Whispers - Level 3";
+
+    renderer.render(level3, camera3);
+
+    //=========================================================================================== Level 3 End
+  }
 }
 
 // scene.js ends here
