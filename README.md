@@ -20,6 +20,6 @@ npm install
 
 ### Running the server
 
-1. Run a local HTTP server in this project directory.
+1. Run a local HTTP server in this project directory.(python -m http.server)
 2. Open a browser.
 3. Request `<server-address>:<port-number>/index.html` from browser.
