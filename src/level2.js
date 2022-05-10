@@ -1,4 +1,5 @@
 //Setting the light for my level
+
 let light2 = new THREE.DirectionalLight(0xFFFFFF, 1.0);
 light2.position.set(20, 100, 10);
 light2.target.position.set(0, 0, 0);
@@ -59,13 +60,17 @@ gltfLoader2.load('../models/level2/room/corridors.gltf', (gltf) => {
     model.position.x =  -300;
     model.position.y = -1;
     model.scale.set(100,100,100);
-    level2.add(model);
+    //level2.add(model);
 });
 
 //==========================================================================================================//
 
 //load model
-const mLoader = new THREE.FBXLoader();
+
+//const gltfLoader12 = new THREE.GLTFLoader();
+
+
+/*const mLoader = new THREE.FBXLoader();
 mLoader.setPath('../models/level2/Character/');
 mLoader.load('ybot.fbx', (char) => {
     //fbx.scale.setScale(1);
@@ -84,12 +89,37 @@ mLoader.load('ybot.fbx', (char) => {
     action.clampWhenFinished = true;
     action.loop = THREE.LoopPingPong;
         
-        //idle.play();
+        idle.play();
     });
     char.scale.set(0.25,0.25,0.25);
     char.position.x = -300;
-    char.rotation.y = (-30);
+    char.rotation.y = (-30);*/
 
+const mLoader = new THREE.FBXLoader();
+mLoader.setPath('../models/level2/Character/');
+mLoader.load('Ch32_nonPBR.fbx', (char) => {
+    //fbx.scale.setScale(1);
+    char.traverse(c => {
+        c.castShadow = true;
+    });
+    
+    const anim = new THREE.FBXLoader();
+    anim.setPath('../models/level2/Character/');
+    anim.load('Strut Walking.fbx', (anim) => {
+        mixer2 = new THREE.AnimationMixer(char);
+        mixer2.clipAction( anim.animations[ 0 ] ).setDuration( 1 ).play();
+    
+    const clip = anim.animations[0];
+    const action = mixer2.clipAction( clip );
+    action.clampWhenFinished = true;
+    action.loop = THREE.LoopPingPong;
+            
+        idle.play();
+    });
+    char.scale.set(0.25,0.25,0.25);
+    char.position.x = -100;
+    char.rotation.y = (-30);
+    
 
     level2.add(char); 
 });
