@@ -15,12 +15,13 @@ var currentLevel = 2;
 var axes = new THREE.AxesHelper(1000);
 scene.add(axes);
 level1.add(axes);
-level2.add(axes); 
+//level2.add(axes); 
 
 camera.lookAt(scene.position);
 camera2.lookAt(0,0,0)
 
 var test;
+
 
 // Render  animation
 function animateScene() {
@@ -52,7 +53,8 @@ function animateScene() {
     mixer2.update( ( time2 - prevTime2 ) * 0.001 );
     prevTime2 = time2;
     animateAgents();
-
+    collisionCheck();
+    endLevel2();
     renderer.render(level2, camera2);
 
     //=========================================================================================== Level 2 End
@@ -66,6 +68,8 @@ function animateScene() {
 
     //=========================================================================================== Level 3 End
   }
+
+
 }
 
 // scene.js ends here

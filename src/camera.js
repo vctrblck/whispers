@@ -41,8 +41,8 @@ var camera2 = new THREE.PerspectiveCamera(
   100000
 );
 
-camera2.position.x = 0;
-camera2.position.y = 1000;
+camera2.position.x = -349;
+camera2.position.y = 45;
 camera2.position.z = 0;
 
 const controls2 = new THREE.OrbitControls(camera2, renderer.domElement);
