@@ -313,10 +313,10 @@ function animateAgents(){
 }
 
 //make agents invisibllie
-agent1.visible = false;
-agent2.visible = false;
-agent3.visible = false;
-agent4.visible = false;
+// agent1.visible = false;
+// agent2.visible = false;
+// agent3.visible = false;
+// agent4.visible = false;
 
 //==========================================================================================================//
 //load model
@@ -357,16 +357,17 @@ mLoader.load('ybot.fbx', (char) => {
 
 //collision checking
 
-var playerChest = new THREE.Vector3;
-playerChest = playerPos.clone();
-
-playerChest.y += 35; 
 
 function collisionCheck(){
-    if(ball1BB.containsPoint(playerChest) || ball2BB.containsPoint(playerChest) || 
-    ball3BB.containsPoint(playerChest) || ball4BB.containsPoint(playerChest)){
+    var playerChest = new THREE.Vector3;
+    playerChest = camera2.clone();
+
+    if(ball1BB.containsPoint(playerChest.position) || ball2BB.containsPoint(playerChest.position) || 
+    ball3BB.containsPoint(playerChest.position) || ball4BB.containsPoint(playerChest.position)){
         console.log('dead');
     }
+    // console.log( playerChest.position);
+    
 }
 
 //end of level
@@ -374,8 +375,10 @@ let cube2BB = new THREE.Box3(new THREE.Vector3(-50,0,150), new THREE.Vector3(50,
 
 
 function endLevel2(){
-    if(cube2BB.containsPoint(playerChest)){
-        console.log('end');
+    var playerChest = new THREE.Vector3;
+    playerChest = camera2.clone();
+    if(cube2BB.containsPoint(playerChest.position)){
+        return true;
         }
 }
 

@@ -18,7 +18,6 @@ level1.add(axes);
 //level2.add(axes); 
 
 camera.lookAt(scene.position);
-camera2.lookAt(0,0,0)
 
 var test;
 
@@ -42,6 +41,7 @@ function animateScene() {
     prevTime = time;
     renderer.render(level1, camera1);
     
+    
     //=========================================================================================== Level 1 End
   }else if(currentLevel==2){
     //=========================================================================================== Level 2 Start 
@@ -54,7 +54,10 @@ function animateScene() {
     prevTime2 = time2;
     animateAgents();
     collisionCheck();
-    endLevel2();
+    if (endLevel2()){
+      currentLevel = 1;
+    }
+    controls2.update(0.000150);
     renderer.render(level2, camera2);
 
     //=========================================================================================== Level 2 End
