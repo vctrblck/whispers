@@ -42,15 +42,13 @@ var camera2 = new THREE.PerspectiveCamera(
   100000
 );
 
-camera2.position.x = -349;
-camera2.position.y = 45;
-camera2.position.z = 0;
+camera2.position.x = 800;
+camera2.position.y = 500;
+camera2.position.z = 100;
 
 const controls2 = new THREE.OrbitControls(camera2, renderer.domElement);
 controls2.target.set(0, 20, 0);
 controls2.update();
-
-
 
 //=========================================================================//
 

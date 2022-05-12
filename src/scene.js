@@ -3,7 +3,6 @@ var level1 = new THREE.Scene();
 var level2 = new THREE.Scene();
 var level3 = new THREE.Scene();
 
-
 let actions, activeAction, previousAction, activeKey, previousKey;
 const states = [ 'Idle', 'Walking', 'Running' ];
 
@@ -16,25 +15,13 @@ let prevTime = Date.now();
 var currentLevel = 1;
 
 // Instantiate `three.js' scene axes [this code is just example used on scene]
-var axes = new THREE.AxesHelper(1000);
-=======
-var mixer = new THREE.AnimationMixer();
-var mixer2 = new THREE.AnimationMixer();
-
-// Instantiate `three.js' scene axes [this code is just example used on scene]
-scene.add(axes);
+var axes = new THREE.AxesHelper(100);
 level1.add(axes);
-//level2.add(axes); 
 
 const gridHelper = new THREE.GridHelper( 1000, 100, 0x000000, 0x000000 );
 gridHelper.material.opacity = 0.2;
 gridHelper.material.transparent = true;
 level1.add( gridHelper );
-
-camera.lookAt(scene.position);
-camera2.lookAt(0,0,0)
-
-var test;
 
 // Render  animation
 function animateScene() {
@@ -71,12 +58,6 @@ function animateScene() {
 
     document.title = "Whispers - Level 2";
 
-    const time2 = Date.now();
-    mixer2.update( ( time2 - prevTime2 ) * 0.001 );
-    prevTime2 = time2;
-    animateAgents();
-    collisionCheck();
-    endLevel2();
     renderer.render(level2, camera2);
 
     //=========================================================================================== Level 2 End
@@ -90,8 +71,6 @@ function animateScene() {
 
     //=========================================================================================== Level 3 End
   }
-
-
 }
 
 // scene.js ends here

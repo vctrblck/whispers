@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/vctrblck/whispers#readme",
   "dependencies": {
-    "fflate": "^0.7.3",
     "three": "^0.140.0"
   }
 }
