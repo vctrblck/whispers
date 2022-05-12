@@ -1,14 +1,4 @@
 // index.js --- Game entry point
-
-// Libraries:
-
-// `three.js'
-
-// Modules:
-
-// `./src/scene.js';
-// `./src/renderer.js';
-
 // Code:
 function init() {
   // Add renderer to DOM
