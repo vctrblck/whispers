@@ -53,3 +53,10 @@ gltfLoader3.load('../models/level1/dog/scene.gltf', (gltfScene) => {
     gltfScene.scene.scale.set(10,10,10);
     level3.add(gltfScene.scene);
 });
+
+const gltfLoader4 = new THREE.GLTFLoader();
+gltfLoader4.load('../models/level3/valley/scene.gltf', (gltfScene) => {
+    gltfScene.scene.position.y = 10;
+    gltfScene.scene.scale.set(10,10,10);
+    level3.add(gltfScene.scene);
+});
