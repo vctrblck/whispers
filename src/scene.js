@@ -1,4 +1,5 @@
 // Instantiate `three.js' scene
+
 var scene = new THREE.Scene();
 var level1 = new THREE.Scene();
 var level2 = new THREE.Scene();
@@ -10,6 +11,7 @@ var mixer2 = new THREE.AnimationMixer();
 let prevTime = Date.now();
 let prevTime2 = Date.now();
 var currentLevel = 2;
+
 
 // Instantiate `three.js' scene axes [this code is just example used on scene]
 var axes = new THREE.AxesHelper(1000);
@@ -57,7 +59,10 @@ function animateScene() {
     if (endLevel2()){
       currentLevel = 1;
     }
+    cam2Limits();
+    camera2.position.y = 45;
     controls2.update(0.000150);
+    
     renderer.render(level2, camera2);
 
     //=========================================================================================== Level 2 End

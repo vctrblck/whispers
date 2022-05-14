@@ -34,33 +34,6 @@ controls1.update();
 //=========================================================================//
 
 //level 2 Camera + controls [orbit controls ect are declared here]
-const camera2 = new THREE.PerspectiveCamera(
-  60,
-  window.innerWidth / window.innerHeight,
-  1,
-  1500
-);
-
-camera2.position.x = -349;
-camera2.position.y = 45;
-camera2.position.z = 0;
-
-// camera2.position.x = 0;
-// camera2.position.y = 45;
-// camera2.position.z = 0;
-camera2.rotation.y = 30;
-
-// const controls2 = new THREE.OrbitControls(camera2, renderer.domElement);
-//controls2.target.set(0, 20, 0);
-// controls2.update();
-
-const controls2 = new THREE.FirstPersonControls(camera2, renderer.domElement);
-controls2.movementSpeed = 15000;
-controls2.lookSpeed=10;
-controls2.activeLook = false;
-
-
-
 
 //=========================================================================//
 

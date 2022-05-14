@@ -1,4 +1,28 @@
+var camera2 = new THREE.PerspectiveCamera(
+    60,
+    window.innerWidth / window.innerHeight,
+    1,
+    1500
+  );
+  
+  camera2.position.x = -349;
+  camera2.position.y = 45;
+  camera2.position.z = 0;
+  camera2.rotation.y = 30;
+  
+  // const controls2 = new THREE.OrbitControls(camera2, renderer.domElement);
+  // controls2.target.set(0, 20, 0);    
+  // controls2.update();
+  
+  const controls2 = new THREE.FirstPersonControls(camera2, renderer.domElement);
+  controls2.movementSpeed = 7000;
+  controls2.lookSpeed=15;
+  controls2.activeLook = true;
+
+
 //level 2 lights
+
+
 const lloader = new THREE.FBXLoader();
 
 var lampPos = [
@@ -321,39 +345,39 @@ function animateAgents(){
 //==========================================================================================================//
 //load model
 
-playerPos = new THREE.Vector3(-300,0,0);
-const mLoader = new THREE.FBXLoader();
-mLoader.setPath('../models/level2/Character/');
-mLoader.load('ybot.fbx', (char) => {
-    //fbx.scale.setScale(1);
-    char.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
+// playerPos = new THREE.Vector3(-300,0,0);
+// const mLoader = new THREE.FBXLoader();
+// mLoader.setPath('../models/level2/Character/');
+// mLoader.load('ybot.fbx', (char) => {
+//     //fbx.scale.setScale(1);
+//     char.traverse(c => {
+//         if(c instanceof THREE.Mesh){
+//             // c.receiveShadow = true;
+//             c.castShadow = true;
+//         }
+//     });
 
-    const anim = new THREE.FBXLoader();
-    anim.setPath('../models/level2/Character/');
-    anim.load('Walking.fbx', (anim) => {
-        mixer2 = new THREE.AnimationMixer(char);
-        mixer2.clipAction( anim.animations[ 0 ] ).setDuration( 1 ).play();
+//     const anim = new THREE.FBXLoader();
+//     anim.setPath('../models/level2/Character/');
+//     anim.load('Walking.fbx', (anim) => {
+//         mixer2 = new THREE.AnimationMixer(char);
+//         mixer2.clipAction( anim.animations[ 0 ] ).setDuration( 1 ).play();
 
-    const clip = anim.animations[0];
-    const action = mixer2.clipAction( clip );
-    action.clampWhenFinished = true;
-    action.loop = THREE.LoopPingPong;
+//     const clip = anim.animations[0];
+//     const action = mixer2.clipAction( clip );
+//     action.clampWhenFinished = true;
+//     action.loop = THREE.LoopPingPong;
         
-        //idle.play();
-    });
+//         //idle.play();
+//     });
 
-    char.scale.set(0.25,0.25,0.25);
-    char.position.set(playerPos.x,playerPos.y,playerPos.z );
-    char.rotation.y = -30;
-    char.castShadow = true;
+//     char.scale.set(0.25,0.25,0.25);
+//     char.position.set(playerPos.x,playerPos.y,playerPos.z );
+//     char.rotation.y = -30;
+//     char.castShadow = true;
 
-    level2.add(char); 
-});
+//     level2.add(char); 
+// });
 
 //collision checking
 
@@ -381,4 +405,90 @@ function endLevel2(){
         return true;
         }
 }
+
+//wall
+
+let wall1 = new THREE.Box3(new THREE.Vector3(-50,0,150), new THREE.Vector3(50,100,250))
+
+function cam2Limits(){
+
+    var playerChest = new THREE.Vector3;
+    playerChest = camera2.clone();
+
+
+    let wall1 = new THREE.Box3(new THREE.Vector3(-350,0,48), new THREE.Vector3(50,100,150));
+    let wall2 = new THREE.Box3(new THREE.Vector3(-450,0,-50), new THREE.Vector3(-348,100,50));
+    let wall3 = new THREE.Box3(new THREE.Vector3(-350,0,-152), new THREE.Vector3(-50,100,-48));
+    let wall4 = new THREE.Box3(new THREE.Vector3(-250,0,-250), new THREE.Vector3(-148,100,-150));
+    let wall5 = new THREE.Box3(new THREE.Vector3(-350,0,-350), new THREE.Vector3(-48,100,-250));
+    let wall6 = new THREE.Box3(new THREE.Vector3(-50,0,-450), new THREE.Vector3(50,100,-348));
+    let wall7 = new THREE.Box3(new THREE.Vector3(150,0,-450), new THREE.Vector3(350,100,-348));
+    let wall8 = new THREE.Box3(new THREE.Vector3(348,0,-350), new THREE.Vector3(450,100,-250));
+    let wall9 = new THREE.Box3(new THREE.Vector3(348,0,-150), new THREE.Vector3(450,100,350));
+    let wall10 = new THREE.Box3(new THREE.Vector3(-50,0,248), new THREE.Vector3(250,100,350));
+    let wall11 = new THREE.Box3(new THREE.Vector3(247,0,50), new THREE.Vector3(252,100,150));
+    let wall12 = new THREE.Box3(new THREE.Vector3(150,0,50), new THREE.Vector3(246,100,152));
+    let wall13 = new THREE.Box3(new THREE.Vector3(47,0,-50), new THREE.Vector3(150,100,50));
+    let wall14 = new THREE.Box3(new THREE.Vector3(48,0,-250), new THREE.Vector3(150,100,-150));
+    let wall15 = new THREE.Box3(new THREE.Vector3(247,0,-250), new THREE.Vector3(252,100,-50));
+
+    if (wall1.containsPoint(playerChest.position))
+        if(playerChest.position.x > 50){
+            camera2.position.x = 52;
+        }  
+        else{
+            camera2.position.z = 47;
+        } 
+     
+    if (wall2.containsPoint(playerChest.position)){
+        camera2.position.x = -347;
+    }
+    if (wall3.containsPoint(playerChest.position)){
+        if(camera2.position.z > -100){
+            camera2.position.z = -47;
+        }
+        else{
+            camera2.position.z = -153;
+        }
+    }
+    if (wall4.containsPoint(playerChest.position)){
+        camera2.position.x = -147;
+    }
+    if (wall5.containsPoint(playerChest.position)){
+        camera2.position.x = -47;
+    }
+    if (wall6.containsPoint(playerChest.position)){
+        camera2.position.z = -347;
+    }
+    if (wall7.containsPoint(playerChest.position)){
+        camera2.position.z = -347;
+    }
+    if (wall8.containsPoint(playerChest.position)){
+        camera2.position.x = 347;
+    }
+    if (wall9.containsPoint(playerChest.position)){
+        camera2.position.x = 347;
+    }
+    if (wall10.containsPoint(playerChest.position)){
+        camera2.position.z = 247;
+    }
+    if (wall11.containsPoint(playerChest.position)){
+        camera2.position.x = 253;
+    }
+    if (wall12.containsPoint(playerChest.position)){
+        camera2.position.z = 153;
+    }
+    if (wall13.containsPoint(playerChest.position)){
+        camera2.position.x = 47;
+    }
+    if (wall14.containsPoint(playerChest.position)){
+        camera2.position.x = 47;
+    }
+    if (wall15.containsPoint(playerChest.position)){
+        camera2.position.x = 253;
+    }
+    
+}
+  
+    
 
