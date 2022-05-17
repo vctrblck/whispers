@@ -10,13 +10,12 @@ var mixer2 = new THREE.AnimationMixer();
 
 let prevTime = Date.now();
 let prevTime2 = Date.now();
-var currentLevel = 2;
+var currentLevel = 1;
 
 
 // Instantiate `three.js' scene axes [this code is just example used on scene]
 var axes = new THREE.AxesHelper(1000);
 scene.add(axes);
-level1.add(axes);
 //level2.add(axes); 
 
 camera.lookAt(scene.position);
@@ -41,6 +40,13 @@ function animateScene() {
     const time = Date.now();
     mixer.update( ( time - prevTime ) * 0.001 );
     prevTime = time;
+    checkpoint1();
+    if (endLevel1()){
+      currentLevel = 2;
+    }
+    cam1Limits();
+    camera1.position.y = 75;
+    controls1.update(0.000150);
     renderer.render(level1, camera1);
     
     
@@ -54,10 +60,10 @@ function animateScene() {
     const time2 = Date.now();
     mixer2.update( ( time2 - prevTime2 ) * 0.001 );
     prevTime2 = time2;
-    animateAgents();
-    collisionCheck();
+    animateAgents2();
+    collisionCheck2();
     if (endLevel2()){
-      currentLevel = 1;
+      currentLevel = 3;
     }
     cam2Limits();
     camera2.position.y = 45;

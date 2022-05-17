@@ -150,24 +150,6 @@ level2.add(light2);
 
 
 
-
-//==========================================================================================================//
-//creating the skybox
-
-const loader2 = new THREE.CubeTextureLoader();
-const texture2 = loader2.load([
-    '../images/level2/lvl2Skybox/1.png',
-    '../images/level2/lvl2Skybox/2.png',
-    '../images/level2/lvl2Skybox/3.png',
-    '../images/level2/lvl2Skybox/4.png',
-    '../images/level2/lvl2Skybox/5.png',
-    '../images/level2/lvl2Skybox/6.png' 
-]);
-level2.background = texture2;
-
-// const grid = new THREE. GridHelper(1000,20);
-// level2.add(grid);
-
 //==========================================================================================================//
 
 //create the levels walls
@@ -255,7 +237,7 @@ var ball3BB = new THREE.Sphere(agent3.position, 40)
 var ball4BB = new THREE.Sphere(agent4.position, 40)
 
 
-function animateAgents(){
+function animateAgents2(){
     //AGENT 1
     if(agent1.position.z == 0){
         A1prevZ = 0;
@@ -382,7 +364,7 @@ function animateAgents(){
 //collision checking
 
 
-function collisionCheck(){
+function collisionCheck2(){
     var playerChest = new THREE.Vector3;
     playerChest = camera2.clone();
 
