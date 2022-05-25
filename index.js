@@ -6,20 +6,16 @@
 
 // Modules:
 
-// `./src/scene.js';
-// `./src/renderer.js';
+// `src/scene.js';
+// `src/renderer.js';
 
 // Code:
 
+// Intializes game
 function init() {
-  // Add renderer to DOM
-  document.getElementById('canvas').append(renderer.domElement);
+  document.getElementById('game').append(renderer.domElement);
 
-  // Animate the scene recursively
-  animateScene();
+  animateScene(); // Animate the scene recursively
 }
-
-// Initialise game
-init();
 
 // index.js ends here

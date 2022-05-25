@@ -1,4 +1,9 @@
-body {
-  margin: 0;
-  overflow: hidden;
+@font-face {
+  font-family: HelpMe;
+  src: url('assets/fonts/HelpMe.ttf');
+}
+
+ul,
+#over h1 {
+  font-family: HelpMe;
 }

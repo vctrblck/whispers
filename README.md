@@ -15,7 +15,7 @@
 ```
 git clone https://github.com/vctrblck/whispers.git
 cd whispers
-npm install
+npm run setup
 ```
 
 ### Running the server
@@ -23,3 +23,7 @@ npm install
 1. Run a local HTTP server in this project directory.(python -m http.server)
 2. Open a browser.
 3. Request `<server-address>:<port-number>/index.html` from browser.
+
+### Bugs
+
+Installing packages with NPM deletes the `three` library, since I have not used NPM to install it. Just run `npm run setup` again (if `three` has been removed).
