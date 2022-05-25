@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Interface</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- `three.js' modules -->
+    <script src="./node_modules/three/build/three.js"></script>
+    <script src="./node_modules/three/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="./node_modules/three/examples/js/loaders/FBXLoader.js"></script>
+    <script src="./node_modules/three/examples/js/loaders/OBJLoader.js"></script>
+    <script src="./node_modules/fflate/umd/index.js"></script>
+    <script src="./node_modules/three/examples/js/controls/OrbitControls.js"></script>
+    <script src="./node_modules/three/examples/js/controls/FlyControls.js"></script>
+    <script src="./node_modules/three/examples/js/controls/PointerLockControls.js"></script>
+    <script src="./node_modules/three/examples/js/controls/FirstPersonControls.js"></script>
+  </head>
+
+  <body>
+    <!-- Global state modules -->
+    <script src="src/renderer.js"></script>
+
+    <!-- Level 1 modules -->
+    <script src="src/levels/1/camera.js"></script>
+    <script src="src/levels/1/scene.js"></script>
+
+    <!-- Level 2 modules -->
+    <script src="src/levels/2/camera.js"></script>
+    <script src="src/levels/2/scene.js"></script>
+
+    <!-- Level 3 modules -->
+    <script src="src/levels/3/camera.js"></script>
+    <script src="src/levels/3/scene.js"></script>
+
+    <!-- Game modules -->
+    <script src="src/camera.js"></script>
+    <script src="src/game.js"></script>
+
+    <!-- Pages -->
+    <!-- Home Page -->
+    <div
+      id="home"
+      class="fixed grid bg-black w-screen h-screen place-items-center"
+    >
+      <ul class="grid text-lg text-white place-items-center">
+        <li class="text-white hover:text-red-700">
+          <button id="startGameButton">START</button>
+        </li>
+        <li class="text-white hover:text-red-700">
+          <button>SETTINGS</button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Game Page -->
+    <div id="game" class="fixed bg-white w-screen h-screen"></div>
+
+    <!-- Pause Page -->
+    <div
+      id="pause"
+      class="fixed grid bg-black w-screen h-screen place-items-center"
+    >
+      <ul class="grid text-lg text-white place-items-center">
+        <li class="hover:text-red-700">
+          <button id="resumeGameButton">RESUME</button>
+        </li>
+        <li class="hover:text-red-700">
+          <button>INVENTORY</button>
+        </li>
+        <li class="hover:text-red-700">
+          <button>OPTIONS</button>
+        </li>
+        <li class="hover:text-red-700">
+          <button id="quitGameButton">QUIT</button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Inventory Page -->
+    <!-- TODO -->
+
+    <!-- Over Page -->
+    <div
+      id="over"
+      class="fixed grid bg-black w-screen h-screen place-items-center"
+    >
+      <h1 class="text-5xl text-red-700">GAME OVER</h1>
+    </div>
+
+    <!-- Entry module -->
+    <script src="index.js"></script>
+
+    <!-- Pages Manager -->
+    <script src="src/pager.js"></script>
+  </body>
+</html>
