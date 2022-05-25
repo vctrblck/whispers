@@ -25,6 +25,7 @@ let prevTime2 = Date.now();
 // ========================================================================== /
 
 var scene = new THREE.Scene(); // Default `three.js' scene
+
 var axes = new THREE.AxesHelper(100); // Default `three.js' scene axes
 scene.add(axes);
 
@@ -33,19 +34,25 @@ function animateScene() {
     if (gameActive) {
       // Active game state
 
-      if (currentLevel === 1) {
-        // ================================================================== /
-        // Level 1                                                            /
-        // ================================================================== /
-
-        document.title = 'Whispers - Level 1';
+      if (currentLevel == 1) {
+       
+    //Level 1
+    
+        document.title = "Whispers - Level 1";
 
         const time = Date.now();
-        mixer11.update((time - prevTime) * 0.001);
-        mixer12.update((time - prevTime) * 0.001);
+        mixer1.update( ( time - prevTime ) * 0.001 );
         prevTime = time;
-
+        checkpoint1();
+        if (endLevel1()){
+          currentLevel = 2;
+        }
+        cam1Limits();
+        camera1.position.y = 75;
+        controls1.update(0.000150);
         renderer.render(level1, camera1);
+
+
       } else if (currentLevel === 2) {
         // ================================================================== /
         // Level 2                                                            /

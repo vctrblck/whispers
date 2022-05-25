@@ -15,6 +15,8 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setClearColor('#EEEEEE', 1);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
+var level1 = new THREE.Scene();
+
 // Enable shadows
 renderer.shadowMap.enabled = true;
 
