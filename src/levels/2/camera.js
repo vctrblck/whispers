@@ -25,9 +25,9 @@ camera2.position.z = 0;
 camera2.rotation.y = 30;
 
 // Level 2 orbital camera controls
-// const controls2 = new THREE.OrbitControls(camera2, renderer.domElement);
-// controls2.target.set(0, 20, 0);
-// controls2.update();
+ //const controls2 = new THREE.OrbitControls(camera2, renderer.domElement);
+ //controls2.target.set(0, 20, 0);
+ //controls2.update();
 
 // Level 2 first person controls
 const controls2 = new THREE.FirstPersonControls(camera2, renderer.domElement);

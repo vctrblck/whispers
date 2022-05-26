@@ -53,4 +53,63 @@ gltfLoader4.load('assets/models/levels/3/Valley/scene.gltf', (gltfScene) => {
   level3.add(gltfScene.scene);
 });
 
+const gltfLoader5 = new THREE.GLTFLoader();
+gltfLoader4.load('assets/models/levels/3/circle_rug/scene.gltf', (gltfScene) => {
+  gltfScene.scene.position.y = 30;
+  gltfScene.scene.position.x = 70;
+  gltfScene.scene.position.z = 345;
+  gltfScene.scene.scale.set(0.03, 0.03, 0.03);
+  level3.add(gltfScene.scene);
+});
+
+const plane3 = new THREE.Mesh(
+    new THREE.PlaneGeometry(2000, 1800, 10, 10),
+    new THREE.MeshStandardMaterial({ 
+        color : 0x00FF00, side : THREE.DoubleSide
+      }));
+plane3.castShadow = false;
+plane3.receiveShadow = true;
+plane3.rotation.x = -Math.PI / 2;
+plane3.position.y = 50
+//level3.add(plane3);
+
+
+//Add some lights
+
+const light33 = new THREE.PointLight( 0xFFFFFF, 1, 100 ); //white
+light33.castShadow = true;
+light33.position.set( 75, 75, 75 );
+//level3.add( light33 );
+
+const light34 = new THREE.PointLight(0xFF0000, 1); // red
+light34.castShadow = true
+light34.position.set(75,75,75)
+//level3.add(light34)
+
+const light35 = new THREE.PointLight(0x00FF00, 1); //the green light
+light35.castShadow = true
+light35.position.set(75,75,75)
+//level3.add(light35)
+
+// player found the key
+
+let keyPos = new THREE.Box3(new THREE.Vector3(50,30,300),new THREE.Vector3(90,30,390));
+keyPos.setFromObject()
+var foundKey = false;
+
+function getKey(){
+  var playerChest1 = new THREE.Vector3;
+  playerChest1 = camera3.clone();
+
+  if(foundKey == false){
+    if(keyPos.intersectsPoint(playerChest1.position) || keyPos.containsPoint(playerChest1.position) ){
+      const light35 = new THREE.PointLight(0x00FF00, 1); //the green light
+      light35.castShadow = true;
+      light35.position.set(75,75,75);
+      level3.add(light35);
+      foundKey = true;
+    }
+  }
+}
+
 // scene.js ends here

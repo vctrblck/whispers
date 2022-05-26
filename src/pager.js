@@ -53,7 +53,7 @@ function startGame(event) {
 
   // Start game
   gameActive = true;
-  currentLevel = 1;
+  currentLevel = 3;
   init();
 }
 
