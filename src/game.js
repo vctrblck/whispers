@@ -80,8 +80,8 @@ function animateScene() {
         
         document.title = 'Whispers - Level 3';
 
-        //controls3.update(0.00003)
-
+        getKey();
+        controls3.update(0.00015);
         renderer.render(level3, camera3);
 
       } else {

@@ -48,16 +48,20 @@ level3.background = texture3;
 
 const gltfLoader4 = new THREE.GLTFLoader();
 gltfLoader4.load('assets/models/levels/3/Valley/scene.gltf', (gltfScene) => {
-  gltfScene.scene.position.y = 10;
+  //gltfScene.scene.position.y = 10;
   gltfScene.scene.scale.set(10, 10, 10);
   level3.add(gltfScene.scene);
 });
 
 const gltfLoader5 = new THREE.GLTFLoader();
 gltfLoader4.load('assets/models/levels/3/circle_rug/scene.gltf', (gltfScene) => {
-  gltfScene.scene.position.y = 30;
+  /*gltfScene.scene.position.y = 30;
   gltfScene.scene.position.x = 70;
-  gltfScene.scene.position.z = 345;
+  gltfScene.scene.position.z = 345;*/
+
+  /*Left hand rule with thumb being the y axis,middle finger point positive x axis, one finger point negative z axis*/
+  gltfScene.scene.position.set(40,20,345);
+
   gltfScene.scene.scale.set(0.03, 0.03, 0.03);
   level3.add(gltfScene.scene);
 });
@@ -84,7 +88,7 @@ light33.position.set( 75, 75, 75 );
 const light34 = new THREE.PointLight(0xFF0000, 1); // red
 light34.castShadow = true
 light34.position.set(75,75,75)
-//level3.add(light34)
+level3.add(light34)
 
 const light35 = new THREE.PointLight(0x00FF00, 1); //the green light
 light35.castShadow = true
@@ -93,8 +97,7 @@ light35.position.set(75,75,75)
 
 // player found the key
 
-let keyPos = new THREE.Box3(new THREE.Vector3(50,30,300),new THREE.Vector3(90,30,390));
-keyPos.setFromObject()
+keyPos = new THREE.Box3(new THREE.Vector3(40,20,345),new THREE.Vector3(40,20,345));
 var foundKey = false;
 
 function getKey(){
@@ -102,7 +105,8 @@ function getKey(){
   playerChest1 = camera3.clone();
 
   if(foundKey == false){
-    if(keyPos.intersectsPoint(playerChest1.position) || keyPos.containsPoint(playerChest1.position) ){
+    if(/*keyPos.intersectsPoint(playerChest1.position) ||*/ keyPos.containsPoint(playerChest1.position) ){
+      console.log("in the keyy zone now find the key")
       const light35 = new THREE.PointLight(0x00FF00, 1); //the green light
       light35.castShadow = true;
       light35.position.set(75,75,75);
