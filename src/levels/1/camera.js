@@ -18,7 +18,7 @@ camera1.rotation.y = 30;
 // controls2.target.set(0, 20, 0);    
 // controls2.update();
 
-const controls1 = new THREE.FirstPersonControls(camera1, renderer.domElement);
+const controls1 = new THREE.FirstPersonControls(camera1, document);
 controls1.movementSpeed = 7000;
 controls1.lookSpeed=15;
 controls1.activeLook = true;

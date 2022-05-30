@@ -1,7 +1,8 @@
+// ========================================================================== /
+// Lighting                                                                   /
+// ========================================================================== /
 
-//Setting the light for my level
-
-light1 = new THREE.AmbientLight(0x101010, 1);
+light1 = new THREE.AmbientLight(0x404040, 1);0x101010
 level1.add(light1);
 
 light1 = new THREE.PointLight(0xFFFFFF, 0.8, 125);
@@ -19,20 +20,28 @@ light1.castShadow = true;
 light1.position.set(75, 100, -150);
 level1.add(light1);
 
+// ========================================================================== /
+// Room                                                                       /
+// ========================================================================== /
 
-//add cell to the world
+const wallTexture1 = new THREE.TextureLoader().load('../../../assets/images/levels/1/tiles.png');
 
-const wallTexture1 = new THREE.TextureLoader().load('../../../assets/images/levels/2/wall.png');
+const barTexture = new THREE.TextureLoader().load('../../../assets/images/levels/1/metall010-new-tileable_0.png')
+barTexture.repeat.set(0.2, 1);
 
 var gltfLoader1 = new THREE.GLTFLoader();
 
 gltfLoader1.load('../../../assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
   var model1 = gltf.scene;
   model1.traverse((o) => {
-      if(o instanceof THREE.Mesh){
-          o.material.map = wallTexture1;
-          o.receiveShadow = true;
-      }
+    if(o.name.includes("Cylinder")){
+      o.material.map = barTexture;
+      o.receiveShadow = true;
+    }
+    else if(o instanceof THREE.Mesh){
+      o.material.map = wallTexture1;
+      o.receiveShadow = true;
+    }
   });
   model1.castShadow = true;
   model1.receiveShadow = true;
@@ -40,6 +49,7 @@ gltfLoader1.load('../../../assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
   model1.scale.set(1000,1000,1000);
   level1.add(model1);
 });
+
 //player passes checkpoint
 
 let cubeCheck = new THREE.Box3(new THREE.Vector3(-60,0,-70), new THREE.Vector3(-50,100,-50));
