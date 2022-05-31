@@ -24,23 +24,62 @@ level1.add(light1);
 // Room                                                                       /
 // ========================================================================== /
 
-const wallTexture1 = new THREE.TextureLoader().load('../../../assets/images/levels/1/tiles.png');
+const loader1 = new THREE.CubeTextureLoader();
+const hallWayTexture = loader1.load([
+  'assets/images/levels/1/bloody_wall.jpg',
+  'assets/images/levels/1/bloody_wall.jpg',
+  'assets/images/levels/1/concrete_grey.jpg',
+  'assets/images/levels/1/concrete_grey.jpg',
+  'assets/images/levels/1/bloody_wall.jpg',
+  'assets/images/levels/1/bloody_wall.jpg',
+]);
 
-const barTexture = new THREE.TextureLoader().load('../../../assets/images/levels/1/metall010-new-tileable_0.png')
-barTexture.repeat.set(0.2, 1);
+//Floor 
+const wallTexture11 = new THREE.TextureLoader().load('../../../assets/images/levels/1/concrete_grey.jpg');
+wallTexture11.wrapS = THREE.RepeatWrapping;
+wallTexture11.repeat.set(4, 1);
+//Walls
+const wallTexture12 = new THREE.TextureLoader().load('../../../assets/images/levels/1/bloody_wall.jpg');
+wallTexture12.wrapS = THREE.RepeatWrapping;
+//Roof
+const roofTexture1 = wallTexture12.clone();
+roofTexture1.wrapS = THREE.RepeatWrapping;
+roofTexture1.repeat.x = - 1;
+//Metal bars etc
+const barTexture1 = new THREE.TextureLoader().load('../../../assets/images/levels/1/metall010-new-tileable_0.png');
+barTexture1.wrapS = THREE.RepeatWrapping;
+barTexture1.wrapT = THREE.RepeatWrapping;
+//Cell Room
+const cellTexture1 = new THREE.TextureLoader().load('../../../assets/images/levels/1/tiles.png');
 
 var gltfLoader1 = new THREE.GLTFLoader();
 
 gltfLoader1.load('../../../assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
   var model1 = gltf.scene;
   model1.traverse((o) => {
+    o.receiveShadow = true;
     if(o.name.includes("Cylinder")){
-      o.material.map = barTexture;
-      o.receiveShadow = true;
+      barTexture1.repeat.set(1, 10);
+      o.material.map = barTexture1;
     }
-    else if(o instanceof THREE.Mesh){
-      o.material.map = wallTexture1;
-      o.receiveShadow = true;
+    else if(o.name.includes("Bar")){
+      barTexture1.repeat.set(10, 1);
+      o.material.map = barTexture1;
+    }
+    else if(o.name.includes("Lock")){
+      o.material.map = barTexture1;
+    }
+    else if(o.name.includes("Wall")){
+      o.material.map = wallTexture12;
+    }
+    else if(o.name.includes("Roof")){
+      o.material.map = roofTexture1;
+    }
+    else if(o.name.includes("Floor")){
+      o.material.map = wallTexture11;
+    }
+    else if(o.name.includes("Cell")){
+      o.material.map = cellTexture1;
     }
   });
   model1.castShadow = true;
