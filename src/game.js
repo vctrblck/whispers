@@ -16,9 +16,13 @@
 
 var gameActive = false;
 var gameOver = false;
-var currentLevel = null;
+var currentLevel = 1;
 var prevTime = Date.now();
 let prevTime2 = Date.now();
+
+startCam1 = true;
+startCam2 = true;
+startCam3 = true;
 
 // ========================================================================== /
 // Level Manangement                                                          /
@@ -38,6 +42,11 @@ function animateScene() {
        
       //Level 1
 
+        if(startCam1){
+          cam1();
+          startCam1 = false;
+        }
+
         document.title = "Whispers - Level 1";
 
         const time = Date.now();
@@ -46,11 +55,27 @@ function animateScene() {
         checkpoint1();
         if (endLevel1()){
           currentLevel = 2;
-          cam2()
+          
         }
         cam1Limits();
         camera1.position.y = 75;
-        //controls1.update(0.000150);
+        
+        tiempoI = Date.now() -25
+        vel = 50
+        if(controls1.isLocked === true){
+            tiempoF = Date.now()
+
+            delta = (tiempoF - tiempoI)/1000
+
+            let xDis = xdir * vel * delta;
+            let zDis = zdir * vel * delta;
+
+            controls1.moveRight(xDis);
+            controls1.moveForward(zDis);
+            tiempoI = tiempoF
+        }
+
+
         renderer.render(level1, camera1);
 
 
@@ -61,19 +86,39 @@ function animateScene() {
 
         document.title = 'Whispers - Level 2';
 
+        if(startCam2){
+          cam2();
+          startCam2 = false;
+        }
+
         const time2 = Date.now();
         // mixer2.update((time2 - prevTime2) * 0.001);
         prevTime2 = time2;
-        animateAgents();
-        collisionCheck();       
+        animateAgents(); 
+        cam2Limits()
+        collisionCheck()      
 
         if (endLevel2()) {
           currentLevel = 3;
         }
-        cam2Limits();
         camera2.position.y = 45;
-        //controls2.update(0.00015);
 
+        //
+        tiempoI = Date.now() -25
+        vel = 50
+        if(controls2.isLocked === true){
+            tiempoF = Date.now()
+
+            delta = (tiempoF - tiempoI)/1000
+
+            let xDis = xdir * vel * delta;
+            let zDis = zdir * vel * delta;
+
+            controls2.moveRight(xDis);
+            controls2.moveForward(zDis);
+            tiempoI = tiempoF
+        }
+        
         renderer.render(level2, camera2);
       } else if (currentLevel === 3) {
         // ================================================================== /
