@@ -107,6 +107,7 @@ gltfLoader1.load('assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
   model1.position.y = 1;
   model1.scale.set(1000,1000,1000);
   level1.add(model1);
+  //createWall(model1.children[25]);
 });
 
 //player passes checkpoint
