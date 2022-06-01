@@ -25,12 +25,13 @@ startCam2 = true;
 startCam3 = true;
 
 //variable declaration section for ammo
-let physicsWorld, rigidBodies, models = [], pos = new THREE.Vector3(), tmpTrans = null;
+let physicsWorld, models = [], pos = new THREE.Vector3(), tmpTrans = null;
+let rigidBodies = [];
 let raycaster = new THREE.Raycaster();
 let wall;
 let loadedLevel = 0;
 let CylinderBool = false;
-
+const STATE = { DISABLE_DEACTIVATION : 4 };
 
 // ========================================================================== /
 // Level Manangement                                                          /
@@ -84,12 +85,12 @@ function animateScene() {
             tiempoI = tiempoF
         }
 
-        //updatePhysics( time );
+        updatePhysics( time );
         if(loadedLevel==1){
           startAmmo();
           loadedLevel+=1;
         }
-
+        
         renderer.render(level1, camera1);
       }  else if (currentLevel === 2) {
         // ================================================================== /
@@ -169,6 +170,7 @@ function startAmmo(){
 function start (Ammo){
     tmpTrans = new Ammo.btTransform();
     setupPhysicsWorld();
+    setupCamera(camera1);
     animateScene();
 }
 
@@ -278,14 +280,14 @@ function setupPhysicsWorld(){
         solver                  = new Ammo.btSequentialImpulseConstraintSolver();
 
     physicsWorld           = new Ammo.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
-    physicsWorld.setGravity(new Ammo.btVector3(0, 0, 0));
+    physicsWorld.setGravity(new Ammo.btVector3(0, -10, 0));
 }
 
 function updatePhysics( deltaTime ){
 
   // Step world
   physicsWorld.stepSimulation( deltaTime, 10 );
-
+  
   // Update rigid bodies
   for ( let i = 0; i < rigidBodies.length; i++ ) {
       let objThree = rigidBodies[ i ];
@@ -295,7 +297,8 @@ function updatePhysics( deltaTime ){
           ms.getWorldTransform( tmpTrans );
           let p = tmpTrans.getOrigin();
           let q = tmpTrans.getRotation();
-          objThree.position.set( p.x(), p.y(), p.z() );
+          objThree.position.set( camera1.position.x, camera1.position.y, camera1.position.z );
+          //objThree.position.set( p.x(), p.y(), p.z() );
           objThree.quaternion.set( q.x(), q.y(), q.z(), q.w() );
       }
   }
@@ -306,10 +309,21 @@ function detectCollision(){
 
   let dispatcher = physicsWorld.getDispatcher();
   let numManifolds = dispatcher.getNumManifolds();
+  console.log(dispatcher.getNumManifolds());
 
   for ( let i = 0; i < numManifolds; i ++ ) {
 
       let contactManifold = dispatcher.getManifoldByIndexInternal( i );
+      let rb0 = Ammo.castObject( contactManifold.getBody0(), Ammo.btRigidBody );
+      let rb1 = Ammo.castObject( contactManifold.getBody1(), Ammo.btRigidBody );
+      let threeObject0 = rb0.threeObject;
+      let threeObject1 = rb1.threeObject;
+      if ( ! threeObject0 && ! threeObject1 ) continue;
+      let userData0 = threeObject0 ? threeObject0.userData : null;
+      let userData1 = threeObject1 ? threeObject1.userData : null;
+      let tag0 = userData0 ? userData0.tag : "none";
+      let tag1 = userData1 ? userData1.tag : "none";
+
       let numContacts = contactManifold.getNumContacts();
 
       for ( let j = 0; j < numContacts; j++ ) {
@@ -317,9 +331,75 @@ function detectCollision(){
           let contactPoint = contactManifold.getContactPoint( j );
           let distance = contactPoint.getDistance();
           if( distance > 0.0 ) continue;
-          console.log({manifoldIndex: i, contactIndex: j, distance: distance});
+          let velocity0 = rb0.getLinearVelocity();
+          let velocity1 = rb1.getLinearVelocity();
+          let worldPos0 = contactPoint.get_m_positionWorldOnA();
+          let worldPos1 = contactPoint.get_m_positionWorldOnB();
+          let localPos0 = contactPoint.get_m_localPointA();
+          let localPos1 = contactPoint.get_m_localPointB();
+          
+          console.log({
+              manifoldIndex: i, 
+              contactIndex: j, 
+              distance: distance, 
+              object0:{
+              tag: tag0,
+              velocity: {x: velocity0.x(), y: velocity0.y(), z: velocity0.z()},
+              worldPos: {x: worldPos0.x(), y: worldPos0.y(), z: worldPos0.z()},
+              localPos: {x: localPos0.x(), y: localPos0.y(), z: localPos0.z()}
+              },
+              object1:{
+              tag: tag1,
+              velocity: {x: velocity1.x(), y: velocity1.y(), z: velocity1.z()},
+              worldPos: {x: worldPos1.x(), y: worldPos1.y(), z: worldPos1.z()},
+              localPos: {x: localPos1.x(), y: localPos1.y(), z: localPos1.z()}
+              }
+          });
       }
   }
+  }
+
+  function setupCamera(cam){
+    let radius = 5;
+    let pos = {x:cam.position.x, y:cam.position.y, z:cam.position.z};
+    let quat = {x: 0, y: 0, z: 0, w: 1};
+    let mass = 35;
+
+    let ball = ballObject = new THREE.Mesh(new THREE.SphereBufferGeometry(radius), new THREE.MeshPhongMaterial({color: 0x05ff1e}));
+    ball.position.set(pos.x, pos.y, pos.z);
+    ball.castShadow = true;
+    ball.receiveShadow = true;
+    level1.add(ball);
+
+    let transform = new Ammo.btTransform();
+    transform.setIdentity();
+    transform.setOrigin( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
+    transform.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
+    let motionState = new Ammo.btDefaultMotionState( transform );
+
+    let colShape = new Ammo.btSphereShape( radius );
+    colShape.setMargin( 0.05 );
+
+    let localInertia = new Ammo.btVector3( 0, 0, 0 );
+    colShape.calculateLocalInertia( mass, localInertia );
+
+    let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
+    let body = new Ammo.btRigidBody( rbInfo );
+
+    body.setFriction(4);
+    body.setRollingFriction(10);
+
+    body.setActivationState(1); // 1 - active
+    body.activate();
+
+    physicsWorld.addRigidBody( body );
+    rigidBodies.push(ball);
+    //rigidBodies.push(cam);
+    
+    ball.userData.physicsBody = body;
+    ball.userData.tag = "ball";
+    
+    return body.threeObject = ball;
   }
 
 // game.js ends here
