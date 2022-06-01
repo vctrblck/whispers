@@ -16,17 +16,21 @@
 
 var gameActive = false;
 var gameOver = false;
-var currentLevel = null;
+var currentLevel = 1;
 var prevTime = Date.now();
 let prevTime2 = Date.now();
 
+startCam1 = true;
+startCam2 = true;
+startCam3 = true;
+
 //variable declaration section for ammo
 let physicsWorld, rigidBodies, models = [], pos = new THREE.Vector3(), tmpTrans = null;
-let mouseCoords = new THREE.Vector2(), raycaster = new THREE.Raycaster();
-let wall, ball;
-let ttl = 3, ttlCounter, loadedLevel = 0;
+let raycaster = new THREE.Raycaster();
+let wall;
+let loadedLevel = 0;
 let CylinderBool = false;
-const STATE = { DISABLE_DEACTIVATION : 4 };
+
 // ========================================================================== /
 // Level Manangement                                                          /
 // ========================================================================== /
@@ -44,50 +48,87 @@ function animateScene() {
       if (currentLevel == 1) {
        
       //Level 1
+        if(startCam1){
+          cam1();
+          startCam1 = false;
+        }
+
         level1.add( new THREE.BoxHelper( level1 ) );
 
         document.title = "Whispers - Level 1";
 
         const time = Date.now();
-        mixer1.update( ( time - prevTime ) * 0.001 );
         prevTime = time;
         checkpoint1();
 
         if (endLevel1()){
           currentLevel = 2;
-          cam2()
         }
         //cam1Limits();
         camera1.position.y = 75;
-        //controls1.update(0.000150);
+        tiempoI = Date.now() -25;
+        vel = 50;
+        if(controls1.isLocked === true){
+          tiempoF = Date.now()
+
+          delta = (tiempoF - tiempoI)/1000
+
+          let xDis = xdir * vel * delta;
+          let zDis = zdir * vel * delta;
+
+          controls1.moveRight(xDis);
+          controls1.moveForward(zDis);
+          tiempoI = tiempoF
+        }
         
         //updatePhysics( time );
-        renderer.render(level1, camera1);
-
         if(loadedLevel==1){
           startAmmo();
           loadedLevel+=1;
         }
 
-      } else if (currentLevel === 2) {
+        renderer.render(level1, camera1);
+
+      }  else if (currentLevel === 2) {
         // ================================================================== /
         // Level 2                                                            /
         // ================================================================== /
 
         document.title = 'Whispers - Level 2';
 
-        const time2 = Date.now();
-        mixer2.update((time2 - prevTime2) * 0.001);
-        prevTime2 = time2;
-        animateAgents();
-        collisionCheck();
-        if (endLevel2()) {
-          currentLevel = 1;
+        if(startCam2){
+          cam2();
+          startCam2 = false;
         }
-        cam2Limits();
-        camera2.position.y = 45;
-        controls2.update(0.00015);
 
+        const time2 = Date.now();
+        // mixer2.update((time2 - prevTime2) * 0.001);
+        prevTime2 = time2;
+        animateAgents(); 
+        cam2Limits()
+        collisionCheck()      
+
+        if (endLevel2()) {
+          currentLevel = 3;
+        }
+        camera2.position.y = 45;
+
+        //
+        tiempoI = Date.now() -25
+        vel = 50
+        if(controls2.isLocked === true){
+            tiempoF = Date.now()
+
+            delta = (tiempoF - tiempoI)/1000
+
+            let xDis = xdir * vel * delta;
+            let zDis = zdir * vel * delta;
+
+            controls2.moveRight(xDis);
+            controls2.moveForward(zDis);
+            tiempoI = tiempoF
+        }
+        
         renderer.render(level2, camera2);
       } else if (currentLevel === 3) {
         // ================================================================== /
@@ -114,7 +155,6 @@ function animateScene() {
     // TODO
   }
 }
-
 
 //ammo stuff
 //Ammojs Initialization
@@ -250,13 +290,11 @@ function updatePhysics( deltaTime ){
       let objAmmo = objThree.userData.physicsBody;
       let ms = objAmmo.getMotionState();
       if ( ms ) {
-
           ms.getWorldTransform( tmpTrans );
           let p = tmpTrans.getOrigin();
           let q = tmpTrans.getRotation();
           objThree.position.set( p.x(), p.y(), p.z() );
           objThree.quaternion.set( q.x(), q.y(), q.z(), q.w() );
-
       }
   }
   detectCollision();
