@@ -36,20 +36,19 @@ function animateScene() {
 
       if (currentLevel == 1) {
        
-    //Level 1
-    
+      //Level 1
+
         document.title = "Whispers - Level 1";
 
         const time = Date.now();
         mixer1.update( ( time - prevTime ) * 0.001 );
         prevTime = time;
         checkpoint1();
-        
         if (endLevel1()){
           currentLevel = 2;
           cam2()
         }
-        cam1Limits();
+        //cam1Limits();
         camera1.position.y = 75;
         //controls1.update(0.000150);
         renderer.render(level1, camera1);
