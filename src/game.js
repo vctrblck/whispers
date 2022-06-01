@@ -44,7 +44,6 @@ function animateScene() {
       if (currentLevel == 1) {
        
       //Level 1
-        level1.add( new THREE.BoxHelper( level1 ) );
 
         document.title = "Whispers - Level 1";
 
@@ -76,7 +75,7 @@ function animateScene() {
         }
         updatePhysics( time );
         renderer.render(level1, camera1);
-        //console.log( camera1.position);
+
 
       } else if (currentLevel === 2) {
         // ================================================================== /
@@ -131,94 +130,35 @@ Ammo().then(start);
 
 function start (){
     tmpTrans = new Ammo.btTransform();
-    setupPhysicsWorld();  
+    setupPhysicsWorld();
     createWall();
+    document.addEventListener( 'mousedown', onMouseDown, false );
     animateScene();
 }
 
 function createWall(){
-  let pos = {x: -0.14, y: 0.05, z: 0};
-  let scale = {x: 0.14, y: 0.105, z: 0.1};
-  let rotation1 = {x:0, y: Math.PI/2, z:0};
+  let pos = model1.position;
+  let scale = model1.scale;
   let quat = {x: 0, y: 0, z: 0, w: 1};
   let mass = 0;
 
   //threeJS Section
-  //--------------------------------------------------------------------------------------
-  const geometry = new THREE.BufferGeometry();
-  const indices = [];
-  const vertices = [];
-  const normals = [];
-  const colors = [];
+  wall = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({color: 0x42f5bf}));
 
-  const size = 1;
-  const segments = 10;
+  wall.position.set(pos.x, pos.y, pos.z);
+  wall.scale.set(scale.x, scale.y, scale.z);
 
-  const halfSize = size / 2;
-  const segmentSize = size / segments;
-
-  // generate vertices, normals for a simple grid geometry
-  for ( let i = 0; i <= segments; i ++ ) {
-    const y = ( i * segmentSize ) - halfSize;
-    for ( let j = 0; j <= segments; j ++ ) {
-      const x = ( j * segmentSize ) - halfSize;
-      vertices.push( x, - y, 0 );
-      normals.push( 0, 0, 1 );
-      const r = ( x / size ) + 0.5;
-      const g = ( y / size ) + 0.5;
-      colors.push( r, g, 1 );
-    }
-  }
-
-  // generate indices (data for element array buffer)
-
-  for ( let i = 0; i < segments; i ++ ) {
-    for ( let j = 0; j < segments; j ++ ) {
-      const a = i * ( segments + 1 ) + ( j + 1 );
-      const b = i * ( segments + 1 ) + j;
-      const c = ( i + 1 ) * ( segments + 1 ) + j;
-      const d = ( i + 1 ) * ( segments + 1 ) + ( j + 1 );
-
-      // generate two faces (triangles) per iteration
-      indices.push( a, b, d ); // face one
-      indices.push( b, c, d ); // face two
-    }
-  }
-
-  geometry.setIndex( indices );
-  geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
-  geometry.setAttribute( 'normal', new THREE.Float32BufferAttribute( normals, 3 ) );
-  geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) )
-
-  const material = new THREE.MeshPhongMaterial( {
-    side: THREE.DoubleSide,
-    vertexColors: true
-  });
-  const mesh1 = new THREE.Mesh( geometry, material);
-  //------------------------------------------------------------------------------------
-  wall = mesh1.clone();
-  
-  wall.position.set(pos.x*1000, pos.y*1000, pos.z*1000);
-  wall.scale.set(scale.x*1000, scale.y*1000, 1);
-  wall.rotateX(rotation1.x);
-  wall.rotateY(rotation1.y);
-  wall.rotateZ(rotation1.z);
   wall.castShadow = true;
   wall.receiveShadow = true;
+
   level1.add(wall);
-  
-  const helper = new THREE.VertexNormalsHelper( wall, 5, 0x00ff00, 3 );
-  level1.add(helper);
-  level1.add( new THREE.BoxHelper( wall ) );
 
  //Ammojs Section
  let transform = new Ammo.btTransform();
  transform.setIdentity();
- transform.setOrigin( new Ammo.btVector3( pos.x*1000, pos.y*1000, pos.z*1000) );
+ transform.setOrigin( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
  transform.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
- let motionState = new Ammo.btDefultMotionState( transform );
-a
-transformAux1 = new Ammo.btTransform();
+ let motionState = new Ammo.btDefaultMotionState( transform );
 
  let colShape = new Ammo.btBoxShape( new Ammo.btVector3( scale.x * 0.5, scale.y * 0.5, scale.z * 0.5 ) );
  colShape.setMargin( 0.05 );
@@ -229,40 +169,94 @@ transformAux1 = new Ammo.btTransform();
  let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
  let body = new Ammo.btRigidBody( rbInfo );
 
- body.setFriction(10);
+ body.setFriction(4);
  body.setRollingFriction(10);
 
  physicsWorld.addRigidBody( body );
 
  //Let's overlay the wall with a grid for visual calibration
- const gridHelper = new THREE.GridHelper( 100, 100, 0x1111aa, 0xaa1111 );
- //level1.add( gridHelper );
- 
-  gridHelper.rotateZ( THREE.Math.degToRad(90));
-  gridHelper.position.x = wall.position.x;
-  gridHelper.position.y = wall.position.y;
-  
+ const gridHelper = new THREE.GridHelper( 200, 100, 0x1111aa, 0xaa1111 );
+ const helper = new THREE.VertexNormalsHelper( model1, 10, 0x00ff00, 3 );
+ level1.add( gridHelper );
+ level1.add(helper);
+//  gridHelper.rotateZ( THREE.Math.degToRad(90));
+//  gridHelper.position.x = model1.position.x;
+//  gridHelper.position.y = model1.position.y;
+  console.log( helper.position, model1.position);
  wall.userData.tag = "wall";
+}
 
- //-----------------------------------------------------------
- const mesh = wall;
+function createBall(pos){
+                
+  let radius = 0.8;
+  let quat = {x: 0, y: 0, z: 0, w: 1};
+  let mass = 35;
 
- mesh.geometry.computeTangents(); // generates bad data due to degenerate UVs
+  //threeJS Section
+  let ball = ballObject = new THREE.Mesh(new THREE.SphereBufferGeometry(radius), new THREE.MeshPhongMaterial({color: 0x05ff1e}));
 
- const group = new THREE.Group();
- group.scale.multiplyScalar( 1 );
- //level1.add( group );
+  ball.position.set(pos.x, pos.y, pos.z);
+  
+  ball.castShadow = true;
+  ball.receiveShadow = true;
 
- // To make sure that the matrixWorld is up to date for the boxhelpers
- group.updateMatrixWorld( true );
- group.add( mesh );
+  level1.add(ball);
 
- vnh = new THREE.VertexNormalsHelper( mesh, 10 );
- //level1.add( vnh );
- //level1.add( new THREE.BoxHelper( mesh ) );
- //level1.add( new THREE.BoxHelper( group ) );
- console.log( mesh.position, wall.position);
- //--------------------------------------------------------------------------
+
+  //Ammojs Section
+  let transform = new Ammo.btTransform();
+  transform.setIdentity();
+  transform.setOrigin( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
+  transform.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
+  let motionState = new Ammo.btDefaultMotionState( transform );
+
+  let colShape = new Ammo.btSphereShape( radius );
+  colShape.setMargin( 0.05 );
+
+  let localInertia = new Ammo.btVector3( 0, 0, 0 );
+  colShape.calculateLocalInertia( mass, localInertia );
+
+  let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
+  let body = new Ammo.btRigidBody( rbInfo );
+
+  body.setFriction(4);
+  body.setRollingFriction(10);
+
+  body.setActivationState( STATE.DISABLE_DEACTIVATION )
+
+
+  physicsWorld.addRigidBody( body );
+  rigidBodies.push(ball);
+  
+  ball.userData.physicsBody = body;
+  ball.userData.tag = "ball";
+  
+  return ball;
+}
+
+function onMouseDown ( event ) {
+
+  if( ballInWorld ) return;
+
+  mouseCoords.set(  ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+
+  raycaster.setFromCamera( mouseCoords, camera );
+
+  // Create a ball 
+  pos.copy( raycaster.ray.direction );
+  pos.add( raycaster.ray.origin );
+
+  ball = createBall(pos);
+  
+  //shoot out the ball
+  let ballBody = ball.userData.physicsBody;
+
+  pos.copy( raycaster.ray.direction );
+  pos.multiplyScalar( 70 );
+  ballBody.setLinearVelocity( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
+
+  ballInWorld = true;
+
 }
 
 function setupPhysicsWorld(){

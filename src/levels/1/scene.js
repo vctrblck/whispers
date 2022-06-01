@@ -4,7 +4,7 @@
 
 light1 = new THREE.AmbientLight(0xffffff, 1); //
 level1.add(light1);
-//level1.add( new THREE.PointLightHelper( light1, 15 ) );
+
 /**light1 = new THREE.PointLight(0xFFFFFF, 0.8, 125);
 light1.castShadow = true;
 light1.position.set(0, 100, 0);
@@ -19,22 +19,6 @@ light1 = new THREE.PointLight(0xFFFFFF, 0.8, 125);
 light1.castShadow = true;
 light1.position.set(75, 100, -150);
 level1.add(light1);**/
-
-// ========================================================================== /
-// Skybox                                                                     /
-// ========================================================================== /
-
-const loader1 = new THREE.CubeTextureLoader();
-const texture1 = loader1.load([
-  'assets/images/levels/2/skybox/1.png',
-  'assets/images/levels/2/skybox/2.png',
-  'assets/images/levels/2/skybox/3.png',
-  'assets/images/levels/2/skybox/4.png',
-  'assets/images/levels/2/skybox/5.png',
-  'assets/images/levels/2/skybox/6.png',
-]);
-level1.background = texture1;
-
 
 // ========================================================================== /
 // Room                                                                       /
@@ -124,28 +108,6 @@ gltfLoader1.load('assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
   model1.scale.set(1000,1000,1000);
   level1.add(model1);
   //createWall(model1.children[25]);
-  //console.log(model1.children[25].position);
-  //-----------------------------------------------------------
-  /** 
-  const mesh = model1.children[25];
-
-  mesh.geometry.computeTangents(); // generates bad data due to degenerate UVs
-
-  const group = new THREE.Group();
-  group.scale.multiplyScalar( 500 );
-  level1.add( group );
-
-  // To make sure that the matrixWorld is up to date for the boxhelpers
-  group.updateMatrixWorld( true );
-  group.add( mesh );
-
-  vnh = new THREE.VertexNormalsHelper( mesh, 5 );
-  level1.add( vnh );
-  level1.add( new THREE.BoxHelper( mesh ) );
-  level1.add( new THREE.BoxHelper( group ) );
-  level1.add( new THREE.BoxHelper( level1 ) );
-**/
-  //--------------------------------------------------------------------------
 });
 
 //player passes checkpoint
