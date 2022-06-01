@@ -21,12 +21,12 @@ var prevTime = Date.now();
 let prevTime2 = Date.now();
 
 //variable declaration section for ammo
-let physicsWorld, rigidBodies = [], pos = new THREE.Vector3(), tmpTrans = null;
+let physicsWorld, rigidBodies, models = [], pos = new THREE.Vector3(), tmpTrans = null;
 let mouseCoords = new THREE.Vector2(), raycaster = new THREE.Raycaster();
 let wall, ball;
-let ttl = 3, ttlCounter = 0, ballInWorld = false;
+let ttl = 3, ttlCounter, loadedLevel = 0;
+let CylinderBool = false;
 const STATE = { DISABLE_DEACTIVATION : 4 };
-
 // ========================================================================== /
 // Level Manangement                                                          /
 // ========================================================================== /
@@ -44,6 +44,7 @@ function animateScene() {
       if (currentLevel == 1) {
        
       //Level 1
+        level1.add( new THREE.BoxHelper( level1 ) );
 
         document.title = "Whispers - Level 1";
 
@@ -59,23 +60,14 @@ function animateScene() {
         //cam1Limits();
         camera1.position.y = 75;
         //controls1.update(0.000150);
-
-        //update ball time to live if ball in world
-        if( ballInWorld ) ttlCounter += time;
-
-        //if time to live has been exceeded then delete the ball
-        if( ttlCounter > ttl ){
-
-            physicsWorld.removeRigidBody( ball.userData.physicsBody );
-            level1.remove(ball);
-
-            ttlCounter = 0;
-            ballInWorld = false;
-
-        }
-        updatePhysics( time );
+        
+        //updatePhysics( time );
         renderer.render(level1, camera1);
 
+        if(loadedLevel==1){
+          startAmmo();
+          loadedLevel+=1;
+        }
 
       } else if (currentLevel === 2) {
         // ================================================================== /
@@ -128,80 +120,51 @@ function animateScene() {
 //Ammojs Initialization
 Ammo().then(start);
 
-function start (){
+function startAmmo(){
+  createWall(models);
+}
+
+function start (Ammo){
     tmpTrans = new Ammo.btTransform();
     setupPhysicsWorld();
-    createWall();
-    document.addEventListener( 'mousedown', onMouseDown, false );
     animateScene();
 }
 
-function createWall(){
-  let pos = model1.position;
-  let scale = model1.scale;
-  let quat = {x: 0, y: 0, z: 0, w: 1};
-  let mass = 0;
+function createWall(models){
+  for(let i =0; i<models.length;i++){
+    let model = models[i];
 
-  //threeJS Section
-  wall = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({color: 0x42f5bf}));
+    let pos = {x: model.position.x, y: model.position.y, z: model.position.z};
+    let scale = {x: model.scale.x, y: model.scale.y, z: model.scale.z};
+    let rotation1 = {x: model.rotation.x, y: model.rotation.y, z: model.rotation.z};
+    let quat = {x: 0, y: 0, z: 0, w: 1};
+    let mass = 0;
 
-  wall.position.set(pos.x, pos.y, pos.z);
-  wall.scale.set(scale.x, scale.y, scale.z);
+    //threeJS Section
+    wall = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({color: 0x42f5bf, visible: false}));
 
-  wall.castShadow = true;
-  wall.receiveShadow = true;
+    wall.position.set(pos.x*1000, pos.y*1000, pos.z*1000);
+    wall.scale.set(scale.x*1000, scale.y*1000, scale.z*1000); 
+    wall.rotateX(rotation1.x);
+    wall.rotateY(rotation1.y);
+    wall.rotateZ(rotation1.z);
 
-  level1.add(wall);
+    if(model.name.includes("Lock")){
+      wall.scale.set(scale.x*2000, scale.y*2000, scale.z*2000); 
+    }else if(model.name.includes("Cylinder")){
+      wall.scale.set(scale.x*3600, scale.y*3600, scale.z*88900); 
+      wall.position.y +=50
+    }else if(model.name.includes("Floor")){
+      wall.position.y +=1;
+    }else if(model.name.includes("Bar")){
+      wall.scale.set(scale.x*2000, scale.y*2000, scale.z*2000); 
+      wall.position.y += 1;
+    }
+    
+    wall.castShadow = true;
+    wall.receiveShadow = true;
 
- //Ammojs Section
- let transform = new Ammo.btTransform();
- transform.setIdentity();
- transform.setOrigin( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
- transform.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
- let motionState = new Ammo.btDefaultMotionState( transform );
-
- let colShape = new Ammo.btBoxShape( new Ammo.btVector3( scale.x * 0.5, scale.y * 0.5, scale.z * 0.5 ) );
- colShape.setMargin( 0.05 );
-
- let localInertia = new Ammo.btVector3( 0, 0, 0 );
- colShape.calculateLocalInertia( mass, localInertia );
-
- let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
- let body = new Ammo.btRigidBody( rbInfo );
-
- body.setFriction(4);
- body.setRollingFriction(10);
-
- physicsWorld.addRigidBody( body );
-
- //Let's overlay the wall with a grid for visual calibration
- const gridHelper = new THREE.GridHelper( 200, 100, 0x1111aa, 0xaa1111 );
- const helper = new THREE.VertexNormalsHelper( model1, 10, 0x00ff00, 3 );
- level1.add( gridHelper );
- level1.add(helper);
-//  gridHelper.rotateZ( THREE.Math.degToRad(90));
-//  gridHelper.position.x = model1.position.x;
-//  gridHelper.position.y = model1.position.y;
-  console.log( helper.position, model1.position);
- wall.userData.tag = "wall";
-}
-
-function createBall(pos){
-                
-  let radius = 0.8;
-  let quat = {x: 0, y: 0, z: 0, w: 1};
-  let mass = 35;
-
-  //threeJS Section
-  let ball = ballObject = new THREE.Mesh(new THREE.SphereBufferGeometry(radius), new THREE.MeshPhongMaterial({color: 0x05ff1e}));
-
-  ball.position.set(pos.x, pos.y, pos.z);
-  
-  ball.castShadow = true;
-  ball.receiveShadow = true;
-
-  level1.add(ball);
-
+    level1.add(wall);
 
   //Ammojs Section
   let transform = new Ammo.btTransform();
@@ -210,7 +173,7 @@ function createBall(pos){
   transform.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
   let motionState = new Ammo.btDefaultMotionState( transform );
 
-  let colShape = new Ammo.btSphereShape( radius );
+  let colShape = new Ammo.btBoxShape( new Ammo.btVector3( scale.x * 0.5, scale.y * 0.5, scale.z * 0.5 ) );
   colShape.setMargin( 0.05 );
 
   let localInertia = new Ammo.btVector3( 0, 0, 0 );
@@ -222,41 +185,48 @@ function createBall(pos){
   body.setFriction(4);
   body.setRollingFriction(10);
 
-  body.setActivationState( STATE.DISABLE_DEACTIVATION )
-
-
   physicsWorld.addRigidBody( body );
-  rigidBodies.push(ball);
+  wall.userData.tag = "wall";
+
+  //Let's overlay the wall with a grid for visual calibration
+  const gridHelper = new THREE.GridHelper( Math.max(wall.scale.x, wall.scale.y, wall.scale.z), 20, 0x1111aa, 0xaa1111 );
   
-  ball.userData.physicsBody = body;
-  ball.userData.tag = "ball";
+  gridHelper.position.x = wall.position.x;
+  gridHelper.position.y = wall.position.y;
+  gridHelper.position.z = wall.position.z;
   
-  return ball;
-}
+  if(model.name.includes("Back") || model.name.includes("Front")){
+    gridHelper.rotateZ( rotation1.y);
+  }else if(model.name.includes("Left") || model.name.includes("Right")){
+    gridHelper.rotateX( Math.PI/2);
+  }else if(model.name.includes("Lock")){
+    gridHelper.rotateZ( Math.PI/2);
+    gridHelper.position.x -=5;
+  }else if(model.name.includes("Cylinder")){
+    if(CylinderBool){
+      const helper = new THREE.VertexNormalsHelper( wall, 5, 0x00ff00, 3 );
+      level1.add(helper);
+      level1.add( new THREE.BoxHelper( wall ) );
+      continue;
+    }else{
+      CylinderBool = true;
+      gridHelper.rotateZ( Math.PI/2);
+      gridHelper.position.x -=5;
+      gridHelper.scale.z *= 2;
+      gridHelper.position.z *= -0.1;
+    }
+  }else if(model.name.includes("Bar")){
+    gridHelper.rotateZ( Math.PI/2);
+    gridHelper.position.x -=5;
+    gridHelper.scale.x = 0.03;
+  }
+  level1.add( gridHelper ); //console.log(model.name, model.scale, gridHelper.scale);
 
-function onMouseDown ( event ) {
-
-  if( ballInWorld ) return;
-
-  mouseCoords.set(  ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-
-  raycaster.setFromCamera( mouseCoords, camera );
-
-  // Create a ball 
-  pos.copy( raycaster.ray.direction );
-  pos.add( raycaster.ray.origin );
-
-  ball = createBall(pos);
+  const helper = new THREE.VertexNormalsHelper( wall, 5, 0x00ff00, 3 );
+  level1.add(helper);
+  level1.add( new THREE.BoxHelper( wall ) );
+  }
   
-  //shoot out the ball
-  let ballBody = ball.userData.physicsBody;
-
-  pos.copy( raycaster.ray.direction );
-  pos.multiplyScalar( 70 );
-  ballBody.setLinearVelocity( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
-
-  ballInWorld = true;
-
 }
 
 function setupPhysicsWorld(){

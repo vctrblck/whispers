@@ -20,9 +20,31 @@ light1.castShadow = true;
 light1.position.set(75, 100, -150);
 level1.add(light1);**/
 
+
+// ========================================================================== /
+// Skybox                                                                     /
+// ========================================================================== /
+
+const loader1 = new THREE.CubeTextureLoader();
+const texture1 = loader1.load([
+  'assets/images/levels/2/skybox/1.png',
+  'assets/images/levels/2/skybox/2.png',
+  'assets/images/levels/2/skybox/3.png',
+  'assets/images/levels/2/skybox/4.png',
+  'assets/images/levels/2/skybox/5.png',
+  'assets/images/levels/2/skybox/6.png',
+]);
+level1.background = texture1;
+
+
+// ========================================================================== /
+
+
+
 // ========================================================================== /
 // Room                                                                       /
 // ========================================================================== /
+var countChild =0;
 
 //Floor 
 const floorTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/concrete_grey.jpg');
@@ -41,7 +63,6 @@ var gltfLoader1 = new THREE.GLTFLoader();
 gltfLoader1.load('assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
   var model1 = gltf.scene;
   model1.traverse((o) => {
-    o.receiveShadow = true;
     if(o.name.includes("Cylinder")){ //Poles
       barTexture12 = barTexture1.clone();
       barTexture12.wrapT = THREE.RepeatWrapping;
@@ -101,13 +122,19 @@ gltfLoader1.load('assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
       }
       o.material.map = floorTexture12;
     }
+
+    if(o instanceof THREE.Mesh){
+      o.receiveShadow = true;
+      models.push(o);
+      countChild+=1;
+    }
   });
   model1.castShadow = true;
   model1.receiveShadow = true;
   model1.position.y = 1;
   model1.scale.set(1000,1000,1000);
   level1.add(model1);
-  //createWall(model1.children[25]);
+  loadLevel();
 });
 
 //player passes checkpoint
@@ -176,4 +203,8 @@ function cam1Limits(){
 
 function getMixer(){
   return mixer1;
+}
+
+function loadLevel(){
+  loadedLevel += 1;
 }
