@@ -13,7 +13,7 @@
 // Instantiate `three.js' scene for level 2
 var level2 = new THREE.Scene();
 
-var mixer2 = new THREE.AnimationMixer();
+// var mixer2 = new THREE.AnimationMixer();
 
 // ========================================================================== /
 // Lighting                                                                   /
@@ -353,6 +353,8 @@ var ball3BB = new THREE.Sphere(agent3.position, 40);
 var ball4BB = new THREE.Sphere(agent4.position, 40);
 
 function animateAgents() {
+
+
   // Agent 1
   if (agent1.position.z == 0) {
     A1prevZ = 0;

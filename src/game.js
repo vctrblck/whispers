@@ -44,12 +44,14 @@ function animateScene() {
         mixer1.update( ( time - prevTime ) * 0.001 );
         prevTime = time;
         checkpoint1();
+        
         if (endLevel1()){
           currentLevel = 2;
+          cam2()
         }
         cam1Limits();
         camera1.position.y = 75;
-        controls1.update(0.000150);
+        //controls1.update(0.000150);
         renderer.render(level1, camera1);
 
 
@@ -61,16 +63,17 @@ function animateScene() {
         document.title = 'Whispers - Level 2';
 
         const time2 = Date.now();
-        mixer2.update((time2 - prevTime2) * 0.001);
+        // mixer2.update((time2 - prevTime2) * 0.001);
         prevTime2 = time2;
         animateAgents();
-        collisionCheck();
+        collisionCheck();       
+
         if (endLevel2()) {
-          currentLevel = 1;
+          currentLevel = 3;
         }
         cam2Limits();
         camera2.position.y = 45;
-        controls2.update(0.00015);
+        //controls2.update(0.00015);
 
         renderer.render(level2, camera2);
       } else if (currentLevel === 3) {

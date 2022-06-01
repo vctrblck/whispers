@@ -12,6 +12,7 @@
 // Code:
 
 // Intializes game
+
 function init() {
   document.getElementById('game').append(renderer.domElement);
 
