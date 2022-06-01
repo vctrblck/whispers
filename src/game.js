@@ -70,7 +70,7 @@ function animateScene() {
           currentLevel = 2;
 
         }
-        cam1Limits();
+        //cam1Limits();
         camera1.position.y = 75;
 
         
@@ -89,18 +89,6 @@ function animateScene() {
             tiempoI = tiempoF
         }
 
-
-        renderer.render(level1, camera1);
-
-
-          let xDis = xdir * vel * delta;
-          let zDis = zdir * vel * delta;
-
-          controls1.moveRight(xDis);
-          controls1.moveForward(zDis);
-          tiempoI = tiempoF
-        }
-        
         //updatePhysics( time );
         if(loadedLevel==1){
           startAmmo();
@@ -108,7 +96,6 @@ function animateScene() {
         }
 
         renderer.render(level1, camera1);
-
       }  else if (currentLevel === 2) {
         // ================================================================== /
         // Level 2                                                            /
