@@ -31,6 +31,7 @@ let wall;
 let loadedLevel = 0;
 let CylinderBool = false;
 
+
 // ========================================================================== /
 // Level Manangement                                                          /
 // ========================================================================== /
@@ -55,23 +56,42 @@ function animateScene() {
 
         level1.add( new THREE.BoxHelper( level1 ) );
 
+        if(startCam1){
+          cam1();
+          startCam1 = false;
+        }
+
         document.title = "Whispers - Level 1";
 
         const time = Date.now();
         prevTime = time;
         checkpoint1();
-
         if (endLevel1()){
           currentLevel = 2;
-        }
-        //cam1Limits();
-        camera1.position.y = 75;
-        tiempoI = Date.now() -25;
-        vel = 50;
-        if(controls1.isLocked === true){
-          tiempoF = Date.now()
 
-          delta = (tiempoF - tiempoI)/1000
+        }
+        cam1Limits();
+        camera1.position.y = 75;
+
+        
+        tiempoI = Date.now() -25
+        vel = 50
+        if(controls1.isLocked === true){
+            tiempoF = Date.now()
+
+            delta = (tiempoF - tiempoI)/1000
+
+            let xDis = xdir * vel * delta;
+            let zDis = zdir * vel * delta;
+
+            controls1.moveRight(xDis);
+            controls1.moveForward(zDis);
+            tiempoI = tiempoF
+        }
+
+
+        renderer.render(level1, camera1);
+
 
           let xDis = xdir * vel * delta;
           let zDis = zdir * vel * delta;
