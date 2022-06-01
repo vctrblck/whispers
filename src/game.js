@@ -56,11 +56,6 @@ function animateScene() {
 
         level1.add( new THREE.BoxHelper( level1 ) );
 
-        if(startCam1){
-          cam1();
-          startCam1 = false;
-        }
-
         document.title = "Whispers - Level 1";
 
         const time = Date.now();
