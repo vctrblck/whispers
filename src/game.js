@@ -48,7 +48,7 @@ function animateScene() {
           currentLevel = 2;
           cam2()
         }
-        //cam1Limits();
+        cam1Limits();
         camera1.position.y = 75;
         //controls1.update(0.000150);
         renderer.render(level1, camera1);
