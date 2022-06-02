@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Interface</title>
+    <title>Whispers</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="index.css" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- `three.js' modules -->
-    <script src="./node_modules/three/build/three.js"></script>
-    <script src="./node_modules/three/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="./node_modules/three/examples/js/loaders/FBXLoader.js"></script>
-    <script src="./node_modules/three/examples/js/loaders/OBJLoader.js"></script>
-    <script src="./node_modules/fflate/umd/index.js"></script>
-    <script src="./node_modules/three/examples/js/controls/OrbitControls.js"></script>
-    <script src="./node_modules/three/examples/js/controls/FlyControls.js"></script>
-    <script src="./node_modules/three/examples/js/controls/PointerLockControls.js"></script>
-    <script src="./node_modules/three/examples/js/controls/FirstPersonControls.js"></script>
+    <script type="text/javascript" src="./lib/three.js"></script>
+    <script type="text/javascript" src="./lib/GLTFLoader.js"></script>
+    <script type="text/javascript" src="./lib/FBXLoader.js"></script>
+    <script type="text/javascript" src="./lib/OBJLoader.js"></script>
+    <script
+      type="text/javascript"
+      src="./node_modules/fflate/umd/index.js"
+    ></script>
+    <script type="text/javascript" src="./lib/OrbitControls.js"></script>
+    <script type="text/javascript" src="./lib/FlyControls.js"></script>
+    <script type="text/javascript" src="./lib/PointerLockControls.js"></script>
+    <script type="text/javascript" src="./lib/FirstPersonControls.js"></script>
   </head>
 
   <body>
@@ -88,6 +91,14 @@
       class="fixed grid bg-black w-screen h-screen place-items-center"
     >
       <h1 class="text-5xl text-red-700">GAME OVER</h1>
+    </div>
+
+    <!-- Win Page -->
+    <div
+      id="win"
+      class="fixed grid bg-black w-screen h-screen place-items-center"
+    >
+      <h1 class="text-5xl text-red-700">I guess it was all a deam...</h1>
     </div>
 
     <!-- Entry module -->

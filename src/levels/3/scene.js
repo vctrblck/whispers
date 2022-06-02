@@ -13,103 +13,115 @@
 // Instantiate `three.js' scene for level 3
 var level3 = new THREE.Scene();
 
-let light3 = new THREE.DirectionalLight(0xffffff, 1.0);
-light3.position.set(20, 100, 10);
-light3.target.position.set(0, 0, 0);
-light3.castShadow = true;
-light3.shadow.bias = -0.001;
-light3.shadow.mapSize.width = 2048;
-light3.shadow.mapSize.height = 2048;
-light3.shadow.camera.near = 0.1;
-light3.shadow.camera.far = 500.0;
-light3.shadow.camera.near = 0.5;
-light3.shadow.camera.far = 500.0;
-light3.shadow.camera.left = 100;
-light3.shadow.camera.right = -100;
-light3.shadow.camera.top = 100;
-light3.shadow.camera.bottom = -100;
-level3.add(light3);
+// Ambient Light
 
-light32 = new THREE.AmbientLight(0x101010);
-level3.add(light32);
+var ambientLightColour = '#0C0C0C';
+var ambientLight = new THREE.AmbientLight(ambientLightColour);
+level3.add(ambientLight);
 
-//creating the skybox
+// Moon Light
 
-const loader3 = new THREE.CubeTextureLoader();
-const texture3 = loader3.load([
-  'assets/images/levels/2/skybox/1.png',
-  'assets/images/levels/2/skybox/2.png',
-  'assets/images/levels/2/skybox/3.png',
-  'assets/images/levels/2/skybox/4.png',
-  'assets/images/levels/2/skybox/5.png',
-  'assets/images/levels/2/skybox/6.png',
+var moonlightColour = '#FFFFFF';
+var moonlight = new THREE.PointLight(moonlightColour);
+moonlight.position.set(20, 60, 20);
+level3.add(moonlight);
+
+// Forest
+
+var loader = new THREE.GLTFLoader();
+var forestSource = './assets/models/levels/3/forest/source/pine.glb';
+loader.load(forestSource, (gltf) => {
+  gltf.scene.remove(gltf.scene.children[2]); // Remove sky dome
+
+  console.log(gltf);
+  var forest1 = gltf.scene.clone();
+  var forest2 = gltf.scene.clone();
+  var forest3 = gltf.scene.clone();
+  var forest4 = gltf.scene.clone();
+
+  forest1.position.set(-27.15, 0, 27.15);
+  forest2.position.set(-27.15, 0, -27.15);
+  forest3.position.set(27.15, 0, -27.15);
+  forest4.position.set(27.15, 0, 27.15);
+
+  forest3.rotation.y = Math.PI;
+  forest4.rotation.y = Math.PI;
+
+  level3.add(forest1);
+  level3.add(forest2);
+  level3.add(forest3);
+  level3.add(forest4);
+});
+
+// Cabin
+
+var cabinSource = './assets/models/levels/3/cabin/scene.gltf';
+loader.load(cabinSource, (gltf) => {
+  console.log(gltf);
+
+  var cabin = gltf.scene;
+  cabin.scale.set(0.015, 0.015, 0.015);
+
+  level3.add(gltf.scene);
+});
+
+// Plane (underneath map)
+
+var planeWidth = 60;
+var planeHeight = 60;
+var planeGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight, 1, 1);
+var planeColour = '#444444';
+var planeMaterial = new THREE.MeshLambertMaterial({ color: planeColour });
+var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.position.y = -5;
+plane.rotation.x = -Math.PI / 2;
+level3.add(plane);
+
+// Fog
+
+var fogColour = '#444444';
+var fogNear = 0.015;
+var fogFar = 100;
+var fog = new THREE.Fog(fogColour, fogNear, fogFar);
+level3.fog = fog;
+
+// Sky Box
+
+loader3 = new THREE.CubeTextureLoader();
+var skyTexture = loader3.load([
+  './assets/images/levels/3/sky/skybox_front.png',
+  './assets/images/levels/3/sky/skybox_back.png',
+  './assets/images/levels/3/sky/skybox_up.png',
+  './assets/images/levels/3/sky/skybox_down.png',
+  './assets/images/levels/3/sky/skybox_right.png',
+  './assets/images/levels/3/sky/skybox_left.png',
 ]);
-level3.background = texture3;
+level3.background = skyTexture;
 
-const gltfLoader4 = new THREE.GLTFLoader();
-gltfLoader4.load('assets/models/levels/3/Valley/scene.gltf', (gltfScene) => {
-  //gltfScene.scene.position.y = 10;
-  gltfScene.scene.scale.set(10, 10, 10);
-  level3.add(gltfScene.scene);
-});
+// Agents
 
-const gltfLoader5 = new THREE.GLTFLoader();
-gltfLoader4.load('assets/models/levels/3/circle_rug/scene.gltf', (gltfScene) => {
-  /*gltfScene.scene.position.y = 30;
-  gltfScene.scene.position.x = 70;
-  gltfScene.scene.position.z = 345;*/
-
-  /*Left hand rule with thumb being the y axis,middle finger point positive x axis, one finger point negative z axis*/
-  gltfScene.scene.position.set(40,20,345);
-
-  gltfScene.scene.scale.set(0.03, 0.03, 0.03);
-  level3.add(gltfScene.scene);
-});
-
-const plane3 = new THREE.Mesh(
-    new THREE.PlaneGeometry(2000, 1800, 10, 10),
-    new THREE.MeshStandardMaterial({ 
-        color : 0x00FF00, side : THREE.DoubleSide
-      }));
-plane3.castShadow = false;
-plane3.receiveShadow = true;
-plane3.rotation.x = -Math.PI / 2;
-plane3.position.y = 50
-//level3.add(plane3);
-
-
-//Add some lights
-
-const light33 = new THREE.PointLight( 0xFFFFFF, 1, 100 ); //white
-light33.castShadow = true;
-light33.position.set( 75, 75, 75 );
-//level3.add( light33 );
-
-const light34 = new THREE.PointLight(0xFF0000, 1); // red
-light34.castShadow = true
-light34.position.set(75,75,75)
-level3.add(light34)
-
-const light35 = new THREE.PointLight(0x00FF00, 1); //the green light
-light35.castShadow = true
-light35.position.set(75,75,75)
-//level3.add(light35)
+agent1.scale.set(0.1, 0.1, 0.1);
+agent1.position.set(10, 0, 10);
+level3.add(agent1);
 
 // player found the key
 
-keyPos = new THREE.Box3(new THREE.Vector3(40,20,345),new THREE.Vector3(40,20,345));
+var keyPos = new THREE.Box3(
+  new THREE.Vector3(40, 20, 345),
+  new THREE.Vector3(40, 20, 345)
+);
 var foundKey = false;
 
-function getKey(){
-  var playerChest1 = new THREE.Vector3;
+function getKey() {
+  var playerChest1 = new THREE.Vector3();
   playerChest1 = camera3.clone();
 
-  if(foundKey == false){
-    if(/*keyPos.intersectsPoint(playerChest1.position) ||*/ keyPos.containsPoint(playerChest1.position) ){
-      console.log("in the keyy zone now find the key")
-      const light35 = new THREE.PointLight(0x00FF00, 1); //the green light
+  if (foundKey == false) {
+    if (keyPos.containsPoint(playerChest1.position)) {
+      console.log('in the keyy zone now find the key');
+      const light35 = new THREE.PointLight(0x00ff00, 1); //the green light
       light35.castShadow = true;
-      light35.position.set(75,75,75);
+      light35.position.set(75, 75, 75);
       level3.add(light35);
       foundKey = true;
     }
