@@ -133,6 +133,7 @@ gltfLoader1.load('assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
   model1.receiveShadow = true;
   model1.position.y = 1;
   model1.scale.set(1000,1000,1000);
+  //model1.visible = false;
   level1.add(model1);
   loadLevel();
 });
