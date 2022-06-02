@@ -35,6 +35,7 @@ let loadedLevel = 0;
 let CylinderBool = false;
 let cbContactResult;
 const STATE = { DISABLE_DEACTIVATION : 4 };
+//level 1 check variables
 
 // ========================================================================== /
 // Level Manangement                                                          /
@@ -57,20 +58,12 @@ function animateScene() {
           cam1();
           startCam1 = false;
         }
-
+        
         level1.add( new THREE.BoxHelper( level1 ) );
 
         document.title = "Whispers - Level 1";
-
-        const time = Date.now();
-        prevTime = time;
-        checkpoint1();
-        if (endLevel1()){
-          currentLevel = 2;
-
-        }
-        //cam1Limits();
-
+        
+        cam1Limits();
         
         tiempoI = Date.now() -25
         vel = 50
@@ -182,14 +175,8 @@ function start (Ammo){
 }
 
 function onKeyDown(e){
-  raycaster.setFromCamera( camera1.position, camera1 );
-  pos.copy( raycaster.ray.direction );
-  pos.add( raycaster.ray.origin );
-  
   //ball = setupCamera(camera1);
   let ballBody = ball.userData.physicsBody;
-  pos.copy( raycaster.ray.direction );
-  pos.multiplyScalar( 70 );
   switch (e.key) {
     case 'a':
         //xdir = -1;
@@ -210,9 +197,17 @@ function onKeyDown(e){
     case 't':
         checkContact();
         break;
-    case 'z':
-        camera1.position.y = 1;
-        break;
+    case 'y':
+      console.log(camera1.position);
+    case 'f':
+      if(interactWall1 && !interactLock11){
+        interactLock11 = true;
+        console.log("You found a spare key!");
+      }else if(interactWall1 && interactLock12){
+        console.log("You escaped the cell using the key!");
+        currentLevel = 2;
+      }else console.log("Did Nothing");
+      break;
   }
 }
 
@@ -242,17 +237,18 @@ function createWall(models){
   for(let i =0; i<models.length;i++){
     let model = models[i];
 
+    if(model.name.includes("Floor") || model.name.includes("Roof")) continue;
+
     let pos = {x: model.position.x, y: model.position.y, z: model.position.z};
     let scale = {x: model.scale.x, y: model.scale.y, z: model.scale.z};
     let rotation1 = {x: model.rotation.x, y: model.rotation.y, z: model.rotation.z};
-    let quat = {x: 0, y: 0, z: 0, w: 1};
     let mass = 0;
 
     //threeJS Section
     wall = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({color: 0x42f5bf, visible: false}));
 
     wall.position.set(pos.x*1000, pos.y*1000, pos.z*1000);
-    wall.scale.set(scale.x*1000, scale.y*1000, 0.1); 
+    wall.scale.set(scale.x*1000, scale.y*1000, 1); 
     wall.rotateX(rotation1.x);
     wall.rotateY(rotation1.y);
     wall.rotateZ(rotation1.z);
@@ -275,6 +271,7 @@ function createWall(models){
     level1.add(wall);
   //Ammojs Section
   pos = wall.position;
+  console.log(model.name, pos);
   scale = wall.scale;
   let transform = new Ammo.btTransform();
   transform.setIdentity();
@@ -349,7 +346,7 @@ function setupPhysicsWorld(){
         solver                  = new Ammo.btSequentialImpulseConstraintSolver();
 
     physicsWorld           = new Ammo.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
-    physicsWorld.setGravity(new Ammo.btVector3(0, 0, 0)); //TODO: GRavity?
+    physicsWorld.setGravity(new Ammo.btVector3(5, 0, 5));
 }
 
 function updatePhysics( deltaTime ){
@@ -366,11 +363,12 @@ function updatePhysics( deltaTime ){
           ms.getWorldTransform( tmpTrans );
           let p = tmpTrans.getOrigin();
           let q = tmpTrans.getRotation();
-          objThree.position.set( camera1.position.x, 0, camera1.position.z );
+          objThree.position.set( camera1.position.x, 50, camera1.position.z );
           //objThree.position.set( p.x(), p.y(), p.z() );
           objThree.quaternion.set( q.x(), q.y(), q.z(), q.w() );
       }
   }
+  //checkContact();
 }
 
 function checkContact(){
@@ -399,7 +397,7 @@ function setupContactResultCallback(){
       let threeObject1 = rb1.threeObject;
 
       let tag, localPos, worldPos;
-
+      if(threeObject0.userData.tag == "undefined") return;
       if( threeObject0.userData.tag != "ball" ){
 
           tag = threeObject0.userData.tag;
@@ -417,17 +415,8 @@ function setupContactResultCallback(){
 
       let localPosDisplay = {x: localPos.x(), y: localPos.y(), z: localPos.z()};
       let worldPosDisplay = {x: worldPos.x(), y: worldPos.y(), z: worldPos.z()};
-      //TODO: Remove shapes
-      const c = Math.floor( Math.random() * ( 1 << 24 ) );
-      const sphere = new THREE.Mesh(new THREE.SphereGeometry( 5, 32, 16 ), new THREE.MeshPhongMaterial( { color: c } ));
-      sphere.position.set(worldPosDisplay.x, worldPosDisplay.y, worldPosDisplay.z);
-      const sphere2 = sphere.clone();
-      sphere2.position.set(localPosDisplay.x, localPosDisplay.y, localPosDisplay.z);
-      const cammy = new THREE.Mesh( new THREE.BoxGeometry( 10, 10, 10 ), new THREE.MeshBasicMaterial( {color: 0x00ff00} ) );
-      cammy.position.set(camera1.position.x, camera1.position.y, camera1.position.z);
-      level1.add(sphere, cammy);
 
-      console.log( { tag, localPosDisplay, worldPosDisplay}, c);
+      console.log( { tag, localPosDisplay, worldPosDisplay});
 
   }
 
@@ -435,9 +424,9 @@ function setupContactResultCallback(){
 
   function setupCamera(cam){
     let radius = 5;
-    let pos = {x:cam.position.x, y:0, z:cam.position.z};
+    let pos = {x:cam.position.x, y:50, z:cam.position.z};
     let quat = {x: 0, y: 0, z: 0, w: 1};
-    let mass = 10;
+    let mass = 30;
 
     let ball = ballObject = new THREE.Mesh(new THREE.SphereBufferGeometry(radius), new THREE.MeshPhongMaterial({color: 0x05ff1e}));
     ball.position.set(pos.x, pos.y, pos.z);
@@ -471,7 +460,7 @@ function setupContactResultCallback(){
 
     physicsWorld.addRigidBody( body );
     rigidBodies.push(ball);
-    level1.add(ball);
+    //level1.add(ball);
     
     return body.threeObject = ball;
   }

@@ -139,7 +139,7 @@ gltfLoader1.load('assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
 });
 
 //player passes checkpoint
-
+/** 
 let cubeCheck = new THREE.Box3(new THREE.Vector3(-60,0,-70), new THREE.Vector3(-50,100,-50));
 var checked = false;
 
@@ -166,44 +166,52 @@ function endLevel1(){
   if(cube1BB.containsPoint(playerChest1.position) && checked == true ){
       return true;
       }
+
 }
+*/
 //============================================================================================
 //walls
+var interactWall1 = false; //if near wall
+var interactLock11 = false; //if interacted with wall and got key
+var interactLock12 = false; //if near lock
+
 function cam1Limits(){
 
   var playerChest1 = new THREE.Vector3;
   playerChest1 = camera1.clone();
-  let wall11 = new THREE.Box3(new THREE.Vector3(-60,0,68), new THREE.Vector3(60,100,70));
-  let wall12 = new THREE.Box3(new THREE.Vector3(50,0,-70), new THREE.Vector3(60,100,70));
-  
-  let wall13 = new THREE.Box3(new THREE.Vector3(-60,0,-70), new THREE.Vector3(60,100,-60));
-  let wall14 = new THREE.Box3(new THREE.Vector3(-60,0,-70), new THREE.Vector3(-50,100,70));
-
-
+  let wall11 = new THREE.Box3(new THREE.Vector3(-140,0,65), new THREE.Vector3(60,100,68)); //right wall
+  let wall12 = new THREE.Box3(new THREE.Vector3(50,0,-68), new THREE.Vector3(55,100,68)); //front wall
+  let wall13 = new THREE.Box3(new THREE.Vector3(-140,0,-69), new THREE.Vector3(60,100,-66)); //left wall
+  let wall14 = new THREE.Box3(new THREE.Vector3(-140,0,-68), new THREE.Vector3(-137,100,68)); //back wall
 
   if (wall11.containsPoint(playerChest1.position)){
-      camera1.position.z =67;
-      //console.log('yo');
+      camera1.position.z = wall11.min.z;
   }
 
   if (wall12.containsPoint(playerChest1.position)){
-      //console.log('yo');
-      camera1.position.x = 50;
+      camera1.position.x = wall12.min.x;
   }
 
   if (wall13.containsPoint(playerChest1.position)){
-      camera1.position.z = -60;
-      //console.log('yo');
+      camera1.position.z = wall13.max.z;
   }
 
   if (wall14.containsPoint(playerChest1.position)){
-      //console.log('yo');
-      camera1.position.x = -50;
+      camera1.position.x = wall14.max.x;
   }
-}
 
-function getMixer(){
-  return mixer1;
+  //-------------------------------- player interaction (f)
+
+  let corner1 = new THREE.Box3(new THREE.Vector3(-140,0,0), new THREE.Vector3(-130,100,15)); //back wall for key
+  let lock1 = new THREE.Box3(new THREE.Vector3(50,0,-68), new THREE.Vector3(55,100,68)); //lock
+
+  if(corner1.containsPoint(playerChest1.position)){
+    interactWall1 = true;
+  }
+
+  if(interactLock11 && lock1.containsPoint(playerChest1.position)){
+    interactLock12 = true;
+  }
 }
 
 function loadLevel(){
