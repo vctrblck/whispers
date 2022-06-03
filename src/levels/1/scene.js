@@ -1,9 +1,44 @@
-//control view
+//control panel
 const controlTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/Controls.png');
 const controlsPanel1 = new THREE.Mesh(new THREE.BoxGeometry(60, 40, 0), new THREE.MeshBasicMaterial({map: controlTexture1}));
 controlsPanel1.position.set(camera1.position.x+50, camera1.position.y, camera1.position.z);
 controlsPanel1.rotateY(Math.PI/2);
+controlsPanel1.receiveShadow = false;
+controlsPanel1.castShadow = false;
 level1.add(controlsPanel1);
+
+//key found popup
+var camView = new THREE.Vector3();
+
+const keyPopupTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/KeyFound.png');
+const keyPopupPanel1 = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.3, 0), new THREE.MeshBasicMaterial({color: 0xffffff, map: keyPopupTexture1}));
+keyPopupPanel1.rotateY(Math.PI/2);
+keyPopupPanel1.receiveShadow = false;
+keyPopupPanel1.castShadow = false;
+const clockKey1 = new THREE.Clock();
+clockKey1.stop();
+
+function foundKey(){
+  camera1.getWorldDirection( camView );
+  keyPopupPanel1.position.set(camera1.position.x+1.5*camView.x, camera1.position.y+camView.y, camera1.position.z+1.5*camView.z);
+
+  if(Math.abs(camView.x)>Math.abs(camView.z)){
+    if(camView.x>0){
+      keyPopupPanel1.rotateX(-camView.y);
+    }else{
+      keyPopupPanel1.rotateX(camView.y);
+    }
+  }else{
+    if(camView.z>0){
+      keyPopupPanel1.rotateY(1.5*-camView.z);
+    }else{
+      keyPopupPanel1.rotateY(1.7*camView.z);
+    }
+  }
+
+  level1.add(keyPopupPanel1);
+  clockKey1.start();
+}
 
 // ========================================================================== /
 // Lighting                                                                   /
@@ -160,7 +195,7 @@ lockCover1.rotateY(Math.PI/2);
 
 level1.add(lockCover1);
 
-//crack in wall for key new THREE.Vector3(-140,0,0), new THREE.Vector3(-130,100,15))
+//crack in wall for key
 const crackTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/wallcrack.png');
 crackTexture1.wrapS = THREE.RepeatWrapping;
 crackTexture1.repeat.x =-1;
@@ -204,8 +239,8 @@ function cam1Limits(){
 
   //-------------------------------- player interaction (f)
 
-  let corner1 = new THREE.Box3(new THREE.Vector3(-140,0,0), new THREE.Vector3(-130,100,15)); //back wall for key //TODO: fix to back corner
-  let lock1 = new THREE.Box3(new THREE.Vector3(50,0,-68), new THREE.Vector3(55,100,68)); //lock
+  let corner1 = new THREE.Box3(new THREE.Vector3(-140,0,-68), new THREE.Vector3(-120,100,-25)); //back wall for key
+  let lock1 = new THREE.Box3(new THREE.Vector3(30,0,40), new THREE.Vector3(50,100,68)); //lock
 
   if(corner1.containsPoint(playerChest1.position)){
     interactWall1 = true;

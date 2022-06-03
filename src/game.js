@@ -88,6 +88,14 @@ function animateScene() {
           loadedLevel+=1;
         }
 
+        //keyPopup
+        if(clockKey1.getElapsedTime() > 2){
+          clockKey1.stop();
+          if(level1 == keyPopupPanel1.parent){
+            level1.remove(keyPopupPanel1);
+          }
+        }
+
         renderer.render(level1, camera1);
       }  else if (currentLevel === 2) {
         // ================================================================== /
@@ -174,10 +182,13 @@ function start (Ammo){
 }
 
 function onKeyDown(e){
-  if(controlsPanel1.visible){
-    controlsPanel1.visible = false;
+  if(level1 == controlsPanel1.parent){
+    level1.remove(controlsPanel1);
   }
-  //ball = setupCamera(camera1);
+  if(level1 == keyPopupPanel1.parent){
+    level1.remove(keyPopupPanel1);
+  }
+
   let ballBody = ball.userData.physicsBody;
   switch (e.key) {
     case 'a':
@@ -205,6 +216,7 @@ function onKeyDown(e){
       if(interactWall1 && !interactLock11){
         interactLock11 = true;
         console.log("You found a spare key!");
+        foundKey();
       }else if(interactWall1 && interactLock12){
         console.log("You escaped the cell using the key!");
         currentLevel = 2;
