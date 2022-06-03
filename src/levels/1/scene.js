@@ -1,3 +1,10 @@
+//control view
+const controlTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/Controls.png');
+const controlsPanel1 = new THREE.Mesh(new THREE.BoxGeometry(60, 40, 0), new THREE.MeshBasicMaterial({map: controlTexture1}));
+controlsPanel1.position.set(camera1.position.x+50, camera1.position.y, camera1.position.z);
+controlsPanel1.rotateY(Math.PI/2);
+level1.add(controlsPanel1);
+
 // ========================================================================== /
 // Lighting                                                                   /
 // ========================================================================== /
@@ -18,7 +25,7 @@ level1.add(light1);
 light1 = new THREE.PointLight(0xFFFFFF, 0.8, 125);
 light1.castShadow = true;
 light1.position.set(75, 100, -150);
-level1.add(light1);**/
+level1.add(light1);*/
 
 
 // ========================================================================== /
@@ -64,13 +71,13 @@ gltfLoader1.load('assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
   var model1 = gltf.scene;
   model1.traverse((o) => {
     if(o.name.includes("Cylinder")){ //Poles
-      barTexture12 = barTexture1.clone();
+      let barTexture12 = barTexture1.clone();
       barTexture12.wrapT = THREE.RepeatWrapping;
       barTexture12.repeat.set(1, 10);
       o.material.map = barTexture12;
     }
     else if(o.name.includes("Bar")){ //Beams
-      barTexture12 = barTexture1.clone();
+      let barTexture12 = barTexture1.clone();
       barTexture12.wrapT = THREE.RepeatWrapping;
       barTexture12.wrapS = THREE.RepeatWrapping;
       barTexture12.repeat.set(1, 10);
@@ -89,6 +96,7 @@ gltfLoader1.load('assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
           cellTexture12.wrapT = THREE.MirroredRepeatWrapping;
           cellTexture12.repeat.set(1.02, 1.05);
           cellTexture12.offset.set(0.32, -0.025); // offset y by a pixel to align with side wall
+          
         }else{
           cellTexture12.repeat.set(1.65, 1);
           if(o.name.includes("Left")){
@@ -138,37 +146,31 @@ gltfLoader1.load('assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
   loadLevel();
 });
 
-//player passes checkpoint
-/** 
-let cubeCheck = new THREE.Box3(new THREE.Vector3(-60,0,-70), new THREE.Vector3(-50,100,-50));
-var checked = false;
+//lock
+const lockTexture11 = new THREE.TextureLoader().load('assets/images/levels/1/lock.jpg');
+lockTexture11.wrapS = THREE.RepeatWrapping;
+lockTexture11.repeat.x =-1.2;
+const lockMaterial1 = new THREE.MeshPhongMaterial({color: 0x6b6b6b,
+                                                   map: lockTexture11
+                                                  });
 
-function checkpoint1(){
-  var playerChest1 = new THREE.Vector3;
-  playerChest1 = camera1.clone();
+const lockCover1 = new THREE.Mesh(new THREE.BoxGeometry(12, 8, 0), lockMaterial1);
+lockCover1.position.set(52.99, 51, 65.5);
+lockCover1.rotateY(Math.PI/2);
 
-  if(checked == false){
-      if(cubeCheck.containsPoint(playerChest1.position)){
-          light1 = new THREE.PointLight(0x00FF00, 0.8, 125);
-          light1.castShadow = true;
-          light1.position.set(0, 100, 0);
-          level1.add(light1);
-          checked = true;
-      }
-  }   
-}
+level1.add(lockCover1);
 
-//end of level
-let cube1BB = new THREE.Box3(new THREE.Vector3(50,0,-70), new THREE.Vector3(60,100,70));
-function endLevel1(){
-  var playerChest1 = new THREE.Vector3;
-  playerChest1 = camera1.clone();
-  if(cube1BB.containsPoint(playerChest1.position) && checked == true ){
-      return true;
-      }
+//crack in wall for key new THREE.Vector3(-140,0,0), new THREE.Vector3(-130,100,15))
+const crackTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/wallcrack.png');
+crackTexture1.wrapS = THREE.RepeatWrapping;
+crackTexture1.repeat.x =-1;
+const crackMaterial1 = new THREE.MeshPhongMaterial({map: crackTexture1});
+const crackCover1 = new THREE.Mesh(new THREE.BoxGeometry(44.8, 32.6, 0), crackMaterial1);
+crackCover1.position.set(-139.99, 51.1, -46.1);
+crackCover1.rotateY(Math.PI/2);
+crackCover1.castShadow = false;
+level1.add(crackCover1);
 
-}
-*/
 //============================================================================================
 //walls
 var interactWall1 = false; //if near wall
@@ -202,7 +204,7 @@ function cam1Limits(){
 
   //-------------------------------- player interaction (f)
 
-  let corner1 = new THREE.Box3(new THREE.Vector3(-140,0,0), new THREE.Vector3(-130,100,15)); //back wall for key
+  let corner1 = new THREE.Box3(new THREE.Vector3(-140,0,0), new THREE.Vector3(-130,100,15)); //back wall for key //TODO: fix to back corner
   let lock1 = new THREE.Box3(new THREE.Vector3(50,0,-68), new THREE.Vector3(55,100,68)); //lock
 
   if(corner1.containsPoint(playerChest1.position)){

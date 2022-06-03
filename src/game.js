@@ -59,7 +59,7 @@ function animateScene() {
           startCam1 = false;
         }
         
-        level1.add( new THREE.BoxHelper( level1 ) );
+        //level1.add( new THREE.BoxHelper( level1 ) );
 
         document.title = "Whispers - Level 1";
         
@@ -170,11 +170,13 @@ function start (Ammo){
     ball = setupCamera(camera1);
     setupContactResultCallback();
     document.addEventListener('keydown', (e) => onKeyDown(e), false);
-    document.addEventListener('keyup', (e) => onKeyUp(e), false);
     animateScene();
 }
 
 function onKeyDown(e){
+  if(controlsPanel1.visible){
+    controlsPanel1.visible = false;
+  }
   //ball = setupCamera(camera1);
   let ballBody = ball.userData.physicsBody;
   switch (e.key) {
@@ -208,28 +210,6 @@ function onKeyDown(e){
         currentLevel = 2;
       }else console.log("Did Nothing");
       break;
-  }
-}
-
-function onKeyUp(e){
-  let ballBody = ball.userData.physicsBody;
-  switch (e.key) {
-    case 'a':
-        //xdir = 0
-        //ballBody.setLinearVelocity( new Ammo.btVector3( 0, 0, 0 ) );
-        break;
-    case 'w':
-        //zdir = 0
-        //ballBody.setLinearVelocity( new Ammo.btVector3( 0, 0, 0 ) );
-        break;
-    case 'd':
-        //xdir = 0
-        //ballBody.setLinearVelocity( new Ammo.btVector3( 0, 0, 0 ) );
-        break;
-    case 's':
-        //zdir = 0
-        //ballBody.setLinearVelocity( new Ammo.btVector3( 0, 0, 0 ) );
-        break;
   }
 }
 
@@ -271,7 +251,6 @@ function createWall(models){
     level1.add(wall);
   //Ammojs Section
   pos = wall.position;
-  console.log(model.name, pos);
   scale = wall.scale;
   let transform = new Ammo.btTransform();
   transform.setIdentity();
@@ -314,8 +293,8 @@ function createWall(models){
     wall.userData.tag = "cyl";
     if(CylinderBool){
       const helper = new THREE.VertexNormalsHelper( wall, 5, 0x00ff00, 3 );
-      level1.add(helper);
-      level1.add( new THREE.BoxHelper( wall ) );
+      //level1.add(helper);
+      //level1.add( new THREE.BoxHelper( wall ) );
       continue;
     }else{
       CylinderBool = true;
@@ -330,11 +309,11 @@ function createWall(models){
     gridHelper.scale.x = 0.03;
     wall.userData.tag = "bar";
   }
-  level1.add( gridHelper ); //console.log(model.name, model.scale, gridHelper.scale);
+  //level1.add( gridHelper );
   gridHelper.userData.tag = "grid";
   const helper = new THREE.VertexNormalsHelper( wall, 5, 0x00ff00, 3 );
-  level1.add(helper);
-  level1.add( new THREE.BoxHelper( wall ) );
+  //level1.add(helper);
+  //level1.add( new THREE.BoxHelper( wall ) );
   }
   
 }
@@ -352,7 +331,7 @@ function setupPhysicsWorld(){
 function updatePhysics( deltaTime ){
 
   // Step world
-  physicsWorld.stepSimulation( deltaTime, 10 );
+  physicsWorld.stepSimulation( deltaTime, 1 );
   
   // Update rigid bodies
   for ( let i = 0; i < rigidBodies.length; i++ ) {
@@ -363,7 +342,7 @@ function updatePhysics( deltaTime ){
           ms.getWorldTransform( tmpTrans );
           let p = tmpTrans.getOrigin();
           let q = tmpTrans.getRotation();
-          objThree.position.set( camera1.position.x, 50, camera1.position.z );
+          objThree.position.set( camera1.position.x, camera1.position.y, camera1.position.z );
           //objThree.position.set( p.x(), p.y(), p.z() );
           objThree.quaternion.set( q.x(), q.y(), q.z(), q.w() );
       }
