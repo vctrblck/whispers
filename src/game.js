@@ -63,7 +63,7 @@ function animateScene() {
 
         document.title = "Whispers - Level 1";
         
-        cam1Limits();
+        //cam1Limits();
         
         tiempoI = Date.now() -25
         vel = 50

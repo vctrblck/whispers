@@ -44,23 +44,31 @@ function foundKey(){
 // Lighting                                                                   /
 // ========================================================================== /
 
-light1 = new THREE.AmbientLight(0xffffff, 1); //
+light1 = new THREE.AmbientLight(0xFFFFFF, 0.15);
 level1.add(light1);
 
-/**light1 = new THREE.PointLight(0xFFFFFF, 0.8, 125);
-light1.castShadow = true;
-light1.position.set(0, 100, 0);
-level1.add(light1);
+let pointLight11 = new THREE.PointLight(0xFFFFFF, 1, 150, 2);
+pointLight11.castShadow = true;
+pointLight11.position.set(-45, 99, 0);
+level1.add(pointLight11);
+const pointLightHelper11 = new THREE.PointLightHelper( pointLight11, 2 );
+level1.add( pointLightHelper11 );
 
-light1 = new THREE.PointLight(0xFFFFFF, 0.8, 125);
-light1.castShadow = true;
-light1.position.set(75, 100, 150);
-level1.add(light1);
 
-light1 = new THREE.PointLight(0xFFFFFF, 0.8, 125);
-light1.castShadow = true;
-light1.position.set(75, 100, -150);
-level1.add(light1);*/
+let pointLight12 = new THREE.PointLight(0xFFFFFF, 0, 125);
+pointLight12.castShadow = true;
+pointLight12.position.set(75, 100, 150);
+level1.add(pointLight12);
+const pointLightHelper12 = new THREE.PointLightHelper( pointLight12, 2 );
+level1.add( pointLightHelper12 );
+
+let pointLight13 = new THREE.PointLight(0xFFFFFF, 0, 125);
+pointLight13.castShadow = true;
+pointLight13.position.set(75, 100, -150);
+level1.add(pointLight13);
+const pointLightHelper13 = new THREE.PointLightHelper( pointLight13, 2 );
+level1.add( pointLightHelper13 );
+
 
 
 // ========================================================================== /
@@ -197,13 +205,12 @@ level1.add(lockCover1);
 
 //crack in wall for key
 const crackTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/wallcrack.png');
-crackTexture1.wrapS = THREE.RepeatWrapping;
-crackTexture1.repeat.x =-1;
-const crackMaterial1 = new THREE.MeshPhongMaterial({map: crackTexture1});
+const crackMaterial1 = new THREE.MeshStandardMaterial({map: crackTexture1, side: THREE.BackSide});
 const crackCover1 = new THREE.Mesh(new THREE.BoxGeometry(44.8, 32.6, 0), crackMaterial1);
 crackCover1.position.set(-139.99, 51.1, -46.1);
 crackCover1.rotateY(Math.PI/2);
-crackCover1.castShadow = false;
+crackCover1.castShadow = true;
+crackCover1.receiveShadow = false;
 level1.add(crackCover1);
 
 //============================================================================================
