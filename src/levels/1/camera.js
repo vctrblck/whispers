@@ -12,7 +12,7 @@ var camera1 = new THREE.PerspectiveCamera(
 camera1.position.x = -100;
 camera1.position.y = 75;
 camera1.position.z = 0;
-camera1.rotation.y = 30;
+camera1.rotateY(-Math.PI/2);
 
 xdir = 0;
 zdir = 0;
