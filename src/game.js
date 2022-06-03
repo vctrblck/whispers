@@ -88,6 +88,14 @@ function animateScene() {
           loadedLevel+=1;
         }
 
+        //keyPopup
+        if(clockKey1.getElapsedTime() > 2){
+          clockKey1.stop();
+          if(level1 == keyPopupPanel1.parent){
+            level1.remove(keyPopupPanel1);
+          }
+        }
+
         renderer.render(level1, camera1);
       }  else if (currentLevel === 2) {
         // ================================================================== /
@@ -174,10 +182,13 @@ function start (Ammo){
 }
 
 function onKeyDown(e){
-  if(controlsPanel1.visible){
-    controlsPanel1.visible = false;
+  if(level1 == controlsPanel1.parent){
+    level1.remove(controlsPanel1);
   }
-  //ball = setupCamera(camera1);
+  if(level1 == keyPopupPanel1.parent){
+    level1.remove(keyPopupPanel1);
+  }
+
   let ballBody = ball.userData.physicsBody;
   switch (e.key) {
     case 'a':
@@ -201,14 +212,16 @@ function onKeyDown(e){
         break;
     case 'y':
       console.log(camera1.position);
+      break;
     case 'f':
       if(interactWall1 && !interactLock11){
         interactLock11 = true;
         console.log("You found a spare key!");
+        foundKey();
       }else if(interactWall1 && interactLock12){
         console.log("You escaped the cell using the key!");
         currentLevel = 2;
-      }else console.log("Did Nothing");
+      }else console.log("Did Nothing"); 
       break;
   }
 }
@@ -403,7 +416,7 @@ function setupContactResultCallback(){
 
   function setupCamera(cam){
     let radius = 5;
-    let pos = {x:cam.position.x, y:50, z:cam.position.z};
+    let pos = {x:cam.position.x, y:cam.position.y, z:cam.position.z};
     let quat = {x: 0, y: 0, z: 0, w: 1};
     let mass = 30;
 

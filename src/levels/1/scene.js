@@ -1,31 +1,90 @@
-//control view
+//control panel
 const controlTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/Controls.png');
 const controlsPanel1 = new THREE.Mesh(new THREE.BoxGeometry(60, 40, 0), new THREE.MeshBasicMaterial({map: controlTexture1}));
 controlsPanel1.position.set(camera1.position.x+50, camera1.position.y, camera1.position.z);
 controlsPanel1.rotateY(Math.PI/2);
+controlsPanel1.receiveShadow = false;
+controlsPanel1.castShadow = false;
 level1.add(controlsPanel1);
+
+//key found popup
+var camView = new THREE.Vector3();
+
+const keyPopupTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/KeyFound.png');
+const keyPopupPanel1 = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.3, 0), new THREE.MeshBasicMaterial({color: 0xffffff, map: keyPopupTexture1}));
+keyPopupPanel1.rotateY(Math.PI/2);
+keyPopupPanel1.receiveShadow = false;
+keyPopupPanel1.castShadow = false;
+const clockKey1 = new THREE.Clock();
+clockKey1.stop();
+
+function foundKey(){
+  camera1.getWorldDirection( camView );
+  keyPopupPanel1.position.set(camera1.position.x+1.5*camView.x, camera1.position.y+camView.y, camera1.position.z+1.5*camView.z);
+
+  if(Math.abs(camView.x)>Math.abs(camView.z)){
+    if(camView.x>0){
+      keyPopupPanel1.rotateX(-camView.y);
+    }else{
+      keyPopupPanel1.rotateX(camView.y);
+    }
+  }else{
+    if(camView.z>0){
+      keyPopupPanel1.rotateY(1.5*-camView.z);
+    }else{
+      keyPopupPanel1.rotateY(1.7*camView.z);
+    }
+  }
+
+  level1.add(keyPopupPanel1);
+  clockKey1.start();
+}
 
 // ========================================================================== /
 // Lighting                                                                   /
 // ========================================================================== /
 
-light1 = new THREE.AmbientLight(0xffffff, 1); //
+light1 = new THREE.AmbientLight(0xFFFFFF, 0.15);
 level1.add(light1);
 
-/**light1 = new THREE.PointLight(0xFFFFFF, 0.8, 125);
-light1.castShadow = true;
-light1.position.set(0, 100, 0);
-level1.add(light1);
+const LightTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/light_metal.jpeg');
+LightTexture1.wrapS = THREE.RepeatWrapping;
+LightTexture1.wrapT = THREE.RepeatWrapping;
+LightTexture1.repeat.set(3, 3);
 
-light1 = new THREE.PointLight(0xFFFFFF, 0.8, 125);
-light1.castShadow = true;
-light1.position.set(75, 100, 150);
-level1.add(light1);
+const fbxLoader1 = new THREE.FBXLoader();
+const lampPos = [{x:100, y:99, z:130}, {x:100, y:99, z:-130}, {x:100, y:99, z:0}];
+fbxLoader1.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
+  lamp.scale.set(0.07, 0.04, 0.04);
+  lamp.children[0].material.map = LightTexture1;
+  lamp.rotateY(Math.PI/2);
+  lamp.castShadow = true;
+  for (var i = 0; i < 3; i++) {
+    let lampClone1 = lamp.clone();
+    lampClone1.position.set(lampPos[i].x, lampPos[i].y, lampPos[i].z);
+    level1.add(lampClone1);
+  }
+});
 
-light1 = new THREE.PointLight(0xFFFFFF, 0.8, 125);
-light1.castShadow = true;
-light1.position.set(75, 100, -150);
-level1.add(light1);*/
+let pointLight11 = new THREE.PointLight(0xFFFFFF, 0.7, 160, 2);
+pointLight11.castShadow = true;
+pointLight11.position.set(-45, 99, 0);
+level1.add(pointLight11);
+
+const RectAreaLight11 = new THREE.RectAreaLight( 0xFFFFFF, 5, 10, 40 );
+RectAreaLight11.position.set(100, 90, 130);
+RectAreaLight11.rotateX(-Math.PI/2);
+level1.add(RectAreaLight11);
+
+const RectAreaLight12 = new THREE.RectAreaLight( 0xFFFFFF, 5, 10, 40 );
+RectAreaLight12.position.set(100, 90, -130);
+RectAreaLight12.rotateX(-Math.PI/2);
+level1.add(RectAreaLight12);
+
+const RectAreaLight13 = new THREE.RectAreaLight( 0xFFFFFF, 5, 10, 40 );
+RectAreaLight13.position.set(100, 90, 0);
+RectAreaLight13.rotateX(-Math.PI/2);
+level1.add(RectAreaLight13);
 
 
 // ========================================================================== /
@@ -42,10 +101,6 @@ const texture1 = loader1.load([
   'assets/images/levels/2/skybox/6.png',
 ]);
 level1.background = texture1;
-
-
-// ========================================================================== /
-
 
 
 // ========================================================================== /
@@ -157,18 +212,28 @@ const lockMaterial1 = new THREE.MeshPhongMaterial({color: 0x6b6b6b,
 const lockCover1 = new THREE.Mesh(new THREE.BoxGeometry(12, 8, 0), lockMaterial1);
 lockCover1.position.set(52.99, 51, 65.5);
 lockCover1.rotateY(Math.PI/2);
-
 level1.add(lockCover1);
 
-//crack in wall for key new THREE.Vector3(-140,0,0), new THREE.Vector3(-130,100,15))
+const spotLight1 = new THREE.SpotLight( 0xffffff, 0.3, 30, Math.PI/4);
+spotLight1.position.set(40, 50, 57);
+const targetObject1 = new THREE.Object3D();
+targetObject1.position.set(50, 50, 60);
+level1.add(targetObject1);
+spotLight1.target = targetObject1;
+spotLight1.castShadow = false;
+spotLight1.decay = 1.5;
+spotLight1.penumbra = 1;
+level1.add( spotLight1 );
+
+
+//crack in wall for key
 const crackTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/wallcrack.png');
-crackTexture1.wrapS = THREE.RepeatWrapping;
-crackTexture1.repeat.x =-1;
-const crackMaterial1 = new THREE.MeshPhongMaterial({map: crackTexture1});
+const crackMaterial1 = new THREE.MeshStandardMaterial({map: crackTexture1, side: THREE.BackSide});
 const crackCover1 = new THREE.Mesh(new THREE.BoxGeometry(44.8, 32.6, 0), crackMaterial1);
 crackCover1.position.set(-139.99, 51.1, -46.1);
 crackCover1.rotateY(Math.PI/2);
-crackCover1.castShadow = false;
+crackCover1.castShadow = true;
+crackCover1.receiveShadow = false;
 level1.add(crackCover1);
 
 //============================================================================================
@@ -204,8 +269,8 @@ function cam1Limits(){
 
   //-------------------------------- player interaction (f)
 
-  let corner1 = new THREE.Box3(new THREE.Vector3(-140,0,0), new THREE.Vector3(-130,100,15)); //back wall for key //TODO: fix to back corner
-  let lock1 = new THREE.Box3(new THREE.Vector3(50,0,-68), new THREE.Vector3(55,100,68)); //lock
+  let corner1 = new THREE.Box3(new THREE.Vector3(-140,0,-68), new THREE.Vector3(-120,100,-25)); //back wall for key
+  let lock1 = new THREE.Box3(new THREE.Vector3(30,0,40), new THREE.Vector3(50,100,68)); //lock
 
   if(corner1.containsPoint(playerChest1.position)){
     interactWall1 = true;
