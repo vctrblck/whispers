@@ -88,7 +88,7 @@ function animateScene() {
         const time3 = Date.now();
         prevTime3 = time3;
         getKey();
-
+        animateAgents3();
         tiempoI = Date.now() - 25;
         vel = 50;
 

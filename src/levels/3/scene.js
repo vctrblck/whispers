@@ -28,13 +28,13 @@ level3.add(moonlight);
 
 // Forest
 
-var loader = new THREE.GLTFLoader();
+var Forestloader = new THREE.GLTFLoader();
 var forestSource = './assets/models/levels/3/forest/source/pine.glb';
-loader.load(forestSource, (gltf) => {
-  gltf.scene.remove(gltf.scene.children[2]); // Remove sky dome
+Forestloader.load(forestSource, (gltf) => {
+  //  gltf.scene.remove(gltf.scene.children[2]); // Remove sky dome
 
-  console.log(gltf);
-  var forest1 = gltf.scene.clone();
+  
+  var forest1 = gltf.scene;
   var forest2 = gltf.scene.clone();
   var forest3 = gltf.scene.clone();
   var forest4 = gltf.scene.clone();
@@ -51,12 +51,14 @@ loader.load(forestSource, (gltf) => {
   level3.add(forest2);
   level3.add(forest3);
   level3.add(forest4);
+}, function(xhr){
+  console.log((xhr.loaded/xhr.total*100) + '%')
 });
 
 // Cabin
-
+var cabinloader = new THREE.GLTFLoader();
 var cabinSource = './assets/models/levels/3/cabin/scene.gltf';
-loader.load(cabinSource, (gltf) => {
+cabinloader.load(cabinSource, (gltf) => {
   console.log(gltf);
 
   var cabin = gltf.scene;
@@ -103,6 +105,113 @@ level3.background = skyTexture;
 agent1.scale.set(0.1, 0.1, 0.1);
 agent1.position.set(10, 0, 10);
 level3.add(agent1);
+
+agent2.scale.set(0.1, 0.1, 0.1);
+agent2.position.set(-14, 0, 10);
+level3.add(agent2);
+
+agent3.scale.set(0.1, 0.1, 0.1);
+agent3.position.set(10, 0, -10);
+level3.add(agent3);
+
+agent4.scale.set(0.1, 0.1, 0.1);
+agent4.position.set(-10, 0, -10);
+level3.add(agent4);
+
+// Animate agentsS
+// Animated agents radius
+var A1prevX = 0;
+var A2prevZ = 0;
+var A3prevZ = 0;
+var A4prevX = 0;
+//boundaries of the balls
+var ball1BB = new THREE.Sphere(agent1.position, 4);
+var ball2BB = new THREE.Sphere(agent2.position, 4);
+var ball3BB = new THREE.Sphere(agent3.position, 4);
+var ball4BB = new THREE.Sphere(agent4.position, 4);
+
+var agentSpeed = 0.1;
+
+function animateAgents3() {
+  // Agent 1
+  if (agent1.position.x >= 10) {
+    A1prevX = 10;
+    agent1.position.x -= agentSpeed;
+  }
+  if (agent1.position.x <= -10) {
+    A1prevX = -10;
+    agent1.position.x += agentSpeed;
+  }
+  if (A1prevX > agent1.position.x) {
+    A1prevX -= agentSpeed;
+    agent1.position.x -= agentSpeed;
+  }
+  if (A1prevX < agent1.position.x) {
+    A1prevX += agentSpeed;
+    agent1.position.x += agentSpeed;
+  }
+  ball1BB = new THREE.Sphere(agent1.position, 4);
+
+  // Agent 2
+  if (agent2.position.z >= 10) {
+    A2prevZ = 10;
+    agent2.position.z -= 1;
+  }
+  if (agent2.position.z <= -10) {
+    A2prevZ = -10;
+    agent2.position.z += agentSpeed;
+  }
+  if (A2prevZ > agent2.position.z) {
+    A2prevZ -= agentSpeed;
+    agent2.position.z -= agentSpeed;
+  }
+  if (A2prevZ < agent2.position.z) {
+    A2prevZ += agentSpeed;
+    agent2.position.z += agentSpeed;
+  }
+  ball2BB = new THREE.Sphere(agent2.position, 4);
+
+  // Agent 3
+  if (agent3.position.z >= 10) {
+    A3prevZ = 10;
+    agent3.position.z -= 1;
+  }
+  if (agent3.position.z <= -10) {
+    A3prevZ = -10;
+    agent3.position.z += agentSpeed;
+  }
+  if (A3prevZ > agent3.position.z) {
+    A3prevZ -= agentSpeed;
+    agent3.position.z -= agentSpeed;
+  }
+  if (A3prevZ < agent3.position.z) {
+    A3prevZ += agentSpeed;
+    agent3.position.z += agentSpeed;
+  }
+  ball3BB = new THREE.Sphere(agent3.position, 4);
+
+  // Agent 4
+
+  if (agent4.position.x >= 10) {
+    A4prevX = 10;
+    agent4.position.x -= agentSpeed;
+  }
+  if (agent4.position.x <= -10) {
+    A4prevX = -10;
+    agent4.position.x += agentSpeed;
+  }
+  if (A4prevX > agent4.position.x) {
+    A4prevX -= agentSpeed;
+    agent4.position.x -= agentSpeed;
+  }
+  if (A4prevX < agent4.position.x) {
+    A4prevX += agentSpeed;
+    agent4.position.x += agentSpeed;
+  }
+  ball4BB = new THREE.Sphere(agent4.position, 4);
+}
+
+
 
 // player found the key
 
