@@ -63,7 +63,7 @@ function animateScene() {
 
         document.title = "Whispers - Level 1";
         
-        //cam1Limits();
+        cam1Limits();
         
         tiempoI = Date.now() -25
         vel = 50
@@ -212,6 +212,7 @@ function onKeyDown(e){
         break;
     case 'y':
       console.log(camera1.position);
+      break;
     case 'f':
       if(interactWall1 && !interactLock11){
         interactLock11 = true;
@@ -220,7 +221,7 @@ function onKeyDown(e){
       }else if(interactWall1 && interactLock12){
         console.log("You escaped the cell using the key!");
         currentLevel = 2;
-      }else console.log("Did Nothing");
+      }else console.log("Did Nothing"); 
       break;
   }
 }
@@ -415,7 +416,7 @@ function setupContactResultCallback(){
 
   function setupCamera(cam){
     let radius = 5;
-    let pos = {x:cam.position.x, y:50, z:cam.position.z};
+    let pos = {x:cam.position.x, y:cam.position.y, z:cam.position.z};
     let quat = {x: 0, y: 0, z: 0, w: 1};
     let mass = 30;
 

@@ -47,28 +47,44 @@ function foundKey(){
 light1 = new THREE.AmbientLight(0xFFFFFF, 0.15);
 level1.add(light1);
 
-let pointLight11 = new THREE.PointLight(0xFFFFFF, 1, 150, 2);
+const LightTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/light_metal.jpeg');
+LightTexture1.wrapS = THREE.RepeatWrapping;
+LightTexture1.wrapT = THREE.RepeatWrapping;
+LightTexture1.repeat.set(3, 3);
+
+const fbxLoader1 = new THREE.FBXLoader();
+const lampPos = [{x:100, y:99, z:130}, {x:100, y:99, z:-130}, {x:100, y:99, z:0}];
+fbxLoader1.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
+  lamp.scale.set(0.07, 0.04, 0.04);
+  lamp.children[0].material.map = LightTexture1;
+  lamp.rotateY(Math.PI/2);
+  lamp.castShadow = true;
+  for (var i = 0; i < 3; i++) {
+    let lampClone1 = lamp.clone();
+    lampClone1.position.set(lampPos[i].x, lampPos[i].y, lampPos[i].z);
+    level1.add(lampClone1);
+  }
+});
+
+let pointLight11 = new THREE.PointLight(0xFFFFFF, 0.7, 160, 2);
 pointLight11.castShadow = true;
 pointLight11.position.set(-45, 99, 0);
 level1.add(pointLight11);
-const pointLightHelper11 = new THREE.PointLightHelper( pointLight11, 2 );
-level1.add( pointLightHelper11 );
 
+const RectAreaLight11 = new THREE.RectAreaLight( 0xFFFFFF, 5, 10, 40 );
+RectAreaLight11.position.set(100, 90, 130);
+RectAreaLight11.rotateX(-Math.PI/2);
+level1.add(RectAreaLight11);
 
-let pointLight12 = new THREE.PointLight(0xFFFFFF, 0, 125);
-pointLight12.castShadow = true;
-pointLight12.position.set(75, 100, 150);
-level1.add(pointLight12);
-const pointLightHelper12 = new THREE.PointLightHelper( pointLight12, 2 );
-level1.add( pointLightHelper12 );
+const RectAreaLight12 = new THREE.RectAreaLight( 0xFFFFFF, 5, 10, 40 );
+RectAreaLight12.position.set(100, 90, -130);
+RectAreaLight12.rotateX(-Math.PI/2);
+level1.add(RectAreaLight12);
 
-let pointLight13 = new THREE.PointLight(0xFFFFFF, 0, 125);
-pointLight13.castShadow = true;
-pointLight13.position.set(75, 100, -150);
-level1.add(pointLight13);
-const pointLightHelper13 = new THREE.PointLightHelper( pointLight13, 2 );
-level1.add( pointLightHelper13 );
-
+const RectAreaLight13 = new THREE.RectAreaLight( 0xFFFFFF, 5, 10, 40 );
+RectAreaLight13.position.set(100, 90, 0);
+RectAreaLight13.rotateX(-Math.PI/2);
+level1.add(RectAreaLight13);
 
 
 // ========================================================================== /
@@ -85,10 +101,6 @@ const texture1 = loader1.load([
   'assets/images/levels/2/skybox/6.png',
 ]);
 level1.background = texture1;
-
-
-// ========================================================================== /
-
 
 
 // ========================================================================== /
@@ -200,8 +212,19 @@ const lockMaterial1 = new THREE.MeshPhongMaterial({color: 0x6b6b6b,
 const lockCover1 = new THREE.Mesh(new THREE.BoxGeometry(12, 8, 0), lockMaterial1);
 lockCover1.position.set(52.99, 51, 65.5);
 lockCover1.rotateY(Math.PI/2);
-
 level1.add(lockCover1);
+
+const spotLight1 = new THREE.SpotLight( 0xffffff, 0.3, 30, Math.PI/4);
+spotLight1.position.set(40, 50, 57);
+const targetObject1 = new THREE.Object3D();
+targetObject1.position.set(50, 50, 60);
+level1.add(targetObject1);
+spotLight1.target = targetObject1;
+spotLight1.castShadow = false;
+spotLight1.decay = 1.5;
+spotLight1.penumbra = 1;
+level1.add( spotLight1 );
+
 
 //crack in wall for key
 const crackTexture1 = new THREE.TextureLoader().load('assets/images/levels/1/wallcrack.png');
