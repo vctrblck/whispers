@@ -597,8 +597,8 @@ function animateAgents() {
     }
   }
   if(A3back){
-    models[2].rotation.y -= 0.05;
-    if(models[2].rotation.y <= -0.5){
+    zomModels[2].rotation.y -= 0.05;
+    if(zomModels[2].rotation.y <= -0.5){
       A3back = false;      
     }
   }
@@ -653,7 +653,10 @@ function collisionCheck() {
     ball3BB.containsPoint(playerChest.position) ||
     ball4BB.containsPoint(playerChest.position)
   ) {
-    console.log('dead');
+    return true;
+  }
+  else{
+    return false;
   }
   // console.log( playerChest.position);
 }
@@ -840,7 +843,7 @@ sideLoader.load('Door.fbx', (door) => {
     door.position.y = -15;
     door.position.x = -50;
     door.position.z = -200;
-    door.rotation.y = 1;
+    door.rotation.y = Math.PI / 2;
     door.castShadow = true;
     level2.add(door);
     

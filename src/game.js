@@ -125,14 +125,18 @@ function animateScene() {
         if (!lightsSet){
           lvl2Lights();
         }
+        //red lights
         Emergency();
+        //keeping track of agent positions
         animateAgents();
+        //physics
         cam2Limits();
-        collisionCheck();    
-        
-        
-        
-        //console.log(agent1.position);
+
+        //if the player died or not
+
+        if(collisionCheck()){
+          //show game over screen here
+        } 
 
         if (endLevel2()) {
           currentLevel = 3;
