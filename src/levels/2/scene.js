@@ -306,7 +306,7 @@ level2.add(roofMesh);
 // ========================================================================== /
 
 //load model
-const models = []
+const zomModels = []
 
 
 const mLoader = new THREE.FBXLoader();
@@ -332,7 +332,7 @@ mLoader.load('Ch30_nonPBR.fbx', (char) => {
     char.scale.set(0.4,0.4,0.4);
     //char.rotation.y = -30;
     char.castShadow = true;
-    models[0] = char;
+    zomModels[0] = char;
     level2.add(char);
     
 });
@@ -359,7 +359,7 @@ mLoader.load('Ch30_nonPBR.fbx', (char) => {
     char.scale.set(0.4,0.4,0.4);
     char.rotation.y = 3;
     char.castShadow = true;
-    models[1] = char;
+    zomModels[1] = char;
     level2.add(char);
     
 });
@@ -386,7 +386,7 @@ mLoader.load('Ch30_nonPBR.fbx', (char) => {
     char.scale.set(0.4,0.4,0.4);
     //char.rotation.y = -30;
     char.castShadow = true;
-    models[2] = char;
+    zomModels[2] = char;
     level2.add(char);
     
 });
@@ -413,7 +413,7 @@ mLoader.load('Ch30_nonPBR.fbx', (char) => {
     char.scale.set(0.4,0.4,0.4);
     char.rotation.y = 3;
     char.castShadow = true;
-    models[3] = char;
+    zomModels[3] = char;
     level2.add(char);
     
 });
@@ -502,18 +502,18 @@ function animateAgents() {
     agent1.position.z += 0.3;
   }
   ball1BB = new THREE.Sphere(agent1.position, 40);
-  models[0].position.x = agent1.position.x;
-  models[0].position.z = agent1.position.z;
+  zomModels[0].position.x = agent1.position.x;
+  zomModels[0].position.z = agent1.position.z;
 
   if(A1front){
-    models[0].rotation.y += 0.05;
-    if(models[0].rotation.y >= 3){
+    zomModels[0].rotation.y += 0.05;
+    if(zomModels[0].rotation.y >= 3){
       A1front = false;
     }
   }
   if(A1back){
-    models[0].rotation.y -= 0.05;
-    if(models[0].rotation.y <= -0.5){
+    zomModels[0].rotation.y -= 0.05;
+    if(zomModels[0].rotation.y <= -0.5){
       A1back = false;      
     }
   }
@@ -538,18 +538,18 @@ function animateAgents() {
     agent2.position.x -= 0.3;
   }
   ball2BB = new THREE.Sphere(agent2.position, 40);
-  models[1].position.x = agent2.position.x;
-  models[1].position.z = agent2.position.z;
+  zomModels[1].position.x = agent2.position.x;
+  zomModels[1].position.z = agent2.position.z;
 
   if(A2front){
-    models[1].rotation.y += 0.05;
-    if(models[1].rotation.y >= 4.5){
+    zomModels[1].rotation.y += 0.05;
+    if(zomModels[1].rotation.y >= 4.5){
       A2front = false;
     }
   }
   if(A2back){
-    models[1].rotation.y -= 0.05;
-    if(models[1].rotation.y <= 1.5){
+    zomModels[1].rotation.y -= 0.05;
+    if(zomModels[1].rotation.y <= 1.5){
       A2back = false;      
     }
   }
@@ -574,12 +574,12 @@ function animateAgents() {
     agent3.position.z -= 0.3;
   }
   ball3BB = new THREE.Sphere(agent3.position, 40);
-  models[2].position.x = agent3.position.x;
-  models[2].position.z = agent3.position.z;
+  zomModels[2].position.x = agent3.position.x;
+  zomModels[2].position.z = agent3.position.z;
 
   if(A3front){
-    models[2].rotation.y += 0.05;
-    if(models[2].rotation.y >= 3){
+    zomModels[2].rotation.y += 0.05;
+    if(zomModels[2].rotation.y >= 3){
       A3front = false;
     }
   }
@@ -611,18 +611,18 @@ function animateAgents() {
     agent4.position.x += 0.3;
   }
   ball4BB = new THREE.Sphere(agent4.position, 40);
-  models[3].position.x = agent4.position.x;
-  models[3].position.z = agent4.position.z;
+  zomModels[3].position.x = agent4.position.x;
+  zomModels[3].position.z = agent4.position.z;
 
   if(A4front){
-    models[3].rotation.y += 0.05;
-    if(models[3].rotation.y >= 4.5){
+    zomModels[3].rotation.y += 0.05;
+    if(zomModels[3].rotation.y >= 4.5){
       A4front = false;
     }
   }
   if(A4back){
-    models[3].rotation.y -= 0.05;
-    if(models[3].rotation.y <= 1.5){
+    zomModels[3].rotation.y -= 0.05;
+    if(zomModels[3].rotation.y <= 1.5){
       A4back = false;      
     }
   }
