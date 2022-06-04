@@ -89,7 +89,7 @@ function animateScene() {
         prevTime3 = time3;
         getKey();
         animateAgents3();
-        tiempoI = Date.now() - 25;
+        tiempoI = Date.now() - 5;
         vel = 50;
 
         if (controls3.isLocked === true) {
