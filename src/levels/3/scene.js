@@ -29,48 +29,53 @@ level3.add(moonlight);
 // Forest
 
 var Forestloader = new THREE.GLTFLoader();
-var forestSource = './assets/models/levels/3/forest/source/pine.glb';
-Forestloader.load(forestSource, (gltf) => {
-  //  gltf.scene.remove(gltf.scene.children[2]); // Remove sky dome
+var forestSource = './assets/models/levels/3/forest/source/pine2.glb';
+Forestloader.load(
+  forestSource,
+  (gltf) => {
+    var forest1 = gltf.scene;
+    forest1.traverse((o) => {
+      o.receiveShadow = true;
+      o.castShadow = true;
+    });
+    var forest2 = gltf.scene.clone();
+    var forest3 = gltf.scene.clone();
+    var forest4 = gltf.scene.clone();
 
-  
-  var forest1 = gltf.scene;
-  var forest2 = gltf.scene.clone();
-  var forest3 = gltf.scene.clone();
-  var forest4 = gltf.scene.clone();
+    forest1.position.set(-27.15, 0, 27.15);
+    forest2.position.set(-27.15, 0, -27.15);
+    forest3.position.set(27.15, 0, -27.15);
+    forest4.position.set(27.15, 0, 27.15);
 
-  forest1.position.set(-27.15, 0, 27.15);
-  forest2.position.set(-27.15, 0, -27.15);
-  forest3.position.set(27.15, 0, -27.15);
-  forest4.position.set(27.15, 0, 27.15);
+    forest3.rotation.y = Math.PI;
+    forest4.rotation.y = Math.PI;
 
-  forest3.rotation.y = Math.PI;
-  forest4.rotation.y = Math.PI;
-
-  level3.add(forest1);
-  level3.add(forest2);
-  level3.add(forest3);
-  level3.add(forest4);
-}, function(xhr){
-  console.log((xhr.loaded/xhr.total*100) + '%')
-});
+    level3.add(forest1);
+    level3.add(forest2);
+    level3.add(forest3);
+    level3.add(forest4);
+  },
+  function (xhr) {
+    console.log((xhr.loaded / xhr.total) * 100 + '%');
+  }
+);
 
 // Cabin
 var cabinloader = new THREE.GLTFLoader();
 var cabinSource = './assets/models/levels/3/cabin/scene.gltf';
 cabinloader.load(cabinSource, (gltf) => {
-  console.log(gltf);
-
   var cabin = gltf.scene;
   cabin.scale.set(0.015, 0.015, 0.015);
+  cabin.receiveShadow = true;
+  cabin.castShadow = true;
 
   level3.add(gltf.scene);
 });
 
 // Plane (underneath map)
 
-var planeWidth = 60;
-var planeHeight = 60;
+var planeWidth = 240;
+var planeHeight = 240;
 var planeGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight, 1, 1);
 var planeColour = '#444444';
 var planeMaterial = new THREE.MeshLambertMaterial({ color: planeColour });
@@ -78,6 +83,38 @@ var plane = new THREE.Mesh(planeGeometry, planeMaterial);
 plane.position.y = -5;
 plane.rotation.x = -Math.PI / 2;
 level3.add(plane);
+
+// Walls
+
+var wallTexture3 = new THREE.TextureLoader().load(
+  '../../../assets/images/levels/2/wall.png'
+);
+
+var wallWidth = 300;
+var wallHeight = 200;
+var wallGeometry = new THREE.PlaneGeometry(wallWidth, wallHeight, 1, 1);
+var wallMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+var wall31 = new THREE.Mesh(wallGeometry, wallMaterial);
+wall31.receiveShadow = true;
+wall31.castShadow = true;
+wall31.material.map = wallTexture3;
+wall31.material.side = THREE.DoubleSide;
+wall31.position.z = 54.3;
+level3.add(wall31);
+
+wall32 = wall31.clone();
+wall32.rotation.y = Math.PI / 2;
+wall32.position.x = 54.3;
+level3.add(wall32);
+
+wall33 = wall31.clone();
+wall33.rotation.y = Math.PI / 2;
+wall33.position.x = -54.3;
+level3.add(wall33);
+
+wall34 = wall31.clone();
+wall34.position.z = -54.3;
+level3.add(wall34);
 
 // Fog
 
@@ -210,8 +247,6 @@ function animateAgents3() {
   }
   ball4BB = new THREE.Sphere(agent4.position, 4);
 }
-
-
 
 // player found the key
 
