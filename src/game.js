@@ -24,6 +24,8 @@ startCam1 = true;
 startCam2 = true;
 startCam3 = true;
 
+loadM = true; 
+
 // ========================================================================== /
 // Level Manangement                                                          /
 // ========================================================================== /
@@ -90,13 +92,23 @@ function animateScene() {
           cam2();
           startCam2 = false;
         }
-
+        
         const time2 = Date.now();
-        // mixer2.update((time2 - prevTime2) * 0.001);
+          mixer21.update((time2 - prevTime2) * 0.001);
+          mixer22.update((time2 - prevTime2) * 0.001);
+          mixer23.update((time2 - prevTime2) * 0.001);
+          mixer24.update((time2 - prevTime2) * 0.001);
+        
         prevTime2 = time2;
-        animateAgents(); 
-        cam2Limits()
-        collisionCheck()      
+        //animateZombies();       
+        
+        animateAgents();
+        cam2Limits();
+        collisionCheck();    
+        
+        
+        
+        //console.log(agent1.position);
 
         if (endLevel2()) {
           currentLevel = 3;

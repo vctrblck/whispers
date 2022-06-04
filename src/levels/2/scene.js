@@ -311,6 +311,119 @@ level2.add(roofMesh);
 // Agents                                                                     /
 // ========================================================================== /
 
+//load model
+const models = []
+
+
+const mLoader = new THREE.FBXLoader();
+mLoader.setPath('assets/models/levels/2/Agent/');
+mLoader.load('Ch30_nonPBR.fbx', (char) => {
+    //fbx.scale.setScale(1);
+    char.traverse(c => {
+        if(c instanceof THREE.Mesh){
+            // c.receiveShadow = true;
+            c.castShadow = true;
+        }
+    });
+    var playerPos = new THREE.Vector3(-300,0,0);
+    const anim = new THREE.FBXLoader();
+    anim.setPath('assets/models/levels/2/Agent/');
+    anim.load('Zombie Walk.fbx', (anim) => {
+      
+      mixer21 = new THREE.AnimationMixer(char);
+      mixer21.clipAction( anim.animations[ 0 ] ).setDuration( 2.5 ).play();
+      
+    });
+    
+    char.scale.set(0.4,0.4,0.4);
+    //char.rotation.y = -30;
+    char.castShadow = true;
+    models[0] = char;
+    level2.add(char);
+    
+});
+
+mLoader.setPath('assets/models/levels/2/Agent/');
+mLoader.load('Ch30_nonPBR.fbx', (char) => {
+    //fbx.scale.setScale(1);
+    char.traverse(c => {
+        if(c instanceof THREE.Mesh){
+            // c.receiveShadow = true;
+            c.castShadow = true;
+        }
+    });
+    var playerPos = new THREE.Vector3(-300,0,0);
+    const anim = new THREE.FBXLoader();
+    anim.setPath('assets/models/levels/2/Agent/');
+    anim.load('Zombie Walk.fbx', (anim) => {
+      
+      mixer22 = new THREE.AnimationMixer(char);
+      mixer22.clipAction( anim.animations[ 0 ] ).setDuration( 2.5 ).play();
+      
+    });
+    
+    char.scale.set(0.4,0.4,0.4);
+    char.rotation.y = 3;
+    char.castShadow = true;
+    models[1] = char;
+    level2.add(char);
+    
+});
+
+mLoader.setPath('assets/models/levels/2/Agent/');
+mLoader.load('Ch30_nonPBR.fbx', (char) => {
+    //fbx.scale.setScale(1);
+    char.traverse(c => {
+        if(c instanceof THREE.Mesh){
+            // c.receiveShadow = true;
+            c.castShadow = true;
+        }
+    });
+    var playerPos = new THREE.Vector3(-300,0,0);
+    const anim = new THREE.FBXLoader();
+    anim.setPath('assets/models/levels/2/Agent/');
+    anim.load('Zombie Walk.fbx', (anim) => {
+      
+      mixer23 = new THREE.AnimationMixer(char);
+      mixer23.clipAction( anim.animations[ 0 ] ).setDuration( 2.5 ).play();
+      
+    });
+    
+    char.scale.set(0.4,0.4,0.4);
+    //char.rotation.y = -30;
+    char.castShadow = true;
+    models[2] = char;
+    level2.add(char);
+    
+});
+
+mLoader.setPath('assets/models/levels/2/Agent/');
+mLoader.load('Ch30_nonPBR.fbx', (char) => {
+    //fbx.scale.setScale(1);
+    char.traverse(c => {
+        if(c instanceof THREE.Mesh){
+            // c.receiveShadow = true;
+            c.castShadow = true;
+        }
+    });
+    var playerPos = new THREE.Vector3(-300,0,0);
+    const anim = new THREE.FBXLoader();
+    anim.setPath('assets/models/levels/2/Agent/');
+    anim.load('Zombie Walk.fbx', (anim) => {
+      
+      mixer24 = new THREE.AnimationMixer(char);
+      mixer24.clipAction( anim.animations[ 0 ] ).setDuration( 2.5 ).play();
+      
+    });
+    
+    char.scale.set(0.4,0.4,0.4);
+    char.rotation.y = 3;
+    char.castShadow = true;
+    models[3] = char;
+    level2.add(char);
+    
+});
+
 // Agent radius
 const agentGeo = new THREE.SphereGeometry(40, 32, 16);
 const agentMat1 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
@@ -321,24 +434,28 @@ const agentMat4 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const agent1 = new THREE.Mesh(agentGeo, agentMat1);
 agent1.position.y = 40;
 level2.add(agent1);
+agent1.visible = false;
 
 const agent2 = new THREE.Mesh(agentGeo, agentMat2);
 agent2.position.y = 40;
 agent2.position.x = 25;
 agent2.position.z = -300;
 level2.add(agent2);
+agent2.visible = false;
 
 const agent3 = new THREE.Mesh(agentGeo, agentMat3);
 agent3.position.y = 40;
 agent3.position.x = 300;
 agent3.position.z = -275;
 level2.add(agent3);
+agent3.visible = false;
 
 const agent4 = new THREE.Mesh(agentGeo, agentMat4);
 agent4.position.y = 40;
 agent4.position.x = 275;
 agent4.position.z = 200;
 level2.add(agent4);
+agent4.visible = false;
 
 // Animate agents
 // Animated agents radius
@@ -346,6 +463,21 @@ var A1prevZ = 0;
 var A2prevX = 0;
 var A3prevZ = 0;
 var A4prevX = 0;
+
+
+var A1front = false;
+var A1back  = false;
+
+var A2front = false;
+var A2back  = false;
+
+var A3front = false;
+var A3back  = false;
+
+var A4front = false;
+var A4back  = false;
+
+
 //boundaries of the balls
 var ball1BB = new THREE.Sphere(agent1.position, 40);
 var ball2BB = new THREE.Sphere(agent2.position, 40);
@@ -356,81 +488,150 @@ function animateAgents() {
 
 
   // Agent 1
-  if (agent1.position.z == 0) {
+  if (agent1.position.z >= 0) {
     A1prevZ = 0;
-    agent1.position.z -= 1;
+    A1front = true;
+    agent1.position.z -= 0.3;
   }
-  if (agent1.position.z == -275) {
+  if (agent1.position.z <= -275) {
     A1prevZ = -275;
-    agent1.position.z += 1;
+    A1back = true;
+    agent1.position.z += 0.3;
+
   }
   if (A1prevZ > agent1.position.z) {
-    A1prevZ -= 1;
-    agent1.position.z -= 1;
+    A1prevZ -= 0.3;
+    agent1.position.z -= 0.3;
   }
   if (A1prevZ < agent1.position.z) {
-    A1prevZ += 1;
-    agent1.position.z += 1;
+    A1prevZ += 0.3;
+    agent1.position.z += 0.3;
   }
   ball1BB = new THREE.Sphere(agent1.position, 40);
+  models[0].position.x = agent1.position.x;
+  models[0].position.z = agent1.position.z;
 
-  // Agent 2
-  if (agent2.position.x == 25) {
-    A2prevX = 25;
-    agent2.position.x += 1;
+  if(A1front){
+    models[0].rotation.y += 0.05;
+    if(models[0].rotation.y >= 3){
+      A1front = false;
+    }
   }
-  if (agent2.position.x == 275) {
+  if(A1back){
+    models[0].rotation.y -= 0.05;
+    if(models[0].rotation.y <= -0.5){
+      A1back = false;      
+    }
+  }
+  
+  // Agent 2
+  if (agent2.position.x <= 25) {
+    A2prevX = 25;
+    agent2.position.x += 0.3;
+    A2back = true;
+  }
+  if (agent2.position.x >= 275) {
     A2prevX = 275;
-    agent2.position.x -= 1;
+    agent2.position.x -= 0.3;
+    A2front = true;
   }
   if (A2prevX < agent2.position.x) {
-    A2prevX += 1;
-    agent2.position.x += 1;
+    A2prevX += 0.3;
+    agent2.position.x += 0.3;
   }
   if (A2prevX > agent2.position.x) {
-    A2prevX -= 1;
-    agent2.position.x -= 1;
+    A2prevX -= 0.3;
+    agent2.position.x -= 0.3;
   }
   ball2BB = new THREE.Sphere(agent2.position, 40);
+  models[1].position.x = agent2.position.x;
+  models[1].position.z = agent2.position.z;
+
+  if(A2front){
+    models[1].rotation.y += 0.05;
+    if(models[1].rotation.y >= 4.5){
+      A2front = false;
+    }
+  }
+  if(A2back){
+    models[1].rotation.y -= 0.05;
+    if(models[1].rotation.y <= 1.5){
+      A2back = false;      
+    }
+  }
 
   // Agent 3
-  if (agent3.position.z == -275) {
+  if (agent3.position.z <= -275) {
     A3prevZ = -275;
-    agent3.position.z += 1;
+    agent3.position.z += 0.3;
+    A3back = true;
   }
-  if (agent3.position.z == 175) {
+  if (agent3.position.z >= 175) {
     A3prevZ = 175;
-    agent3.position.z -= 1;
+    agent3.position.z -= 0.3;
+    A3front = true;
   }
   if (A3prevZ < agent3.position.z) {
-    A3prevZ += 1;
-    agent3.position.z += 1;
+    A3prevZ += 0.3;
+    agent3.position.z += 0.3;
   }
   if (A3prevZ > agent3.position.z) {
-    A3prevZ -= 1;
-    agent3.position.z -= 1;
+    A3prevZ -= 0.3;
+    agent3.position.z -= 0.3;
   }
   ball3BB = new THREE.Sphere(agent3.position, 40);
+  models[2].position.x = agent3.position.x;
+  models[2].position.z = agent3.position.z;
+
+  if(A3front){
+    models[2].rotation.y += 0.05;
+    if(models[2].rotation.y >= 3){
+      A3front = false;
+    }
+  }
+  if(A3back){
+    models[2].rotation.y -= 0.05;
+    if(models[2].rotation.y <= -0.5){
+      A3back = false;      
+    }
+  }
 
   // Agent 4
 
-  if (agent4.position.x == 275) {
+  if (agent4.position.x >= 275) {
     A4prevX = 275;
-    agent4.position.x -= 1;
+    agent4.position.x -= 0.3;
+    A4front = true;
   }
-  if (agent4.position.x == 0) {
+  if (agent4.position.x <= 0) {
     A4prevX = 0;
-    agent4.position.x += 1;
+    agent4.position.x += 0.3;
+    A4back = true;
   }
   if (A4prevX > agent4.position.x) {
-    A4prevX -= 1;
-    agent4.position.x -= 1;
+    A4prevX -= 0.3;
+    agent4.position.x -= 0.3;
   }
   if (A4prevX < agent4.position.x) {
-    A4prevX += 1;
-    agent4.position.x += 1;
+    A4prevX += 0.3;
+    agent4.position.x += 0.3;
   }
   ball4BB = new THREE.Sphere(agent4.position, 40);
+  models[3].position.x = agent4.position.x;
+  models[3].position.z = agent4.position.z;
+
+  if(A4front){
+    models[3].rotation.y += 0.05;
+    if(models[3].rotation.y >= 4.5){
+      A4front = false;
+    }
+  }
+  if(A4back){
+    models[3].rotation.y -= 0.05;
+    if(models[3].rotation.y <= 1.5){
+      A4back = false;      
+    }
+  }
 }
 
 // Agent collision check
