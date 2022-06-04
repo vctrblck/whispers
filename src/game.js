@@ -88,6 +88,7 @@ function animateScene() {
         const time3 = Date.now();
         prevTime3 = time3;
         getKey();
+        addBoundries();
         animateAgents3();
         tiempoI = Date.now() - 5;
         vel = 50;

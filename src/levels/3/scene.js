@@ -250,15 +250,29 @@ function animateAgents3() {
 
 // player found the key
 
-var keyPos = new THREE.Box3(
+/*var keyPos = new THREE.Box3(
   new THREE.Vector3(40, 20, 345),
   new THREE.Vector3(40, 20, 345)
+);*/
+
+const cube1 = new THREE.Mesh(
+  new THREE.BoxGeometry(10,10,10),
+  new THREE.MeshPhongMaterial({color : 0xff0000})
 );
+cube1.position.set(45,0,45);
+cube1.castShadow = true;
+cube1.receiveShadow = true
+cube1.scale.set(0.5,2,0.5)
+level3.add(cube1)
+
+let keyPos = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3())
+keyPos.setFromObject(cube1)
 var foundKey = false;
 
 function getKey() {
   var playerChest1 = new THREE.Vector3();
   playerChest1 = camera3.clone();
+  console.log(playerChest1.position)
 
   if (foundKey == false) {
     if (keyPos.containsPoint(playerChest1.position)) {
@@ -271,5 +285,30 @@ function getKey() {
     }
   }
 }
+
+function addBoundries(){
+      //wall Boundries
+  if(camera3.position.x > 53.5){
+    camera3.position.x = 53.5
+  }
+  if(camera3.position.x < -53.5){
+    camera3.position.x = -53.5
+  }
+  if(camera3.position.z > 53.5){
+    camera3.position.z = 53.5
+  }
+  if(camera3.position.z < -53.5){
+    camera3.position.z = -53.5
+  }
+}
+
+function cabinBoundry(){
+  if(camera3.position.x < 9 && camera3.position.x > -11){
+    if(camera3.position.z < -7 && camera3.position.z > -8){
+      console.log("on the boundry")
+    }
+  }
+}
+
 
 // scene.js ends here
