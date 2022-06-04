@@ -20,12 +20,6 @@ var level2 = new THREE.Scene();
 // ========================================================================== /
 
 const lloader = new THREE.FBXLoader();
-
-var lampPos = [
-  new THREE.Vector3(-300, 80, 0),
-  new THREE.Vector3(0, 80, 0),
-  new THREE.Vector3(0, 80, -300),
-];
 //1
 lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
   for (var i = 0; i < 3; i++) {
