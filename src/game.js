@@ -16,6 +16,8 @@
 
 var gameActive = false;
 var gameOver = false;
+var animationFrameID;
+
 var currentLevel = 1;
 var prevTime = Date.now();
 let prevTime2 = Date.now();
@@ -48,6 +50,16 @@ var scene = new THREE.Scene(); // Default `three.js' scene
 
 var axes = new THREE.AxesHelper(100); // Default `three.js' scene axes
 scene.add(axes);
+
+
+function winGame() {
+  WinPage.style.display = 'grid';
+
+  setTimeout(function () {
+    cancelAnimationFrame(animationFrameID);
+    window.location.reload();
+  }, 3000);
+}
 
 function animateScene() {
   if (!gameOver) {
@@ -167,6 +179,35 @@ function animateScene() {
 
         document.title = 'Whispers - Level 3';
 
+        if (startCam3) {
+          cam3();
+          startCam3 = false;
+        }
+
+        const time3 = Date.now();
+        prevTime3 = time3;
+        getKey();
+        addBoundries();
+        collisionCheck();
+        cabbinAccess();
+        survivalComplete(winGame);
+        animateAgents3();
+        tiempoI = Date.now() - 5;
+        vel = 50;
+
+        if (controls3.isLocked === true) {
+          tiempoF = Date.now();
+
+          delta = (tiempoF - tiempoI) / 1000;
+
+          let xDis = xdir * vel * delta;
+          let zDis = zdir * vel * delta;
+
+          controls3.moveRight(xDis);
+          controls3.moveForward(zDis);
+          tiempoI = tiempoF;
+        }
+
         renderer.render(level3, camera3);
       } else {
         // ================================================================== /
@@ -176,7 +217,8 @@ function animateScene() {
         renderer.render(scene, camera);
       }
 
-      requestAnimationFrame(animateScene);
+      animationFrameID = requestAnimationFrame(animateScene);
+
     } else {
       // Paused game state
     }

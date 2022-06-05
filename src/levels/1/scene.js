@@ -191,11 +191,13 @@ gltfLoader1.load('assets/models/levels/1/Cell/Jail.gltf', (gltf) => {
       models.push(o);
       countChild+=1;
     }
+
   });
   model1.castShadow = true;
   model1.receiveShadow = true;
   model1.position.y = 1;
   model1.scale.set(1000,1000,1000);
+
   //model1.visible = false;
   level1.add(model1);
   loadLevel();
@@ -246,6 +248,7 @@ function cam1Limits(){
 
   var playerChest1 = new THREE.Vector3;
   playerChest1 = camera1.clone();
+
   let wall11 = new THREE.Box3(new THREE.Vector3(-140,0,65), new THREE.Vector3(60,100,68)); //right wall
   let wall12 = new THREE.Box3(new THREE.Vector3(50,0,-68), new THREE.Vector3(55,100,68)); //front wall
   let wall13 = new THREE.Box3(new THREE.Vector3(-140,0,-69), new THREE.Vector3(60,100,-66)); //left wall

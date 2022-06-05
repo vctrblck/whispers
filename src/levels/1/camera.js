@@ -9,6 +9,7 @@ var camera1 = new THREE.PerspectiveCamera(
   1500
 );
 
+
 camera1.position.x = -100;
 camera1.position.y = 75;
 camera1.position.z = 0;

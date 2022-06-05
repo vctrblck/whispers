@@ -20,6 +20,8 @@ let PausePage = document.getElementById('pause');
 // let InventoryPage = document.getElementById('inventory');
 let OverPage = document.getElementById('over');
 
+let WinPage = document.getElementById('win');
+
 // ========================================================================== /
 // Buttons                                                                    /
 // ========================================================================== /
@@ -40,6 +42,7 @@ GamePage.style.display = 'none';
 PausePage.style.display = 'none';
 // InventoryPage.style.display = 'none';
 OverPage.style.display = 'none';
+WinPage.style.display = 'none';
 
 // ========================================================================== /
 // Page Event Handlers                                                        /
@@ -53,7 +56,9 @@ function startGame(event) {
 
   // Start game
   gameActive = true;
+
   currentLevel = 1;
+
   init();
 }
 
@@ -88,8 +93,7 @@ function endGame() {
   GamePage.style.display = 'none'; // Remove game page
 
   setTimeout(function () {
-    HomePage.style.display = 'grid'; // Display home page
-    OverPage.style.display = 'none'; // Remove game over page
+    window.location.reload();
   }, 3000);
 }
 
@@ -101,4 +105,7 @@ startGameButton.addEventListener('click', startGame);
 resumeGameButton.addEventListener('click', resumeGame);
 quitGameButton.addEventListener('click', quitGame);
 
+document.addEventListener('keydown', (e) => {
+  if (e.key == 'p') pauseGame();
+});
 // pager.js ends here

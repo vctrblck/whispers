@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Interface</title>
+    <title>Whispers</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="index.css" />
@@ -19,11 +19,15 @@
     <script src="./node_modules/three/examples/js/controls/FirstPersonControls.js"></script>
     <script src="./node_modules/three/examples/js/libs/ammo.wasm.js"></script>
     <script src="./node_modules/three/examples/js/helpers/VertexNormalsHelper.js"></script>
+
   </head>
 
   <body>
     <!-- Global state modules -->
     <script src="src/renderer.js"></script>
+
+    <!--Page manage-->
+    <script src=" src/pager.js" defer></script>
 
     <!-- Level 1 modules -->
     <script src="src/levels/1/camera.js"></script>
@@ -81,9 +85,6 @@
       </ul>
     </div>
 
-    <!-- Inventory Page -->
-    <!-- TODO -->
-
     <!-- Over Page -->
     <div
       id="over"
@@ -92,10 +93,18 @@
       <h1 class="text-5xl text-red-700">GAME OVER</h1>
     </div>
 
+    <!-- Win Page -->
+    <div
+      id="win"
+      class="fixed grid bg-black w-screen h-screen place-items-center"
+    >
+      <h1 class="text-5xl text-green-700">GAME COMPLETED!</h1>
+    </div>
+
     <!-- Entry module -->
-    <script src="index.js"></script>
+    <script src="index.js" defer></script>
 
     <!-- Pages Manager -->
-    <script src="src/pager.js"></script>
+    <script src="src/pager.js" defer></script>
   </body>
 </html>

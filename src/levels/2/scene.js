@@ -1,4 +1,3 @@
-
 var level2 = new THREE.Scene();
 
 //control panel
@@ -10,18 +9,22 @@ controlsPanel2.receiveShadow = false;
 controlsPanel2.castShadow = false;
 level2.add(controlsPanel2);
 
+
 // ========================================================================== /
 // Lighting                                                                   /
 // ========================================================================== /
+
 
 var lightMod = []
 const lloader = new THREE.FBXLoader();
 //1
 lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
+
     lamp.position.set(-300, 80, 0);
     lamp.scale.set(0.06, 0.06, 0.06);
     lamp.castShadow = true;
     level2.add(lamp);
+
 });
 //2
 lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
@@ -42,7 +45,6 @@ lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
     lamp.scale.set(0.06, 0.06, 0.06);
     lamp.castShadow = true;
     level2.add(lamp);
-
 });
 //5
 lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
@@ -443,12 +445,14 @@ agent1.position.y = 40;
 level2.add(agent1);
 agent1.visible = false;
 
+
 const agent2 = new THREE.Mesh(agentGeo, agentMat2);
 agent2.position.y = 40;
 agent2.position.x = 25;
 agent2.position.z = -300;
 level2.add(agent2);
 agent2.visible = false;
+
 
 const agent3 = new THREE.Mesh(agentGeo, agentMat3);
 agent3.position.y = 40;
@@ -457,6 +461,7 @@ agent3.position.z = -275;
 level2.add(agent3);
 agent3.visible = false;
 
+
 const agent4 = new THREE.Mesh(agentGeo, agentMat4);
 agent4.position.y = 40;
 agent4.position.x = 275;
@@ -464,13 +469,13 @@ agent4.position.z = 200;
 level2.add(agent4);
 agent4.visible = false;
 
+
 // Animate agents
 // Animated agents radius
 var A1prevZ = 0;
 var A2prevX = 0;
 var A3prevZ = 0;
 var A4prevX = 0;
-
 
 var A1front = false;
 var A1back  = false;
@@ -484,7 +489,6 @@ var A3back  = false;
 var A4front = false;
 var A4back  = false;
 
-
 //boundaries of the balls
 var ball1BB = new THREE.Sphere(agent1.position, 40);
 var ball2BB = new THREE.Sphere(agent2.position, 40);
@@ -492,8 +496,6 @@ var ball3BB = new THREE.Sphere(agent3.position, 40);
 var ball4BB = new THREE.Sphere(agent4.position, 40);
 
 function animateAgents() {
-
-
   // Agent 1
   if (agent1.position.z >= 0) {
     A1prevZ = 0;
@@ -653,10 +655,12 @@ function collisionCheck() {
     ball3BB.containsPoint(playerChest.position) ||
     ball4BB.containsPoint(playerChest.position)
   ) {
+
     return true;
   }
   else{
     return false;
+
   }
   // console.log( playerChest.position);
 }
@@ -674,7 +678,6 @@ function endLevel2() {
     return true;
   }
 }
-
 
 //extra models
 
@@ -848,11 +851,4 @@ sideLoader.load('Door.fbx', (door) => {
     level2.add(door);
     
 });
-
-
-
-
-
-
 // scene.js ends here
-
