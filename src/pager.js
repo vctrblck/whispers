@@ -7,6 +7,7 @@ let GamePage = document.getElementById('game');
 let PausePage = document.getElementById('pause');
 // let InventoryPage = document.getElementById('inventory');
 let OverPage = document.getElementById('over');
+let WinPage = document.getElementById('win');
 
 // ========================================================================== /
 // Buttons                                                                    /
@@ -28,6 +29,7 @@ GamePage.style.display = 'none';
 PausePage.style.display = 'none';
 // InventoryPage.style.display = 'none';
 OverPage.style.display = 'none';
+WinPage.style.display = 'none';
 
 // ========================================================================== /
 // Page Event Handlers                                                        /
@@ -76,8 +78,7 @@ function endGame() {
   GamePage.style.display = 'none'; // Remove game page
 
   setTimeout(function () {
-    HomePage.style.display = 'grid'; // Display home page
-    OverPage.style.display = 'none'; // Remove game over page
+    window.location.reload();
   }, 3000);
 }
 

@@ -1,11 +1,24 @@
-
 var level2 = new THREE.Scene();
 
+var mixer21;
+var mixer22;
+var mixer23;
+var mixer24;
+
 //control panel
-const controlTexture2 = new THREE.TextureLoader().load('assets/images/levels/2/controls2.png');
-const controlsPanel2 = new THREE.Mesh(new THREE.BoxGeometry(60, 40, 0), new THREE.MeshBasicMaterial({map: controlTexture2, side : THREE.FrontSide}));
-controlsPanel2.position.set(camera2.position.x+50, camera2.position.y, camera2.position.z);
-controlsPanel2.rotateY(Math.PI/2);
+const controlTexture2 = new THREE.TextureLoader().load(
+  'assets/images/levels/2/controls2.png'
+);
+const controlsPanel2 = new THREE.Mesh(
+  new THREE.BoxGeometry(60, 40, 0),
+  new THREE.MeshBasicMaterial({ map: controlTexture2, side: THREE.FrontSide })
+);
+controlsPanel2.position.set(
+  camera2.position.x + 50,
+  camera2.position.y,
+  camera2.position.z
+);
+controlsPanel2.rotateY(Math.PI / 2);
 controlsPanel2.receiveShadow = false;
 controlsPanel2.castShadow = false;
 level2.add(controlsPanel2);
@@ -14,65 +27,56 @@ level2.add(controlsPanel2);
 // Lighting                                                                   /
 // ========================================================================== /
 
-var lightMod = []
+var lightMod = [];
 const lloader = new THREE.FBXLoader();
 //1
 lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
-    lamp.position.set(-300, 80, 0);
-    lamp.scale.set(0.06, 0.06, 0.06);
-    lamp.castShadow = true;
-    level2.add(lamp);
+  lamp.position.set(-300, 80, 0);
+  lamp.scale.set(0.06, 0.06, 0.06);
+  lamp.castShadow = true;
+  level2.add(lamp);
 });
 //2
 lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
-    lamp.position.set(0, 80, 0);
-    lamp.scale.set(0.06, 0.06, 0.06);
-    level2.add(lamp);
+  lamp.position.set(0, 80, 0);
+  lamp.scale.set(0.06, 0.06, 0.06);
+  level2.add(lamp);
 });
 //3
 lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
-    lamp.position.set(0, 80, -300);
-    lamp.scale.set(0.06, 0.06, 0.06);
-    level2.add(lamp);
+  lamp.position.set(0, 80, -300);
+  lamp.scale.set(0.06, 0.06, 0.06);
+  level2.add(lamp);
 });
 //4
 lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
-
-    lamp.position.set(300, 80, -300);
-    lamp.scale.set(0.06, 0.06, 0.06);
-    lamp.castShadow = true;
-    level2.add(lamp);
-
+  lamp.position.set(300, 80, -300);
+  lamp.scale.set(0.06, 0.06, 0.06);
+  lamp.castShadow = true;
+  level2.add(lamp);
 });
 //5
 lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
-
-    lamp.position.set(300, 80, 0);
-    lamp.scale.set(0.06, 0.06, 0.06);
-    level2.add(lamp);
-
+  lamp.position.set(300, 80, 0);
+  lamp.scale.set(0.06, 0.06, 0.06);
+  level2.add(lamp);
 });
 //6
 lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
-
-    lamp.position.set(50, 80, 200);
-    lamp.scale.set(0.06, 0.06, 0.06);
-    level2.add(lamp);
-
+  lamp.position.set(50, 80, 200);
+  lamp.scale.set(0.06, 0.06, 0.06);
+  level2.add(lamp);
 });
 //7
 lloader.load('assets/models/levels/2/Room/lamp.fbx', (lamp) => {
-
-    lamp.position.set(200, 80, 200);
-    lamp.scale.set(0.06, 0.06, 0.06);
-    level2.add(lamp);
-
+  lamp.position.set(200, 80, 200);
+  lamp.scale.set(0.06, 0.06, 0.06);
+  level2.add(lamp);
 });
 
 //Main lights
-var lights2 = []
-function lvl2Lights(){
-
+var lights2 = [];
+function lvl2Lights() {
   //emergency lights and ambient
   lightsSet = true;
   light2 = new THREE.AmbientLight(0x101010, 0.5);
@@ -124,20 +128,20 @@ function lvl2Lights(){
 var to0 = true;
 var to1 = false;
 
-function Emergency(){
-  if (to0){
-    for(var i = 0; i< 7; i++){
+function Emergency() {
+  if (to0) {
+    for (var i = 0; i < 7; i++) {
       lights2[i].intensity -= 0.01;
-      if(lights2[i].intensity <= 0.05){
+      if (lights2[i].intensity <= 0.05) {
         to0 = false;
         to1 = true;
       }
     }
   }
-  if (to1){
-    for(var i = 0; i< 7; i++){
+  if (to1) {
+    for (var i = 0; i < 7; i++) {
       lights2[i].intensity += 0.01;
-      if(lights2[i].intensity >= 0.95){
+      if (lights2[i].intensity >= 0.95) {
         to0 = true;
         to1 = false;
       }
@@ -319,116 +323,103 @@ level2.add(roofMesh);
 // ========================================================================== /
 
 //load model
-const zomModels = []
-
+const zomModels = [];
 
 const mLoader = new THREE.FBXLoader();
 mLoader.setPath('assets/models/levels/2/Agent/');
 mLoader.load('Ch30_nonPBR.fbx', (char) => {
-    //fbx.scale.setScale(1);
-    char.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    var playerPos = new THREE.Vector3(-300,0,0);
-    const anim = new THREE.FBXLoader();
-    anim.setPath('assets/models/levels/2/Agent/');
-    anim.load('Zombie Walk.fbx', (anim) => {
-      
-      mixer21 = new THREE.AnimationMixer(char);
-      mixer21.clipAction( anim.animations[ 0 ] ).setDuration( 2.5 ).play();
-      
-    });
-    
-    char.scale.set(0.4,0.4,0.4);
-    //char.rotation.y = -30;
-    char.castShadow = true;
-    zomModels[0] = char;
-    level2.add(char);
-    
+  //fbx.scale.setScale(1);
+  char.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  var playerPos = new THREE.Vector3(-300, 0, 0);
+  const anim = new THREE.FBXLoader();
+  anim.setPath('assets/models/levels/2/Agent/');
+  anim.load('Zombie Walk.fbx', (anim) => {
+    mixer21 = new THREE.AnimationMixer(char);
+    mixer21.clipAction(anim.animations[0]).setDuration(2.5).play();
+  });
+
+  char.scale.set(0.4, 0.4, 0.4);
+  //char.rotation.y = -30;
+  char.castShadow = true;
+  zomModels[0] = char;
+  level2.add(char);
 });
 
 mLoader.setPath('assets/models/levels/2/Agent/');
 mLoader.load('Ch30_nonPBR.fbx', (char) => {
-    //fbx.scale.setScale(1);
-    char.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    var playerPos = new THREE.Vector3(-300,0,0);
-    const anim = new THREE.FBXLoader();
-    anim.setPath('assets/models/levels/2/Agent/');
-    anim.load('Zombie Walk.fbx', (anim) => {
-      
-      mixer22 = new THREE.AnimationMixer(char);
-      mixer22.clipAction( anim.animations[ 0 ] ).setDuration( 2.5 ).play();
-      
-    });
-    
-    char.scale.set(0.4,0.4,0.4);
-    char.rotation.y = 3;
-    char.castShadow = true;
-    zomModels[1] = char;
-    level2.add(char);
-    
+  //fbx.scale.setScale(1);
+  char.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  var playerPos = new THREE.Vector3(-300, 0, 0);
+  const anim = new THREE.FBXLoader();
+  anim.setPath('assets/models/levels/2/Agent/');
+  anim.load('Zombie Walk.fbx', (anim) => {
+    mixer22 = new THREE.AnimationMixer(char);
+    mixer22.clipAction(anim.animations[0]).setDuration(2.5).play();
+  });
+
+  char.scale.set(0.4, 0.4, 0.4);
+  char.rotation.y = 3;
+  char.castShadow = true;
+  zomModels[1] = char;
+  level2.add(char);
 });
 
 mLoader.setPath('assets/models/levels/2/Agent/');
 mLoader.load('Ch30_nonPBR.fbx', (char) => {
-    //fbx.scale.setScale(1);
-    char.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    var playerPos = new THREE.Vector3(-300,0,0);
-    const anim = new THREE.FBXLoader();
-    anim.setPath('assets/models/levels/2/Agent/');
-    anim.load('Zombie Walk.fbx', (anim) => {
-      
-      mixer23 = new THREE.AnimationMixer(char);
-      mixer23.clipAction( anim.animations[ 0 ] ).setDuration( 2.5 ).play();
-      
-    });
-    
-    char.scale.set(0.4,0.4,0.4);
-    //char.rotation.y = -30;
-    char.castShadow = true;
-    zomModels[2] = char;
-    level2.add(char);
-    
+  //fbx.scale.setScale(1);
+  char.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  var playerPos = new THREE.Vector3(-300, 0, 0);
+  const anim = new THREE.FBXLoader();
+  anim.setPath('assets/models/levels/2/Agent/');
+  anim.load('Zombie Walk.fbx', (anim) => {
+    mixer23 = new THREE.AnimationMixer(char);
+    mixer23.clipAction(anim.animations[0]).setDuration(2.5).play();
+  });
+
+  char.scale.set(0.4, 0.4, 0.4);
+  //char.rotation.y = -30;
+  char.castShadow = true;
+  zomModels[2] = char;
+  level2.add(char);
 });
 
 mLoader.setPath('assets/models/levels/2/Agent/');
 mLoader.load('Ch30_nonPBR.fbx', (char) => {
-    //fbx.scale.setScale(1);
-    char.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    var playerPos = new THREE.Vector3(-300,0,0);
-    const anim = new THREE.FBXLoader();
-    anim.setPath('assets/models/levels/2/Agent/');
-    anim.load('Zombie Walk.fbx', (anim) => {
-      
-      mixer24 = new THREE.AnimationMixer(char);
-      mixer24.clipAction( anim.animations[ 0 ] ).setDuration( 2.5 ).play();
-      
-    });
-    
-    char.scale.set(0.4,0.4,0.4);
-    char.rotation.y = 3;
-    char.castShadow = true;
-    zomModels[3] = char;
-    level2.add(char);
-    
+  //fbx.scale.setScale(1);
+  char.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  var playerPos = new THREE.Vector3(-300, 0, 0);
+  const anim = new THREE.FBXLoader();
+  anim.setPath('assets/models/levels/2/Agent/');
+  anim.load('Zombie Walk.fbx', (anim) => {
+    mixer24 = new THREE.AnimationMixer(char);
+    mixer24.clipAction(anim.animations[0]).setDuration(2.5).play();
+  });
+
+  char.scale.set(0.4, 0.4, 0.4);
+  char.rotation.y = 3;
+  char.castShadow = true;
+  zomModels[3] = char;
+  level2.add(char);
 });
 
 // Agent radius
@@ -471,19 +462,17 @@ var A2prevX = 0;
 var A3prevZ = 0;
 var A4prevX = 0;
 
-
 var A1front = false;
-var A1back  = false;
+var A1back = false;
 
 var A2front = false;
-var A2back  = false;
+var A2back = false;
 
 var A3front = false;
-var A3back  = false;
+var A3back = false;
 
 var A4front = false;
-var A4back  = false;
-
+var A4back = false;
 
 //boundaries of the balls
 var ball1BB = new THREE.Sphere(agent1.position, 40);
@@ -492,8 +481,6 @@ var ball3BB = new THREE.Sphere(agent3.position, 40);
 var ball4BB = new THREE.Sphere(agent4.position, 40);
 
 function animateAgents() {
-
-
   // Agent 1
   if (agent1.position.z >= 0) {
     A1prevZ = 0;
@@ -504,7 +491,6 @@ function animateAgents() {
     A1prevZ = -275;
     A1back = true;
     agent1.position.z += 0.3;
-
   }
   if (A1prevZ > agent1.position.z) {
     A1prevZ -= 0.3;
@@ -518,19 +504,19 @@ function animateAgents() {
   zomModels[0].position.x = agent1.position.x;
   zomModels[0].position.z = agent1.position.z;
 
-  if(A1front){
+  if (A1front) {
     zomModels[0].rotation.y += 0.05;
-    if(zomModels[0].rotation.y >= 3){
+    if (zomModels[0].rotation.y >= 3) {
       A1front = false;
     }
   }
-  if(A1back){
+  if (A1back) {
     zomModels[0].rotation.y -= 0.05;
-    if(zomModels[0].rotation.y <= -0.5){
-      A1back = false;      
+    if (zomModels[0].rotation.y <= -0.5) {
+      A1back = false;
     }
   }
-  
+
   // Agent 2
   if (agent2.position.x <= 25) {
     A2prevX = 25;
@@ -554,16 +540,16 @@ function animateAgents() {
   zomModels[1].position.x = agent2.position.x;
   zomModels[1].position.z = agent2.position.z;
 
-  if(A2front){
+  if (A2front) {
     zomModels[1].rotation.y += 0.05;
-    if(zomModels[1].rotation.y >= 4.5){
+    if (zomModels[1].rotation.y >= 4.5) {
       A2front = false;
     }
   }
-  if(A2back){
+  if (A2back) {
     zomModels[1].rotation.y -= 0.05;
-    if(zomModels[1].rotation.y <= 1.5){
-      A2back = false;      
+    if (zomModels[1].rotation.y <= 1.5) {
+      A2back = false;
     }
   }
 
@@ -590,16 +576,16 @@ function animateAgents() {
   zomModels[2].position.x = agent3.position.x;
   zomModels[2].position.z = agent3.position.z;
 
-  if(A3front){
+  if (A3front) {
     zomModels[2].rotation.y += 0.05;
-    if(zomModels[2].rotation.y >= 3){
+    if (zomModels[2].rotation.y >= 3) {
       A3front = false;
     }
   }
-  if(A3back){
+  if (A3back) {
     zomModels[2].rotation.y -= 0.05;
-    if(zomModels[2].rotation.y <= -0.5){
-      A3back = false;      
+    if (zomModels[2].rotation.y <= -0.5) {
+      A3back = false;
     }
   }
 
@@ -627,16 +613,16 @@ function animateAgents() {
   zomModels[3].position.x = agent4.position.x;
   zomModels[3].position.z = agent4.position.z;
 
-  if(A4front){
+  if (A4front) {
     zomModels[3].rotation.y += 0.05;
-    if(zomModels[3].rotation.y >= 4.5){
+    if (zomModels[3].rotation.y >= 4.5) {
       A4front = false;
     }
   }
-  if(A4back){
+  if (A4back) {
     zomModels[3].rotation.y -= 0.05;
-    if(zomModels[3].rotation.y <= 1.5){
-      A4back = false;      
+    if (zomModels[3].rotation.y <= 1.5) {
+      A4back = false;
     }
   }
 }
@@ -654,8 +640,7 @@ function collisionCheck() {
     ball4BB.containsPoint(playerChest.position)
   ) {
     return true;
-  }
-  else{
+  } else {
     return false;
   }
   // console.log( playerChest.position);
@@ -675,184 +660,168 @@ function endLevel2() {
   }
 }
 
-
 //extra models
 
 //2368
 const doorLoader = new THREE.FBXLoader();
 doorLoader.setPath('assets/models/levels/2/Extras/sidedoors/source/');
 doorLoader.load('door1.fbx', (door) => {
-    //fbx.scale.setScale(1);
-    door.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    door.scale.set(0.3,0.3,0.3);
-    door.position.y = 60;
-    door.position.x = -50;
-    door.position.z = 200;
-    door.rotation.y = Math.PI / 2;
-    door.castShadow = true;
-    level2.add(door);
-    
+  //fbx.scale.setScale(1);
+  door.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  door.scale.set(0.3, 0.3, 0.3);
+  door.position.y = 60;
+  door.position.x = -50;
+  door.position.z = 200;
+  door.rotation.y = Math.PI / 2;
+  door.castShadow = true;
+  level2.add(door);
 });
 
 const sideLoader = new THREE.FBXLoader();
 sideLoader.setPath('assets/models/levels/2/Extras/exitDoor/source/');
 sideLoader.load('Door.fbx', (door) => {
-    //fbx.scale.setScale(1);
-    door.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    door.scale.set(0.25,0.25,0.25);
-    door.position.y = -15;
-    door.position.x = 50;
-    door.position.z = -100;
-    door.rotation.y = Math.PI / 2;
-    door.castShadow = true;
-    level2.add(door);
-    
+  //fbx.scale.setScale(1);
+  door.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  door.scale.set(0.25, 0.25, 0.25);
+  door.position.y = -15;
+  door.position.x = 50;
+  door.position.z = -100;
+  door.rotation.y = Math.PI / 2;
+  door.castShadow = true;
+  level2.add(door);
 });
 
 sideLoader.setPath('assets/models/levels/2/Extras/exitDoor/source/');
 sideLoader.load('Door.fbx', (door) => {
-    //fbx.scale.setScale(1);
-    door.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    door.scale.set(0.25,0.25,0.25);
-    door.position.y = -15;
-    door.position.x = 100;
-    door.position.z = -350;
-    //door.rotation.y = Math.PI/2;
-    door.castShadow = true;
-    level2.add(door);
-    
+  //fbx.scale.setScale(1);
+  door.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  door.scale.set(0.25, 0.25, 0.25);
+  door.position.y = -15;
+  door.position.x = 100;
+  door.position.z = -350;
+  //door.rotation.y = Math.PI/2;
+  door.castShadow = true;
+  level2.add(door);
 });
 
 sideLoader.setPath('assets/models/levels/2/Extras/exitDoor/source/');
 sideLoader.load('Door.fbx', (door) => {
-    //fbx.scale.setScale(1);
-    door.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    door.scale.set(0.25,0.25,0.25);
-    door.position.y = -15;
-    door.position.x = 200;
-    door.position.z = -250;
-    door.castShadow = true;
-    level2.add(door);
-    
+  //fbx.scale.setScale(1);
+  door.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  door.scale.set(0.25, 0.25, 0.25);
+  door.position.y = -15;
+  door.position.x = 200;
+  door.position.z = -250;
+  door.castShadow = true;
+  level2.add(door);
 });
 
 sideLoader.setPath('assets/models/levels/2/Extras/exitDoor/source/');
 sideLoader.load('Door.fbx', (door) => {
-    //fbx.scale.setScale(1);
-    door.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    door.scale.set(0.25,0.25,0.25);
-    door.position.y = -15;
-    door.position.x = 350;
-    door.position.z = -200;
-    door.rotation.y = Math.PI / 2;
-    door.castShadow = true;
-    level2.add(door);
-    
+  //fbx.scale.setScale(1);
+  door.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  door.scale.set(0.25, 0.25, 0.25);
+  door.position.y = -15;
+  door.position.x = 350;
+  door.position.z = -200;
+  door.rotation.y = Math.PI / 2;
+  door.castShadow = true;
+  level2.add(door);
 });
 
 sideLoader.setPath('assets/models/levels/2/Extras/exitDoor/source/');
 sideLoader.load('Door.fbx', (door) => {
-    //fbx.scale.setScale(1);
-    door.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    door.scale.set(0.25,0.25,0.25);
-    door.position.y = -15;
-    door.position.x = 250;
-    door.position.z = 0;
-    door.rotation.y = Math.PI / 2;
-    door.castShadow = true;
-    level2.add(door);
-    
+  //fbx.scale.setScale(1);
+  door.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  door.scale.set(0.25, 0.25, 0.25);
+  door.position.y = -15;
+  door.position.x = 250;
+  door.position.z = 0;
+  door.rotation.y = Math.PI / 2;
+  door.castShadow = true;
+  level2.add(door);
 });
 
 sideLoader.setPath('assets/models/levels/2/Extras/exitDoor/source/');
 sideLoader.load('Door.fbx', (door) => {
-    //fbx.scale.setScale(1);
-    door.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    door.scale.set(0.25,0.25,0.25);
-    door.position.y = -15;
-    door.position.x = 300;
-    door.position.z = 250;
-    door.castShadow = true;
-    level2.add(door);
-    
+  //fbx.scale.setScale(1);
+  door.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  door.scale.set(0.25, 0.25, 0.25);
+  door.position.y = -15;
+  door.position.x = 300;
+  door.position.z = 250;
+  door.castShadow = true;
+  level2.add(door);
 });
 sideLoader.setPath('assets/models/levels/2/Extras/exitDoor/source/');
 sideLoader.load('Door.fbx', (door) => {
-    //fbx.scale.setScale(1);
-    door.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    door.scale.set(0.25,0.25,0.25);
-    door.position.y = -15;
-    door.position.x = 100;
-    door.position.z = 150;
-    //door.rotation.y = Math.PI / 2;
-    door.castShadow = true;
-    level2.add(door);
-    
+  //fbx.scale.setScale(1);
+  door.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  door.scale.set(0.25, 0.25, 0.25);
+  door.position.y = -15;
+  door.position.x = 100;
+  door.position.z = 150;
+  //door.rotation.y = Math.PI / 2;
+  door.castShadow = true;
+  level2.add(door);
 });
 
 sideLoader.setPath('assets/models/levels/2/Extras/exitDoor/source/');
 sideLoader.load('Door.fbx', (door) => {
-    //fbx.scale.setScale(1);
-    door.traverse(c => {
-        if(c instanceof THREE.Mesh){
-            // c.receiveShadow = true;
-            c.castShadow = true;
-        }
-    });
-    door.scale.set(0.25,0.25,0.25);
-    door.position.y = -15;
-    door.position.x = -50;
-    door.position.z = -200;
-    door.rotation.y = Math.PI / 2;
-    door.castShadow = true;
-    level2.add(door);
-    
+  //fbx.scale.setScale(1);
+  door.traverse((c) => {
+    if (c instanceof THREE.Mesh) {
+      // c.receiveShadow = true;
+      c.castShadow = true;
+    }
+  });
+  door.scale.set(0.25, 0.25, 0.25);
+  door.position.y = -15;
+  door.position.x = -50;
+  door.position.z = -200;
+  door.rotation.y = Math.PI / 2;
+  door.castShadow = true;
+  level2.add(door);
 });
-
-
-
-
-
 
 // scene.js ends here
-
