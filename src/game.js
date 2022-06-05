@@ -16,6 +16,7 @@
 
 var gameActive = false;
 var gameOver = false;
+var animationFrameID;
 var currentLevel = null;
 var prevTime = Date.now();
 var prevTime2 = Date.now();
@@ -31,6 +32,15 @@ var scene = new THREE.Scene(); // Default `three.js' scene
 
 var axes = new THREE.AxesHelper(100); // Default `three.js' scene axes
 scene.add(axes);
+
+function winGame() {
+  WinPage.style.display = 'grid';
+
+  setTimeout(function () {
+    cancelAnimationFrame(animationFrameID);
+    window.location.reload();
+  }, 3000);
+}
 
 function animateScene() {
   if (!gameOver) {
@@ -89,8 +99,9 @@ function animateScene() {
         prevTime3 = time3;
         getKey();
         addBoundries();
-        collisionCheck()
+        collisionCheck();
         cabbinAccess();
+        survivalComplete(winGame);
         animateAgents3();
         tiempoI = Date.now() - 5;
         vel = 50;
@@ -117,7 +128,7 @@ function animateScene() {
         renderer.render(scene, camera);
       }
 
-      requestAnimationFrame(animateScene);
+      animationFrameID = requestAnimationFrame(animateScene);
     } else {
       // Paused game state
     }

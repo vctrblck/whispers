@@ -74,15 +74,15 @@ cabinloader.load(cabinSource, (gltf) => {
 //  key
 var keyLoader = new THREE.GLTFLoader();
 var keySource = './assets/models/levels/3/goldkey/scene.gltf';
-keyLoader.load(keySource, (gltf)=> {
+keyLoader.load(keySource, (gltf) => {
   var key = gltf.scene;
-  key.scale.set(1,1,1)
-  key.receiveShadow = true
-  key.castShadow = true
+  key.scale.set(1, 1, 1);
+  key.receiveShadow = true;
+  key.castShadow = true;
 
-  key.position.set(45,2,45)
-  level3.add(key)
-})
+  key.position.set(45, 2, 45);
+  level3.add(key);
+});
 
 // Plane (underneath map)
 
@@ -277,35 +277,33 @@ function collisionCheck() {
     ball3BB.containsPoint(playerChest.position) ||
     ball4BB.containsPoint(playerChest.position)
   ) {
-    console.log('dead');
+    endGame();
   }
-   console.log( playerChest.position);
 }
 
 // player found the key
 
 const cube1 = new THREE.Mesh(
-  new THREE.BoxGeometry(10,10,10),
-  new THREE.MeshPhongMaterial({color : 0xff0000})
+  new THREE.BoxGeometry(10, 10, 10),
+  new THREE.MeshPhongMaterial({ color: 0xff0000 })
 );
-cube1.position.set(45,0,45);
+cube1.position.set(45, 0, 45);
 cube1.castShadow = true;
-cube1.receiveShadow = true
-cube1.scale.set(0.5,2,0.5)
+cube1.receiveShadow = true;
+cube1.scale.set(0.5, 2, 0.5);
 //level3.add(cube1)
 
-let keyPos = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3())
-keyPos.setFromObject(cube1)
+let keyPos = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+keyPos.setFromObject(cube1);
 var foundKey = false;
 
 function getKey() {
   var playerChest1 = new THREE.Vector3();
   playerChest1 = camera3.clone();
-  console.log(playerChest1.position)
 
   if (foundKey == false) {
     if (keyPos.containsPoint(playerChest1.position)) {
-      console.log('in the keyy zone now find the key');
+      console.log('You have found the key!');
       const light35 = new THREE.PointLight(0x00ff00, 1); //the green light
       light35.castShadow = true;
       light35.position.set(75, 75, 75);
@@ -315,66 +313,77 @@ function getKey() {
   }
 }
 
-function addBoundries(){
-      //wall Boundries
-  if(camera3.position.x > 53.5){
-    camera3.position.x = 53.5
+function addBoundries() {
+  //wall Boundries
+  if (camera3.position.x > 53.5) {
+    camera3.position.x = 53.5;
   }
-  if(camera3.position.x < -53.5){
-    camera3.position.x = -53.5
+  if (camera3.position.x < -53.5) {
+    camera3.position.x = -53.5;
   }
-  if(camera3.position.z > 53.5){
-    camera3.position.z = 53.5
+  if (camera3.position.z > 53.5) {
+    camera3.position.z = 53.5;
   }
-  if(camera3.position.z < -53.5){
-    camera3.position.z = -53.5
-  }
-  
-}
-
-function boundCabin(){
-    // cabin Boundry
-  if(0 < camera3.position.x && camera3.position.x < 9){
-    if(-8 < camera3.position.z && camera3.position.z < 8){
-      camera3.position.x = 9
-    }
-  }
-  if(-13 < camera3.position.x && camera3.position.x < 0){
-    if(-8 < camera3.position.z && camera3.position.z <8){
-      camera3.position.x = -13
-    }
-  }
-  if(0 < camera3.position.z && camera3.position.z < 8){
-    if(-13 < camera3.position.x && camera3.position.x < 9){
-      camera3.position.z = 8
-    }
-  }
-  if(-8 < camera3.position.z && camera3.position.z < 0){
-    if(-13 < camera3.position.x && camera3.position.x <9){
-      camera3.position.x = -8
-    }
+  if (camera3.position.z < -53.5) {
+    camera3.position.z = -53.5;
   }
 }
-  // Access cabin when key found
-function cabbinAccess(){
-  if (foundKey==false){
-    boundCabin()
-  }
 
+function boundCabin() {
+  // cabin Boundry
+  if (0 < camera3.position.x && camera3.position.x < 9) {
+    if (-8 < camera3.position.z && camera3.position.z < 8) {
+      camera3.position.x = 9;
+    }
+  }
+  if (-13 < camera3.position.x && camera3.position.x < 0) {
+    if (-8 < camera3.position.z && camera3.position.z < 8) {
+      camera3.position.x = -13;
+    }
+  }
+  if (0 < camera3.position.z && camera3.position.z < 8) {
+    if (-13 < camera3.position.x && camera3.position.x < 9) {
+      camera3.position.z = 8;
+    }
+  }
+  if (-8 < camera3.position.z && camera3.position.z < 0) {
+    if (-13 < camera3.position.x && camera3.position.x < 9) {
+      camera3.position.x = -8;
+    }
+  }
+}
+// Access cabin when key found
+function cabbinAccess() {
+  if (foundKey == false) {
+    boundCabin();
+  }
 }
 
+function survivalComplete(winGame) {
+  if (foundKey == true) {
+    if (
+      -13 < camera3.position.x &&
+      0 > camera3.position.x &&
+      -8 < camera3.position.z &&
+      0 > camera3.position.z
+    ) {
+      console.log('Game completed!');
+      winGame();
+    }
+  }
+}
 
-const riddle = new THREE.TextureLoader().load('./assets/images/levels/3/sky/Riddle.png');
+const riddle = new THREE.TextureLoader().load(
+  './assets/images/levels/3/sky/Riddle.png'
+);
 const instruction_Board = new THREE.Mesh(
-  new THREE.BoxGeometry(10,10,10),
-  new THREE.MeshPhongMaterial({ map: riddle }));
-instruction_Board.position.set(-30,2,-23.49);
-instruction_Board.scale.set(1,0.5,1.5);
-instruction_Board.castShadow = true
-instruction_Board.receiveShadow = true
+  new THREE.BoxGeometry(10, 10, 10),
+  new THREE.MeshPhongMaterial({ map: riddle })
+);
+instruction_Board.position.set(-30, 2, -23.49);
+instruction_Board.scale.set(1, 0.5, 1.5);
+instruction_Board.castShadow = true;
+instruction_Board.receiveShadow = true;
 level3.add(instruction_Board);
-
-
-
 
 // scene.js ends here

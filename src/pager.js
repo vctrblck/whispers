@@ -90,16 +90,8 @@ function endGame() {
   GamePage.style.display = 'none'; // Remove game page
 
   setTimeout(function () {
-    window.location.reload(); 
+    window.location.reload();
   }, 3000);
-}
-function winGame() {
-WinPage.style.display = 'grid';
-
-setTimeout(function(){
-  window.location.reload();
-},3000);
-
 }
 
 // ========================================================================== /
