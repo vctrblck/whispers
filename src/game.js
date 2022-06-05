@@ -118,7 +118,7 @@ function animateScene() {
         // ================================================================== /
 
         document.title = 'Whispers - Level 2';
-        console.log('Here!');
+        //console.log('Here!');
         if (startCam2) {
           cam2();
           startCam2 = false;
@@ -143,11 +143,13 @@ function animateScene() {
         animateAgents();
         //physics
         cam2Limits();
+        //music
+        lvl2Music();
 
         //if the player died or not
 
         if (collisionCheck()) {
-          //show game over screen here
+          endGame();
         }
 
         if (endLevel2()) {
@@ -188,10 +190,11 @@ function animateScene() {
         prevTime3 = time3;
         getKey();
         addBoundries();
-        collisionCheck();
+        collisionCheck3();
         cabbinAccess();
         survivalComplete(winGame);
         animateAgents3();
+        lvl3Music();
         tiempoI = Date.now() - 5;
         vel = 50;
 

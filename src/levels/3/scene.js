@@ -291,7 +291,7 @@ function animateAgents3() {
 
 // collision Check
 
-function collisionCheck() {
+function collisionCheck3() {
   var playerChestL3 = new THREE.Vector3();
   playerChestL3 = camera3.clone();
 
@@ -409,5 +409,28 @@ instruction_Board.scale.set(1, 0.5, 1.5);
 instruction_Board.castShadow = true;
 instruction_Board.receiveShadow = true;
 level3.add(instruction_Board);
+
+//audio 
+music3 = true;
+listener3 = new THREE.AudioListener();
+camera3.add(listener3);
+
+const sound3 = new THREE.Audio(listener3);
+const sLoader3 = new THREE.AudioLoader();
+
+function lvl3Music(){
+  if(music3){
+    sound2.stop();
+    sound3.setLoop( true );
+    sLoader3.load('/assets/audio/Wind_Tunnel.mp3', (buffer) => {
+    sound3.setBuffer(buffer);
+    sound3.setVolume(1);
+    sound3.play();
+    
+    });
+    music3 = false;
+  }
+  
+}
 
 // scene.js ends here

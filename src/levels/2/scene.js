@@ -824,4 +824,27 @@ sideLoader.load('Door.fbx', (door) => {
   level2.add(door);
 });
 
+
+
+//audio 
+music2 = true;
+listener2 = new THREE.AudioListener();
+camera2.add(listener2);
+
+const sound2 = new THREE.Audio(listener2);
+const sLoader2 = new THREE.AudioLoader();
+
+function lvl2Music(){
+  if(music2){
+    sound2.setLoop( true );
+    sLoader2.load('/assets/audio/Heartbeat.mp3', (buffer) => {
+    sound2.setBuffer(buffer);
+    sound2.setVolume(1);
+    sound2.play();
+    });
+    music2 = false;
+  }
+  
+}
+
 // scene.js ends here
