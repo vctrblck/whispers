@@ -26,9 +26,12 @@ camera1.userData.tag = "cam1";
 startCam2 = true;
 startCam3 = true;
 
+ 
 //variable declaration section for ammo
 let physicsWorld, models = [], pos = new THREE.Vector3(), tmpTrans = null;
 let rigidBodies = [];
+let loadM = true;
+let lightsSet = false;
 let raycaster = new THREE.Raycaster();
 let wall, ball;
 let loadedLevel = 0;
@@ -108,13 +111,32 @@ function animateScene() {
           cam2();
           startCam2 = false;
         }
-
+        if(camera2.position.x != -349 && camera2.position.z != 0){
+          controlsPanel2.visible = false;
+        }
         const time2 = Date.now();
-        // mixer2.update((time2 - prevTime2) * 0.001);
+          mixer21.update((time2 - prevTime2) * 0.001);
+          mixer22.update((time2 - prevTime2) * 0.001);
+          mixer23.update((time2 - prevTime2) * 0.001);
+          mixer24.update((time2 - prevTime2) * 0.001);
+        
         prevTime2 = time2;
-        animateAgents(); 
-        cam2Limits()
-        collisionCheck()      
+        //animateZombies(); 
+        if (!lightsSet){
+          lvl2Lights();
+        }
+        //red lights
+        Emergency();
+        //keeping track of agent positions
+        animateAgents();
+        //physics
+        cam2Limits();
+
+        //if the player died or not
+
+        if(collisionCheck()){
+          //show game over screen here
+        } 
 
         if (endLevel2()) {
           currentLevel = 3;
