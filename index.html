@@ -8,42 +8,42 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- `three.js' modules -->
-    <script type="text/javascript" src="./lib/three.js"></script>
-    <script type="text/javascript" src="./lib/GLTFLoader.js"></script>
-    <script type="text/javascript" src="./lib/FBXLoader.js"></script>
-    <script type="text/javascript" src="./lib/OBJLoader.js"></script>
-    <script
-      type="text/javascript"
-      src="./node_modules/fflate/umd/index.js"
-    ></script>
-    <script type="text/javascript" src="./lib/OrbitControls.js"></script>
-    <script type="text/javascript" src="./lib/FlyControls.js"></script>
-    <script type="text/javascript" src="./lib/PointerLockControls.js"></script>
-    <script type="text/javascript" src="./lib/FirstPersonControls.js"></script>
+    <script src="./node_modules/three/build/three.js"></script>
+    <script src="./node_modules/three/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="./node_modules/three/examples/js/loaders/FBXLoader.js"></script>
+    <script src="./node_modules/three/examples/js/loaders/OBJLoader.js"></script>
+    <script src="./node_modules/fflate/umd/index.js"></script>
+    <script src="./node_modules/three/examples/js/controls/OrbitControls.js"></script>
+    <script src="./node_modules/three/examples/js/controls/FlyControls.js"></script>
+    <script src="./node_modules/three/examples/js/controls/PointerLockControls.js"></script>
+    <script src="./node_modules/three/examples/js/controls/FirstPersonControls.js"></script>
+    <script src="./node_modules/three/examples/js/libs/ammo.wasm.js"></script>
+    <script src="./node_modules/three/examples/js/helpers/VertexNormalsHelper.js"></script>
+
   </head>
 
   <body>
     <!-- Global state modules -->
-    <script src="src/renderer.js" defer></script>
+    <script src="src/renderer.js"></script>
 
     <!--Page manage-->
     <script src=" src/pager.js" defer></script>
 
     <!-- Level 1 modules -->
-    <script src="src/levels/1/camera.js" defer></script>
-    <script src="src/levels/1/scene.js" defer></script>
+    <script src="src/levels/1/camera.js"></script>
+    <script src="src/levels/1/scene.js"></script>
 
     <!-- Level 2 modules -->
-    <script src="src/levels/2/camera.js" defer></script>
-    <script src="src/levels/2/scene.js" defer></script>
+    <script src="src/levels/2/camera.js"></script>
+    <script src="src/levels/2/scene.js"></script>
 
     <!-- Level 3 modules -->
-    <script src="src/levels/3/camera.js" defer></script>
-    <script src="src/levels/3/scene.js" defer></script>
+    <script src="src/levels/3/camera.js"></script>
+    <script src="src/levels/3/scene.js"></script>
 
     <!-- Game modules -->
-    <script src="src/camera.js" defer></script>
-    <script src="src/game.js" defer></script>
+    <script src="src/camera.js"></script>
+    <script src="src/game.js"></script>
 
     <!-- Pages -->
     <!-- Home Page -->
@@ -84,9 +84,6 @@
         </li>
       </ul>
     </div>
-
-    <!-- Inventory Page -->
-    <!-- TODO -->
 
     <!-- Over Page -->
     <div

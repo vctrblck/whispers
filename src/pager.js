@@ -19,6 +19,7 @@ let GamePage = document.getElementById('game');
 let PausePage = document.getElementById('pause');
 // let InventoryPage = document.getElementById('inventory');
 let OverPage = document.getElementById('over');
+
 let WinPage = document.getElementById('win');
 
 // ========================================================================== /
@@ -55,7 +56,9 @@ function startGame(event) {
 
   // Start game
   gameActive = true;
-  currentLevel = 3;
+
+  currentLevel = 1;
+
   init();
 }
 
@@ -105,5 +108,4 @@ quitGameButton.addEventListener('click', quitGame);
 document.addEventListener('keydown', (e) => {
   if (e.key == 'p') pauseGame();
 });
-
 // pager.js ends here

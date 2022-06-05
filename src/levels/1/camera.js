@@ -9,17 +9,50 @@ var camera1 = new THREE.PerspectiveCamera(
   1500
 );
 
-camera1.position.x = 0;
-camera1.position.y = 45;
+
+camera1.position.x = -100;
+camera1.position.y = 75;
 camera1.position.z = 0;
-camera1.rotation.y = 30;
+camera1.rotateY(-Math.PI/2);
 
- /*const controls2 = new THREE.OrbitControls(camera1, renderer.domElement);
- controls2.target.set(0, 20, 0);    
- controls2.update();*/
+xdir = 0;
+zdir = 0;
+function cam1(){ 
+  controls1 = new THREE.PointerLockControls(camera1, renderer.domElement);
 
-const controls1 = new THREE.FirstPersonControls(camera1, renderer.domElement);
-controls1.movementSpeed = 7000;
-controls1.lookSpeed=15;
-controls1.activeLook = true;
-controls1.lookVertical = false
+  controls1.lock();
+
+  document.addEventListener('keydown', (e)=>{
+      switch (e.key) {
+          case 'a':
+              xdir = -1
+              break;
+          case 'w':
+              zdir = 1
+              break;
+          case 'd':
+              xdir = 1
+              break;
+          case 's':
+              zdir = -1
+              break;
+      }
+  })
+
+  document.addEventListener('keyup', (e)=>{
+      switch (e.key) {
+          case 'a':
+              xdir = 0
+              break;
+          case 'w':
+              zdir = 0
+              break;
+          case 'd':
+              xdir = 0
+              break;
+          case 's':
+              zdir = 0
+              break;
+      }
+  })
+}

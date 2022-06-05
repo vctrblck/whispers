@@ -1,16 +1,3 @@
-// camera.js --- `three.js' camera definitions for level 3
-
-// Libraries:
-
-// `three.js'
-
-// Modules:
-
-// `renderer.js'
-
-// Code:
-
-// Instantiate `three.js' perspective camera
 var fieldOfView3 = 45;
 var aspect3 = window.innerWidth / window.innerHeight;
 var near3 = 0.1;
@@ -66,7 +53,6 @@ function cam3() {
 }
 
 // Resize window for level 3 camera
-
 window.addEventListener(
   'resize',
   function () {

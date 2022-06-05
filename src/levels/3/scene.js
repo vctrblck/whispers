@@ -14,7 +14,6 @@
 var level3 = new THREE.Scene();
 
 // Ambient Light
-
 var ambientLightColour = '#0C0C0C';
 var ambientLight = new THREE.AmbientLight(ambientLightColour);
 level3.add(ambientLight);
