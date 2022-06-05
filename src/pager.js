@@ -90,11 +90,17 @@ function endGame() {
   GamePage.style.display = 'none'; // Remove game page
 
   setTimeout(function () {
-    HomePage.style.display = 'grid'; // Display home page
-    OverPage.style.display = 'none'; // Remove game over page
+    window.location.reload(); 
   }, 3000);
 }
-function winGame() {}
+function winGame() {
+WinPage.style.display = 'grid';
+
+setTimeout(function(){
+  window.location.reload();
+},3000);
+
+}
 
 // ========================================================================== /
 // Page Event Listeners                                                       /

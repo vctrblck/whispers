@@ -89,6 +89,8 @@ function animateScene() {
         prevTime3 = time3;
         getKey();
         addBoundries();
+        collisionCheck()
+        cabbinAccess();
         animateAgents3();
         tiempoI = Date.now() - 5;
         vel = 50;

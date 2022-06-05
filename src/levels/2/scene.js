@@ -313,10 +313,20 @@ level2.add(roofMesh);
 
 // Agent radius
 const agentGeo = new THREE.SphereGeometry(40, 32, 16);
-const agentMat1 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const agentMat2 = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+//const agentMat1 = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+/*const agentMat2 = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 const agentMat3 = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-const agentMat4 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const agentMat4 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });*/
+
+const deadBodies = new THREE.TextureLoader().load('./assets/images/levels/3/deadBodies.png')
+const blood = new THREE.TextureLoader().load('./assets/images/levels/3/blood.jpg')
+const blood2 = new THREE.TextureLoader().load('./assets/images/levels/3/blood2.png')
+const skulls = new THREE.TextureLoader().load('./assets/images/levels/3/skulls.jpg')
+
+const agentMat1 = new THREE.MeshBasicMaterial({ map: deadBodies });
+const agentMat2 = new THREE.MeshBasicMaterial({ map: blood });
+const agentMat3 = new THREE.MeshBasicMaterial({ map: blood2 });
+const agentMat4 = new THREE.MeshBasicMaterial({ map: skulls });
 
 const agent1 = new THREE.Mesh(agentGeo, agentMat1);
 agent1.position.y = 40;
