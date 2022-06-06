@@ -195,7 +195,7 @@ function animateScene() {
         survivalComplete(winGame);
         animateAgents3();
         lvl3Music();
-        tiempoI = Date.now() - 5;
+        tiempoI = Date.now() - 2;
         vel = 50;
 
         if (controls3.isLocked === true) {
