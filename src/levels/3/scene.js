@@ -420,7 +420,7 @@ const sLoader3 = new THREE.AudioLoader();
 
 function lvl3Music(){
   if(music3){
-   // sound2.stop();
+    sound2.stop();
     sound3.setLoop( true );
     sLoader3.load('/assets/audio/Wind_Tunnel.mp3', (buffer) => {
     sound3.setBuffer(buffer);
